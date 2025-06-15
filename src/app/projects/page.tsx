@@ -60,7 +60,7 @@ export default function Projects() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-yellow-400 mb-4">Projects</h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            A collection of computational biology tools, research projects, and software solutions I've developed
+            A collection of computational biology tools, research projects, and software solutions I&apos;ve developed
             throughout my career.
           </p>
           <div className="w-24 h-1 bg-yellow-400 mx-auto mt-6"></div>

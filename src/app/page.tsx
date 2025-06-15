@@ -23,7 +23,7 @@ export default function Home() {
                 />
               </div>
 
-              <h1 className="text-4xl lg:text-5xl font-bold text-yellow-400 mb-4">Hi, I'm Jacob West-Roberts</h1>
+              <h1 className="text-4xl lg:text-5xl font-bold text-yellow-400 mb-4">Hi, I&#39;m Jacob West-Roberts</h1>
 
               <h2 className="text-xl lg:text-2xl text-gray-300 mb-6">
                 Computational Biologist & Environmental Scientist
@@ -184,18 +184,18 @@ export default function Home() {
 
                 <div className="space-y-4 text-sm text-gray-400">
                   <p>
-                    West-Roberts, J.A., et al. (2024). "Diverse Genomic Embedding Benchmarks for functional evaluation
-                    across the tree of life." BioRxiv.
+                    West-Roberts, J.A., et al. (2024). &quot;Diverse Genomic Embedding Benchmarks for functional evaluation
+                    across the tree of life.&quot; BioRxiv.
                   </p>
 
                   <p>
-                    West-Roberts, J.A., et al. (2023). "Giant genes are rare but implicated in cell wall degradation by
-                    predatory bacteria." BioRxiv.
+                    West-Roberts, J.A., et al. (2023). &quot;Giant genes are rare but implicated in cell wall degradation by
+                    predatory bacteria.&quot; BioRxiv.
                   </p>
 
                   <p>
-                    Al-Shayeb, B., et al. (2021). "Borgs are Giant Extrachromosomal Elements with the Potential to
-                    Expand Metabolic Capacity." Nature.
+                    Al-Shayeb, B., et al. (2021). &quot;Borgs are Giant Extrachromosomal Elements with the Potential to
+                    Expand Metabolic Capacity.&quot; Nature.
                   </p>
                 </div>
               </div>

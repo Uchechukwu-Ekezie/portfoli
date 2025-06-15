@@ -7,7 +7,7 @@ export default function Contact() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-yellow-400 mb-4">Contact Me</h1>
           <p className="text-gray-300 text-lg">
-            Let's discuss computational biology, research collaborations, or potential opportunities.
+            Let&apos;s discuss computational biology, research collaborations, or potential opportunities.
           </p>
           <div className="w-24 h-1 bg-yellow-400 mx-auto mt-6"></div>
         </div>
