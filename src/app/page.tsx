@@ -1,103 +1,213 @@
-import Image from "next/image";
+import Image from "next/image"
+import Link from "next/link"
+import { Github, Twitter, Mail, Linkedin, ChevronDown } from "lucide-react"
+import WireframeSphere from "@/components/wireframe-sphere"
+
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-black text-white flex">
+      {/* Left Side - Scrollable Content */}
+      <div className="flex-1 overflow-y-auto">
+        {/* Hero Section */}
+        <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+          <div className="max-w-2xl mx-auto lg:mx-0 lg:ml-8">
+            <div className="text-center lg:text-left">
+              <div className="mb-8">
+                <Image
+                  src="/placeholder.svg?height=200&width=200"
+                  alt="Jacob West-Roberts"
+                  width={200}
+                  height={200}
+                  className="rounded-full mx-auto lg:mx-0 border-4 border-yellow-400"
+                />
+              </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+              <h1 className="text-4xl lg:text-5xl font-bold text-yellow-400 mb-4">Hi, I'm Jacob West-Roberts</h1>
+
+              <h2 className="text-xl lg:text-2xl text-gray-300 mb-6">
+                Computational Biologist & Environmental Scientist
+              </h2>
+
+              <p className="text-gray-400 mb-8 max-w-lg mx-auto lg:mx-0">
+                I work to understand biological sequences, describe new and rare organisms, and develop tools to further
+                biological research.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
+                <Link
+                  href="/about"
+                  className="bg-yellow-400 text-black px-6 py-3 rounded-md font-medium hover:bg-yellow-500 transition-colors"
+                >
+                  About Me
+                </Link>
+                <Link
+                  href="/contact"
+                  className="border border-yellow-400 text-yellow-400 px-6 py-3 rounded-md font-medium hover:bg-yellow-400 hover:text-black transition-colors"
+                >
+                  Contact
+                </Link>
+              </div>
+
+              <div className="flex gap-4 justify-center lg:justify-start mb-8">
+                <a href="#" className="text-yellow-400 hover:text-yellow-500 transition-colors">
+                  <Github size={24} />
+                </a>
+                <a href="#" className="text-yellow-400 hover:text-yellow-500 transition-colors">
+                  <Twitter size={24} />
+                </a>
+                <a href="#" className="text-yellow-400 hover:text-yellow-500 transition-colors">
+                  <Mail size={24} />
+                </a>
+                <a href="#" className="text-yellow-400 hover:text-yellow-500 transition-colors">
+                  <Linkedin size={24} />
+                </a>
+              </div>
+
+              <div className="text-center lg:text-left">
+                <ChevronDown className="text-yellow-400 mx-auto lg:mx-0 animate-bounce" size={32} />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CV Section */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-900">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-yellow-400 mb-12 text-center">Curriculum Vitae</h2>
+
+            <div className="space-y-12">
+              {/* Education */}
+              <div>
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6 border-b-2 border-yellow-400 pb-2">Education</h3>
+
+                <div className="space-y-8">
+                  <div>
+                    <div className="text-yellow-400 font-semibold mb-1">2018 - 2023</div>
+                    <h4 className="text-xl font-bold mb-2">Ph.D. in Environmental Science, Policy and Management</h4>
+                    <p className="text-gray-400">University of California, Berkeley</p>
+                  </div>
+
+                  <div>
+                    <div className="text-yellow-400 font-semibold mb-1">2016 - 2017</div>
+                    <h4 className="text-xl font-bold mb-2">M.S. in Computational Biology</h4>
+                    <p className="text-gray-400">Carnegie Mellon University</p>
+                  </div>
+
+                  <div>
+                    <div className="text-yellow-400 font-semibold mb-1">2012 - 2016</div>
+                    <h4 className="text-xl font-bold mb-2">B.A. in Molecular, Cellular and Developmental Biology</h4>
+                    <p className="text-gray-400">University of Colorado at Boulder</p>
+                    <p className="text-gray-400 text-sm">Minors in Math and Chemistry</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Professional Experience */}
+              <div>
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6 border-b-2 border-yellow-400 pb-2">
+                  Professional Experience
+                </h3>
+
+                <div className="space-y-8">
+                  <div>
+                    <div className="text-yellow-400 font-semibold mb-1">2024 - Present</div>
+                    <h4 className="text-xl font-bold mb-2">Computational Biologist</h4>
+                    <p className="text-gray-400 mb-2">Siri Biosciences, San Carlos, CA</p>
+                    <ul className="text-gray-400 text-sm list-disc list-inside">
+                      <li>
+                        Pipeline construction for identifying peptide targets for cancer immunotherapy vaccine
+                        development
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <div className="text-yellow-400 font-semibold mb-1">2024</div>
+                    <h4 className="text-xl font-bold mb-2">Computational Biologist</h4>
+                    <p className="text-gray-400 mb-2">Tata Bio, Remote</p>
+                    <ul className="text-gray-400 text-sm list-disc list-inside">
+                      <li>Development of genome context-aware similarity search webpage</li>
+                      <li>Search tool methods for protein language model assessment</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <div className="text-yellow-400 font-semibold mb-1">2018 - 2023</div>
+                    <h4 className="text-xl font-bold mb-2">Ph.D. Candidate</h4>
+                    <p className="text-gray-400 mb-2">UC Berkeley - Banfield Lab</p>
+                    <ul className="text-gray-400 text-sm list-disc list-inside">
+                      <li>Developed methods to detect giant genes in candidate phylum Omnitrophota</li>
+                      <li>Metatranscriptomic and metagenomic analysis of montane soil datasets</li>
+                      <li>Development of scalable HMM-based metagenome annotation pipeline</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Technical Proficiencies */}
+              <div>
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6 border-b-2 border-yellow-400 pb-2">
+                  Technical Proficiencies
+                </h3>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <h4 className="text-lg font-semibold mb-3">Programming Languages</h4>
+                    <ul className="text-gray-400 list-disc list-inside space-y-1">
+                      <li>Python</li>
+                      <li>Bash</li>
+                      <li>R</li>
+                      <li>Julia</li>
+                      <li>C++</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 className="text-lg font-semibold mb-3">Fields of Expertise</h4>
+                    <ul className="text-gray-400 list-disc list-inside space-y-1">
+                      <li>Metagenomics</li>
+                      <li>Phylogenetics</li>
+                      <li>Metatranscriptomics</li>
+                      <li>Machine Learning</li>
+                      <li>Metaproteomics</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Selected Publications */}
+              <div>
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6 border-b-2 border-yellow-400 pb-2">
+                  Selected Publications
+                </h3>
+
+                <div className="space-y-4 text-sm text-gray-400">
+                  <p>
+                    West-Roberts, J.A., et al. (2024). "Diverse Genomic Embedding Benchmarks for functional evaluation
+                    across the tree of life." BioRxiv.
+                  </p>
+
+                  <p>
+                    West-Roberts, J.A., et al. (2023). "Giant genes are rare but implicated in cell wall degradation by
+                    predatory bacteria." BioRxiv.
+                  </p>
+
+                  <p>
+                    Al-Shayeb, B., et al. (2021). "Borgs are Giant Extrachromosomal Elements with the Potential to
+                    Expand Metabolic Capacity." Nature.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* Right Side - Fixed Wireframe Sphere */}
+      <div className="hidden lg:flex lg:w-1/2 xl:w-2/5 items-center justify-center bg-black sticky top-0 h-screen">
+        <WireframeSphere />
+      </div>
     </div>
-  );
+  )
 }
