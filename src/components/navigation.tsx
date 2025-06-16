@@ -11,7 +11,7 @@ export default function Navigation() {
     { name: "About", href: "/about" },
     { name: "Projects", href: "/projects" },
     { name: "Contact", href: "/contact" },
-    { name: "ESPM 112L", href: "/espm-112l" },
+    // { name: "ESPM 112L", href: "/espm-112l" },
   ]
 
   return (

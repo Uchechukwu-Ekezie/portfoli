@@ -1,4 +1,5 @@
 import Image from "next/image"
+import show from "../../../public/osho.avif"
 
 export default function About() {
   return (
@@ -12,7 +13,7 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-12 items-start">
           <div>
             <Image
-              src="/placeholder.svg?height=400&width=400"
+              src={show}
               alt="Jacob West-Roberts"
               width={400}
               height={400}
@@ -23,15 +24,17 @@ export default function About() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-yellow-400">My Journey</h2>
             <p className="text-gray-300 leading-relaxed">
-              I am a computational biologist and environmental scientist with a passion for understanding the complex
-              relationships between organisms and their environments. My work focuses on developing innovative
-              computational tools and methods to analyze biological data at scale.
+              I am a 3rd-year PhD candidate at UC Davis in the Population Biology Department, under the supervision of Dr. Brenna Henn. My research goals are two-fold:
             </p>
-
+            <ul className="text-gray-300 space-y-2 list-disc list-inside">
+              <li>Identifying sociodemographic, genetic, and transcriptomic correlates of active tuberculosis progression</li>
+              <li>Optimizing statistical methods to analyze genetic data from diverse human populations</li>
+            </ul>
             <p className="text-gray-300 leading-relaxed">
-              With a Ph.D. in Environmental Science, Policy and Management from UC Berkeley, I specialize in
-              metagenomics, phylogenetics, and the development of scalable bioinformatics pipelines. My research has
-              contributed to our understanding of microbial communities and their roles in various ecosystems.
+              My work primarily focuses on the South African Coloured (SAC) communities, known for their exceptionally diverse human ancestry and residence in TB-endemic regions. Through this work, I aim to deepen our understanding of how genetic and social factors influence disease outcomes.
+            </p>
+            <p className="text-gray-300 leading-relaxed">
+              After graduation, I aspire to transition into the industry, where I can apply the computational and analytical skills honed during my PhD to advance global health solutions.
             </p>
 
             <h3 className="text-xl font-bold text-yellow-400 mt-8">Research Interests</h3>
@@ -45,10 +48,7 @@ export default function About() {
 
             <h3 className="text-xl font-bold text-yellow-400 mt-8">Current Focus</h3>
             <p className="text-gray-300 leading-relaxed">
-              Currently, I work as a Computational Biologist at Siri Biosciences, where I develop pipelines for
-              identifying peptide targets for cancer immunotherapy vaccine development. I am passionate about
-              translating computational research into practical applications that can benefit human health and
-              environmental conservation.
+              I currently work as a Computational Biologist at Siri Biosciences, developing pipelines to identify peptide targets for cancer immunotherapy vaccine development. I am passionate about translating cutting-edge computational research into practical solutions that improve human health and promote environmental sustainability.
             </p>
           </div>
         </div>
