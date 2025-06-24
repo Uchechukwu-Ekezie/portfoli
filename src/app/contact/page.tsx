@@ -2,8 +2,6 @@
 
 import { useState } from 'react'
 import { Mail, MapPin, Phone, Github, Twitter, Linkedin, CheckCircle, AlertCircle } from "lucide-react"
-import emailjs from 'emailjs-com'
-
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -16,13 +14,6 @@ export default function Contact() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [statusMessage, setStatusMessage] = useState('')
 
-  // EmailJS Configuration - Replace with your actual values after setup
-  const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
-  const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID  // Replace with your Template ID
-  const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY    // Replace with your Public Key
-
-
-  console.log("firstname", EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -30,42 +21,40 @@ export default function Contact() {
     })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus('idle')
-
-    // Check if EmailJS configuration is available
-    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-      console.error('Missing EmailJS configuration')
+    
+    // Basic validation
+    if (!formData.from_name || !formData.from_email || !formData.subject || !formData.message) {
       setSubmitStatus('error')
-      setStatusMessage('Contact form is not properly configured. Please try again later or contact directly.')
-      setIsSubmitting(false)
+      setStatusMessage('Please fill in all required fields.')
       return
     }
 
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
     try {
-      // Send email using EmailJS
-      const result = await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formData.from_name,
-          from_email: formData.from_email,
-          subject: formData.subject,
-          message: formData.message,
-          to_email: 'uchennahanson@gmail.com', // Your client's email
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        EMAILJS_PUBLIC_KEY
-      )
+        body: JSON.stringify(formData),
+      })
 
-      console.log('Email sent successfully:', result.text)
-      setSubmitStatus('success')
-      setStatusMessage('Thank you! Your message has been sent successfully.')
-      setFormData({ from_name: '', from_email: '', subject: '', message: '' }) // Reset form
+      const result = await response.json()
 
+      if (response.ok && result.success) {
+        setSubmitStatus('success')
+        setStatusMessage('Thank you! Your message has been sent successfully.')
+        setFormData({ from_name: '', from_email: '', subject: '', message: '' }) // Reset form
+      } else {
+        setSubmitStatus('error')
+        setStatusMessage(result.message || 'Failed to send message. Please try again or email directly.')
+      }
     } catch (error) {
-      console.error('Email sending failed:', error)
+      console.error('Form submission error:', error)
       setSubmitStatus('error')
       setStatusMessage('Failed to send message. Please try again or email directly.')
     } finally {
@@ -74,27 +63,27 @@ export default function Contact() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white pt-24">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-yellow-400 mb-4">Contact Me</h1>
-          <p className="text-gray-300 text-lg">
+    <div className="min-h-screen pt-24 text-white bg-black">
+      <div className="max-w-4xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
+        <div className="mb-12 text-center">
+          <h1 className="mb-4 text-4xl font-bold text-yellow-400">Contact Me</h1>
+          <p className="text-lg text-gray-300">
             Let&apos;s discuss computational biology, research collaborations, or potential opportunities.
           </p>
-          <div className="w-24 h-1 bg-yellow-400 mx-auto mt-6"></div>
+          <div className="w-24 h-1 mx-auto mt-6 bg-yellow-400"></div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid gap-12 md:grid-cols-2">
           <div>
-            <h2 className="text-2xl font-bold text-yellow-400 mb-6">Get in Touch</h2>
+            <h2 className="mb-6 text-2xl font-bold text-yellow-400">Get in Touch</h2>
 
             <div className="space-y-6">
               <div className="flex items-center gap-4">
                 <Mail className="text-yellow-400" size={24} />
                 <div>
                   <p className="font-semibold">Email</p>
-                  <a href="mailto:oyageshio@ucdavis.edu" className="text-gray-300 hover:text-yellow-400 transition-colors">
-                    oyageshio@ucdavis.edu
+                  <a href="mailto:Oshiomah.oyageshio@gmail.com" className="text-gray-300 transition-colors hover:text-yellow-400">
+                  Oshiomah.oyageshio@gmail.com
                   </a>
                 </div>
               </div>
@@ -111,7 +100,7 @@ export default function Contact() {
                 <Phone className="text-yellow-400" size={24} />
                 <div>
                   <p className="font-semibold">Phone</p>
-                  <a href="tel:+14132739254" className="text-gray-300 hover:text-yellow-400 transition-colors">
+                  <a href="tel:+14132739254" className="text-gray-300 transition-colors hover:text-yellow-400">
                     +1 (413) 273-9254
                   </a>
                 </div>
@@ -119,15 +108,15 @@ export default function Contact() {
             </div>
 
             <div className="mt-8">
-              <h3 className="text-xl font-bold text-yellow-400 mb-4">Connect with Me</h3>
+              <h3 className="mb-4 text-xl font-bold text-yellow-400">Connect with Me</h3>
               <div className="flex gap-4">
-                <a href="https://github.com/oshiomah1" className="text-yellow-400 hover:text-white transition-colors">
+                <a href="https://github.com/oshiomah1" className="text-yellow-400 transition-colors hover:text-white">
                   <Github size={28} />
                 </a>
-                <a href="#" className="text-yellow-400 hover:text-white transition-colors">
+                <a href="#" className="text-yellow-400 transition-colors hover:text-white">
                   <Twitter size={28} />
                 </a>
-                <a href="https://www.linkedin.com/in/oshiomah/" className="text-yellow-400 hover:text-white transition-colors">
+                <a href="https://www.linkedin.com/in/oshiomah/" className="text-yellow-400 transition-colors hover:text-white">
                   <Linkedin size={28} />
                 </a>
               </div>
@@ -135,26 +124,26 @@ export default function Contact() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-yellow-400 mb-6">Send a Message</h2>
+            <h2 className="mb-6 text-2xl font-bold text-yellow-400">Send a Message</h2>
 
             {/* Status Messages */}
             {submitStatus === 'success' && (
-              <div className="mb-6 p-4 bg-green-900 border border-green-600 rounded-md flex items-center gap-3">
+              <div className="flex items-center gap-3 p-4 mb-6 bg-green-900 border border-green-600 rounded-md">
                 <CheckCircle className="text-green-400" size={20} />
                 <p className="text-green-300">{statusMessage}</p>
               </div>
             )}
 
             {submitStatus === 'error' && (
-              <div className="mb-6 p-4 bg-red-900 border border-red-600 rounded-md flex items-center gap-3">
+              <div className="flex items-center gap-3 p-4 mb-6 bg-red-900 border border-red-600 rounded-md">
                 <AlertCircle className="text-red-400" size={20} />
                 <p className="text-red-300">{statusMessage}</p>
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-6">
               <div>
-                <label htmlFor="from_name" className="block text-sm font-medium mb-2">
+                <label htmlFor="from_name" className="block mb-2 text-sm font-medium">
                   Name *
                 </label>
                 <input
@@ -163,14 +152,14 @@ export default function Contact() {
                   value={formData.from_name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:border-yellow-400 transition-colors"
+                  className="w-full px-4 py-3 transition-colors bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:border-yellow-400"
                   placeholder="Your Name"
                   disabled={isSubmitting}
                 />
               </div>
 
               <div>
-                <label htmlFor="from_email" className="block text-sm font-medium mb-2">
+                <label htmlFor="from_email" className="block mb-2 text-sm font-medium">
                   Email *
                 </label>
                 <input
@@ -179,14 +168,14 @@ export default function Contact() {
                   value={formData.from_email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:border-yellow-400 transition-colors"
+                  className="w-full px-4 py-3 transition-colors bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:border-yellow-400"
                   placeholder="your.email@example.com"
                   disabled={isSubmitting}
                 />
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-2">
+                <label htmlFor="subject" className="block mb-2 text-sm font-medium">
                   Subject *
                 </label>
                 <input
@@ -195,14 +184,14 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:border-yellow-400 transition-colors"
+                  className="w-full px-4 py-3 transition-colors bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:border-yellow-400"
                   placeholder="Research Collaboration"
                   disabled={isSubmitting}
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
+                <label htmlFor="message" className="block mb-2 text-sm font-medium">
                   Message *
                 </label>
                 <textarea
@@ -211,27 +200,27 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:border-yellow-400 transition-colors resize-none"
+                  className="w-full px-4 py-3 transition-colors bg-gray-900 border border-gray-700 rounded-md resize-none focus:outline-none focus:border-yellow-400"
                   placeholder="Tell me about your project or research interests..."
                   disabled={isSubmitting}
                 ></textarea>
               </div>
 
               <button
-                type="submit"
+                onClick={(e) => handleSubmit(e)}
                 disabled={isSubmitting}
-                className="w-full bg-yellow-400 text-black py-3 px-6 rounded-md font-medium hover:bg-yellow-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3 font-medium text-black transition-colors bg-yellow-400 rounded-md hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
-            </form>
+            </div>
 
             {/* Fallback contact info */}
-            <div className="mt-6 p-4 bg-gray-800 rounded-md">
+            <div className="p-4 mt-6 bg-gray-800 rounded-md">
               <p className="text-sm text-gray-400">
                 Having trouble with the form? Email directly at{' '}
                 <a href="mailto:oyageshio@ucdavis.edu" className="text-yellow-400 hover:text-yellow-300">
-                  oyageshio@ucdavis.edu
+                Oshiomah.oyageshio@gmail.com
                 </a>
               </p>
             </div>
