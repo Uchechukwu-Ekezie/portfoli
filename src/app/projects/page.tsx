@@ -346,7 +346,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project}) 
           ))}
         </div>
 
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           {project.status !== "Proprietary" && (
             <a 
               href={project.github} 
@@ -365,7 +365,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project}) 
             <span>Demo</span>
             <div className="absolute inset-0 transition-opacity duration-300 border border-yellow-400 rounded-full opacity-0 group-hover/btn:opacity-100 animate-ping" />
           </a>
-        </div>
+        </div> */}
       </div>
 
       {/* Corner decorations */}
