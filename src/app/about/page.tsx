@@ -458,7 +458,7 @@ export default function About() {
             <div className="flex items-center justify-center gap-4 mb-4">
               <div className="w-16 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
               <div className="flex space-x-2">
-                {[Brain, Dna, Microscope].map((Icon, i) => (
+                {[Brain, Dna].map((Icon, i) => (
                   <Icon 
                     key={i}
                     size={20} 

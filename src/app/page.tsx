@@ -106,11 +106,6 @@ interface BioParticle {
   icon: LucideIcon;
 }
 
-interface Equipment {
-  icon: LucideIcon;
-  name: string;
-  action: string;
-}
 
 interface Level {
   icon: LucideIcon;
@@ -987,46 +982,46 @@ const AdvancedMolecularSphere: React.FC = () => {
 // };
 
 // Biology Lab Equipment Animation
-const LabEquipment: React.FC = () => {
-  const [activeEquipment, setActiveEquipment] = useState<number>(0);
+// const LabEquipment: React.FC = () => {
+//   const [activeEquipment, setActiveEquipment] = useState<number>(0);
 
-  const equipment: Equipment[] = [
-    { icon: Microscope, name: "Microscopy", action: "animate-pulse" },
-    { icon: FlaskConical, name: "Chemical Analysis", action: "animate-bounce" },
-    { icon: TestTube, name: "Sample Testing", action: "animate-spin" },
-    { icon: Beaker, name: "Solution Prep", action: "animate-ping" },
-    { icon: Telescope, name: "Observation", action: "animate-pulse" },
-  ];
+//   const equipment: Equipment[] = [
+//     { icon: Microscope, name: "Microscopy", action: "animate-pulse" },
+//     { icon: FlaskConical, name: "Chemical Analysis", action: "animate-bounce" },
+//     { icon: TestTube, name: "Sample Testing", action: "animate-spin" },
+//     { icon: Beaker, name: "Solution Prep", action: "animate-ping" },
+//     { icon: Telescope, name: "Observation", action: "animate-pulse" },
+//   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveEquipment((prev) => (prev + 1) % equipment.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setActiveEquipment((prev) => (prev + 1) % equipment.length);
+//     }, 2000);
+//     return () => clearInterval(interval);
+//   }, []);
 
-  return (
-    <div className="flex justify-center mb-6 space-x-4">
-      {equipment.map((item, index) => {
-        const IconComponent = item.icon;
-        const isActive = index === activeEquipment;
+//   return (
+//     <div className="flex justify-center mb-6 space-x-4">
+//       {equipment.map((item, index) => {
+//         const IconComponent = item.icon;
+//         const isActive = index === activeEquipment;
 
-        return (
-          <div
-            key={index}
-            className={`p-3 rounded-full transition-all duration-500 ${
-              isActive
-                ? "bg-yellow-400/30 scale-125 text-yellow-400"
-                : "bg-gray-800 scale-100 text-gray-500"
-            }`}
-          >
-            <IconComponent size={24} className={isActive ? item.action : ""} />
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+//         return (
+//           <div
+//             key={index}
+//             className={`p-3 rounded-full transition-all duration-500 ${
+//               isActive
+//                 ? "bg-yellow-400/30 scale-125 text-yellow-400"
+//                 : "bg-gray-800 scale-100 text-gray-500"
+//             }`}
+//           >
+//             <IconComponent size={24} className={isActive ? item.action : ""} />
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
 
 // Biological Process Visualization
 const BiologicalProcesses: React.FC = () => {
@@ -1322,9 +1317,9 @@ export default function Home() {
           <div className="max-w-4xl mx-auto lg:mx-0 lg:ml-8">
             <div className="text-center lg:text-left md:pl-12">
               {/* Lab Equipment Animation */}
-              <BioAnimatedSection delay={100}>
+              {/* <BioAnimatedSection delay={100}>
                 <LabEquipment />
-              </BioAnimatedSection>
+              </BioAnimatedSection> */}
 
               <BioAnimatedSection delay={200}>
                 <div className="relative mb-8 group">
@@ -1424,10 +1419,7 @@ export default function Home() {
                       className="text-yellow-400 animate-pulse"
                       size={28}
                     />
-                    <Microscope
-                      className="text-yellow-400 animate-bounce"
-                      size={28}
-                    />
+                 
                     <Dna
                       className="text-yellow-400 animate-spin"
                       size={28}

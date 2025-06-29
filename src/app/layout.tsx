@@ -7,8 +7,8 @@ import Navigation from "@/components/navigation"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Jacob West-Roberts - Computational Biologist",
-  description: "Computational Biologist & Environmental Scientist",
+  title: "Oshiomah P. Oyageshio",
+  description: " Interdisciplinary Scientist",
 }
 
 export default function RootLayout({
