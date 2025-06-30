@@ -40,7 +40,7 @@ import {
   Globe,
   Orbit,
   Waves,
-  Sun,
+  // Sun,
   Lightbulb,
   Search,
   Telescope,
@@ -59,19 +59,19 @@ interface MembranePoint {
   phase: number;
 }
 
-interface Neuron {
-  id: number;
-  x: number;
-  y: number;
-  active: boolean;
-  activation: number;
-}
+// interface Neuron {
+//   id: number;
+//   x: number;
+//   y: number;
+//   active: boolean;
+//   activation: number;
+// }
 
-interface Connection {
-  from: Neuron;
-  to: Neuron;
-  strength: number;
-}
+// interface Connection {
+//   from: Neuron;
+//   to: Neuron;
+//   strength: number;
+// }
 
 interface BiologicalIcon {
   component: LucideIcon;
@@ -107,18 +107,18 @@ interface BioParticle {
 }
 
 
-interface Level {
-  icon: LucideIcon;
-  name: string;
-  color: string;
-}
+// interface Level {
+//   icon: LucideIcon;
+//   name: string;
+//   color: string;
+// }
 
 interface Education {
   years: string;
   degree: string;
   institution: string;
   icon: LucideIcon;
-  description: string;
+  // description: string;
   particles: LucideIcon[];
 }
 
@@ -435,95 +435,95 @@ const CellMembrane: React.FC = () => {
 };
 
 // Neural Network Animation
-const NeuralNetwork: React.FC = () => {
-  const [neurons, setNeurons] = useState<Neuron[]>([]);
-  const [connections, setConnections] = useState<Connection[]>([]);
+// const NeuralNetwork: React.FC = () => {
+//   const [neurons, setNeurons] = useState<Neuron[]>([]);
+//   const [connections, setConnections] = useState<Connection[]>([]);
 
-  useEffect(() => {
-    const newNeurons: Neuron[] = Array.from({ length: 15 }).map((_, i) => ({
-      id: i,
-      x: (i % 5) * 25 + 10,
-      y: Math.floor(i / 5) * 30 + 15,
-      active: false,
-      activation: Math.random(),
-    }));
+//   useEffect(() => {
+//     const newNeurons: Neuron[] = Array.from({ length: 15 }).map((_, i) => ({
+//       id: i,
+//       x: (i % 5) * 25 + 10,
+//       y: Math.floor(i / 5) * 30 + 15,
+//       active: false,
+//       activation: Math.random(),
+//     }));
 
-    const newConnections: Connection[] = [];
-    newNeurons.forEach((neuron) => {
-      newNeurons.forEach((other) => {
-        if (neuron.id !== other.id && Math.random() > 0.7) {
-          newConnections.push({
-            from: neuron,
-            to: other,
-            strength: Math.random(),
-          });
-        }
-      });
-    });
+//     const newConnections: Connection[] = [];
+//     newNeurons.forEach((neuron) => {
+//       newNeurons.forEach((other) => {
+//         if (neuron.id !== other.id && Math.random() > 0.7) {
+//           newConnections.push({
+//             from: neuron,
+//             to: other,
+//             strength: Math.random(),
+//           });
+//         }
+//       });
+//     });
 
-    setNeurons(newNeurons);
-    setConnections(newConnections);
+//     setNeurons(newNeurons);
+//     setConnections(newConnections);
 
-    // Simulate neural activity
-    const interval = setInterval(() => {
-      setNeurons((prev) =>
-        prev.map((neuron) => ({
-          ...neuron,
-          active: Math.random() > 0.7,
-          activation: Math.random(),
-        }))
-      );
-    }, 1000);
+//     // Simulate neural activity
+//     const interval = setInterval(() => {
+//       setNeurons((prev) =>
+//         prev.map((neuron) => ({
+//           ...neuron,
+//           active: Math.random() > 0.7,
+//           activation: Math.random(),
+//         }))
+//       );
+//     }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+//     return () => clearInterval(interval);
+//   }, []);
 
-  return (
-    <div className="w-32 h-24 opacity-30">
-      <svg viewBox="0 0 120 90" className="w-full h-full">
-        <defs>
-          <filter id="neuralGlow">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
+//   return (
+//     <div className="w-32 h-24 opacity-30">
+//       <svg viewBox="0 0 120 90" className="w-full h-full">
+//         <defs>
+//           <filter id="neuralGlow">
+//             <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+//             <feMerge>
+//               <feMergeNode in="coloredBlur" />
+//               <feMergeNode in="SourceGraphic" />
+//             </feMerge>
+//           </filter>
+//         </defs>
 
-        {/* Synaptic connections */}
-        {connections.map((conn, i) => (
-          <line
-            key={i}
-            x1={conn.from.x}
-            y1={conn.from.y}
-            x2={conn.to.x}
-            y2={conn.to.y}
-            stroke="#facc15"
-            strokeWidth={conn.strength * 2}
-            opacity={conn.strength * 0.6}
-            className="animate-pulse"
-            style={{ animationDelay: `${i * 0.1}s` }}
-          />
-        ))}
+//         {/* Synaptic connections */}
+//         {connections.map((conn, i) => (
+//           <line
+//             key={i}
+//             x1={conn.from.x}
+//             y1={conn.from.y}
+//             x2={conn.to.x}
+//             y2={conn.to.y}
+//             stroke="#facc15"
+//             strokeWidth={conn.strength * 2}
+//             opacity={conn.strength * 0.6}
+//             className="animate-pulse"
+//             style={{ animationDelay: `${i * 0.1}s` }}
+//           />
+//         ))}
 
-        {/* Neurons */}
-        {neurons.map((neuron) => (
-          <circle
-            key={neuron.id}
-            cx={neuron.x}
-            cy={neuron.y}
-            r={neuron.active ? "4" : "2"}
-            fill={neuron.active ? "#facc15" : "#eab308"}
-            filter="url(#neuralGlow)"
-            className={neuron.active ? "animate-ping" : "animate-pulse"}
-            opacity={neuron.activation}
-          />
-        ))}
-      </svg>
-    </div>
-  );
-};
+//         {/* Neurons */}
+//         {neurons.map((neuron) => (
+//           <circle
+//             key={neuron.id}
+//             cx={neuron.x}
+//             cy={neuron.y}
+//             r={neuron.active ? "4" : "2"}
+//             fill={neuron.active ? "#facc15" : "#eab308"}
+//             filter="url(#neuralGlow)"
+//             className={neuron.active ? "animate-ping" : "animate-pulse"}
+//             opacity={neuron.activation}
+//           />
+//         ))}
+//       </svg>
+//     </div>
+//   );
+// };
 
 // Protein Folding Animation
 const ProteinFolding: React.FC = () => {
@@ -594,60 +594,60 @@ const ProteinFolding: React.FC = () => {
 };
 
 // Ecosystem Food Chain Animation
-const EcosystemChain: React.FC = () => {
-  const [currentLevel, setCurrentLevel] = useState<number>(0);
+// const EcosystemChain: React.FC = () => {
+//   const [currentLevel, setCurrentLevel] = useState<number>(0);
 
-  const levels: Level[] = [
-    { icon: Sun, name: "Solar Energy", color: "#facc15" },
-    { icon: Leaf, name: "Producers", color: "#22c55e" },
-    { icon: Bug, name: "Primary Consumers", color: "#f59e0b" },
-    { icon: Fish, name: "Secondary Consumers", color: "#3b82f6" },
-    { icon: Activity, name: "Energy Flow", color: "#ef4444" },
-  ];
+//   const levels: Level[] = [
+//     { icon: Sun, name: "Solar Energy", color: "#facc15" },
+//     { icon: Leaf, name: "Producers", color: "#22c55e" },
+//     { icon: Bug, name: "Primary Consumers", color: "#f59e0b" },
+//     { icon: Fish, name: "Secondary Consumers", color: "#3b82f6" },
+//     { icon: Activity, name: "Energy Flow", color: "#ef4444" },
+//   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentLevel((prev) => (prev + 1) % levels.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setCurrentLevel((prev) => (prev + 1) % levels.length);
+//     }, 2000);
+//     return () => clearInterval(interval);
+//   }, []);
 
-  return (
-    <div className="flex items-center space-x-2">
-      {levels.map((level, index) => {
-        const IconComponent = level.icon;
-        const isActive = index <= currentLevel;
+//   return (
+//     <div className="flex items-center space-x-2">
+//       {levels.map((level, index) => {
+//         const IconComponent = level.icon;
+//         const isActive = index <= currentLevel;
 
-        return (
-          <div key={index} className="flex items-center">
-            <div
-              className={`p-2 rounded-full transition-all duration-500 ${
-                isActive ? "scale-110 opacity-100" : "scale-90 opacity-40"
-              }`}
-              style={{
-                backgroundColor: isActive ? level.color + "40" : "transparent",
-              }}
-            >
-              <IconComponent
-                size={16}
-                style={{ color: level.color }}
-                className={isActive ? "animate-pulse" : ""}
-              />
-            </div>
-            {index < levels.length - 1 && (
-              <ChevronDown
-                size={12}
-                className={`transition-all duration-500 ${
-                  isActive ? "text-yellow-400 animate-bounce" : "text-gray-600"
-                }`}
-              />
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+//         return (
+//           <div key={index} className="flex items-center">
+//             <div
+//               className={`p-2 rounded-full transition-all duration-500 ${
+//                 isActive ? "scale-110 opacity-100" : "scale-90 opacity-40"
+//               }`}
+//               style={{
+//                 backgroundColor: isActive ? level.color + "40" : "transparent",
+//               }}
+//             >
+//               <IconComponent
+//                 size={16}
+//                 style={{ color: level.color }}
+//                 className={isActive ? "animate-pulse" : ""}
+//               />
+//             </div>
+//             {index < levels.length - 1 && (
+//               <ChevronDown
+//                 size={12}
+//                 className={`transition-all duration-500 ${
+//                   isActive ? "text-yellow-400 animate-bounce" : "text-gray-600"
+//                 }`}
+//               />
+//             )}
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
 
 // Advanced Scientific Particle System
 const AdvancedParticleSystem: React.FC = () => {
@@ -1024,35 +1024,35 @@ const AdvancedMolecularSphere: React.FC = () => {
 // };
 
 // Biological Process Visualization
-const BiologicalProcesses: React.FC = () => {
-  return (
-    <div className="grid grid-cols-2 gap-4 mb-8">
-      <div className="p-4 border rounded-lg bg-gray-800/50 border-yellow-400/20">
-        <h4 className="flex items-center gap-2 mb-2 text-sm text-yellow-400">
-          <Activity size={16} />
-          Neural Activity
-        </h4>
-        <NeuralNetwork />
-      </div>
+// const BiologicalProcesses: React.FC = () => {
+//   return (
+//     <div className="grid grid-cols-2 gap-4 mb-8">
+//       <div className="p-4 border rounded-lg bg-gray-800/50 border-yellow-400/20">
+//         <h4 className="flex items-center gap-2 mb-2 text-sm text-yellow-400">
+//           <Activity size={16} />
+//           Neural Activity
+//         </h4>
+//         <NeuralNetwork />
+//       </div> 
 
-      <div className="p-4 border rounded-lg bg-gray-800/50 border-yellow-400/20">
-        <h4 className="flex items-center gap-2 mb-2 text-sm text-yellow-400">
-          <Dna size={16} />
-          Protein Folding
-        </h4>
-        <ProteinFolding />
-      </div>
+//     <div className="p-4 border rounded-lg bg-gray-800/50 border-yellow-400/20">
+//         <h4 className="flex items-center gap-2 mb-2 text-sm text-yellow-400">
+//           <Dna size={16} />
+//           Protein Folding
+//         </h4>
+//         <ProteinFolding />
+//       </div>
 
-      <div className="col-span-2 p-4 border rounded-lg bg-gray-800/50 border-yellow-400/20">
-        <h4 className="flex items-center gap-2 mb-2 text-sm text-yellow-400">
-          <Leaf size={16} />
-          Ecosystem Dynamics
-        </h4>
-        <EcosystemChain />
-      </div>
-    </div>
-  );
-};
+//      <div className="col-span-2 p-4 border rounded-lg bg-gray-800/50 border-yellow-400/20">
+//         <h4 className="flex items-center gap-2 mb-2 text-sm text-yellow-400">
+//           <Leaf size={16} />
+//           Ecosystem Dynamics
+//         </h4>
+//         <EcosystemChain />
+//       </div>
+//     </div>
+//   );
+// };
 
 // Enhanced Animated Section with Bio Effects
 const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
@@ -1156,8 +1156,8 @@ export default function Home() {
       years: "2020 - 2026",
       degree: "Ph.D. in Population Biology",
       institution: "University of California Davis, CA",
-      icon: Microscope,
-      description: "Focus on computational genomics and evolutionary biology",
+      icon: Dna,
+      // description: "Focus on computational genomics and evolutionary biology",
       particles: [Dna, Atom, Brain],
     },
     {
@@ -1165,16 +1165,15 @@ export default function Home() {
       degree: "M.Sc. in Ecology & Evolutionary Biology",
       institution: "University of California Los Angeles, CA",
       icon: Dna,
-      description: "Advanced studies in population genetics and bioinformatics",
+      // description: "Advanced studies in population genetics and bioinformatics",
       particles: [Leaf, Bug, Fish],
     },
     {
       years: "2014 - 2018",
       degree: "B.Sc. in Biochemistry & Molecular Biology",
       institution: "University of Massachusetts Amherst, MA",
-      icon: Atom,
-      description:
-        "Foundation in molecular mechanisms and biochemical pathways",
+      icon: Dna,
+      // description:"Foundation in molecular mechanisms and biochemical pathways",
       particles: [FlaskConical, TestTube, Beaker],
     },
   ];
@@ -1446,9 +1445,9 @@ export default function Home() {
               </BioAnimatedSection>
 
               {/* Biological Processes Visualization */}
-              <BioAnimatedSection delay={1100}>
+              {/* <BioAnimatedSection delay={1100}>
                 <BiologicalProcesses />
-              </BioAnimatedSection>
+              </BioAnimatedSection> */}
 
               <BioAnimatedSection delay={1200}>
                 <div className="relative max-w-lg p-6 mx-auto mb-8 overflow-hidden text-gray-400 border rounded-lg lg:mx-0 bg-gray-900/50 backdrop-blur-sm border-yellow-400/20">
@@ -1465,7 +1464,7 @@ export default function Home() {
                         style={{ animationDuration: "4s" }}
                       />
                     </div>
-                    I am a 3rd Year PhD Candidate at UCDavis in the Population
+                    I am a 6th Year PhD Candidate at UCDavis in the Population
                     Biology Department supervised by Dr. Brenna Henn.
                   </p>
 
@@ -1724,9 +1723,9 @@ export default function Home() {
                                 <MapPin size={16} className="animate-bounce" />
                                 {edu.institution}
                               </p>
-                              <p className="text-sm italic text-gray-500">
+                              {/* <p className="text-sm italic text-gray-500">
                                 {edu.description}
-                              </p>
+                              </p> */}
                             </div>
                           </div>
                         </div>

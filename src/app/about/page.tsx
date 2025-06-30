@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { 
-  Dna, 
-  Atom, 
-  Brain, 
-  Heart, 
-  Microscope, 
-  FlaskConical, 
-  Leaf, 
-  Bug, 
-  Fish, 
-  TreePine, 
-  Sparkles, 
-  Star, 
-  Circle, 
+import {
+  Dna,
+  Atom,
+  Brain,
+  Heart,
+  Microscope,
+  FlaskConical,
+  Leaf,
+  Bug,
+  Fish,
+  TreePine,
+  Sparkles,
+  Star,
+  Circle,
   Target,
   Telescope,
   TestTube,
@@ -23,12 +23,12 @@ import {
   Activity,
   Zap,
   Eye,
-  BookOpen,
+  // BookOpen,
   Search,
   Globe,
   Users,
   Award,
-  LucideIcon
+  LucideIcon,
 } from "lucide-react";
 import show from "../../../public/osho.avif";
 
@@ -64,19 +64,41 @@ const FloatingBioParticles: React.FC = () => {
 
   useEffect(() => {
     const biologicalIcons: LucideIcon[] = [
-      Dna, Atom, Brain, Heart, Microscope, FlaskConical, Leaf, Bug, Fish, TreePine,
-      Sparkles, Star, Circle, Target, Telescope, TestTube, Beaker, Activity, Zap, Eye
+      Dna,
+      Atom,
+      Brain,
+      Heart,
+      Microscope,
+      FlaskConical,
+      Leaf,
+      Bug,
+      Fish,
+      TreePine,
+      Sparkles,
+      Star,
+      Circle,
+      Target,
+      Telescope,
+      TestTube,
+      Beaker,
+      Activity,
+      Zap,
+      Eye,
     ];
 
-    const newParticles: BioParticle[] = Array.from({ length: 15 }).map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      icon: biologicalIcons[Math.floor(Math.random() * biologicalIcons.length)],
-      size: Math.random() * 8 + 16,
-      duration: Math.random() * 10 + 8,
-      delay: Math.random() * 5
-    }));
+    const newParticles: BioParticle[] = Array.from({ length: 15 }).map(
+      (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        icon: biologicalIcons[
+          Math.floor(Math.random() * biologicalIcons.length)
+        ],
+        size: Math.random() * 8 + 16,
+        duration: Math.random() * 10 + 8,
+        delay: Math.random() * 5,
+      })
+    );
     setParticles(newParticles);
   }, []);
 
@@ -109,7 +131,7 @@ const DNAStrand: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime(prev => prev + 0.02);
+      setTime((prev) => prev + 0.02);
     }, 50);
     return () => clearInterval(interval);
   }, []);
@@ -118,37 +140,43 @@ const DNAStrand: React.FC = () => {
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-8">
       <svg className="w-full h-full" viewBox="0 0 200 800">
         <defs>
-          <linearGradient id="dnaStrandGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient
+            id="dnaStrandGradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="0%"
+          >
             <stop offset="0%" stopColor="#facc15" />
             <stop offset="50%" stopColor="#eab308" />
             <stop offset="100%" stopColor="#ca8a04" />
           </linearGradient>
         </defs>
-        
+
         {Array.from({ length: 30 }).map((_, i) => {
           const y = i * 25;
           const angle = time + i * 0.3;
           const leftX = 100 + Math.cos(angle) * 30;
           const rightX = 100 - Math.cos(angle) * 30;
-          
+
           return (
             <g key={i}>
-              <circle 
-                cx={leftX} 
-                cy={y} 
-                r="2" 
-                fill="url(#dnaStrandGradient)" 
+              <circle
+                cx={leftX}
+                cy={y}
+                r="2"
+                fill="url(#dnaStrandGradient)"
                 opacity="0.6"
-                className="animate-pulse" 
+                className="animate-pulse"
                 style={{ animationDelay: `${i * 0.1}s` }}
               />
-              <circle 
-                cx={rightX} 
-                cy={y} 
-                r="2" 
-                fill="url(#dnaStrandGradient)" 
+              <circle
+                cx={rightX}
+                cy={y}
+                r="2"
+                fill="url(#dnaStrandGradient)"
                 opacity="0.6"
-                className="animate-pulse" 
+                className="animate-pulse"
                 style={{ animationDelay: `${i * 0.1 + 0.5}s` }}
               />
               {i % 3 === 0 && (
@@ -171,10 +199,10 @@ const DNAStrand: React.FC = () => {
 };
 
 // Enhanced Animated Section Component
-const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({ 
-  children, 
-  className = "", 
-  delay = 0 
+const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
+  children,
+  className = "",
+  delay = 0,
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [revealParticles, setRevealParticles] = useState<FloatingIcon[]>([]);
@@ -187,14 +215,16 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
           setTimeout(() => {
             setIsVisible(true);
             // Generate reveal particles
-            setRevealParticles(Array.from({ length: 3 }).map((_, i) => ({
-              component: [Sparkles, Star, Circle][i],
-              x: Math.random() * 100,
-              y: Math.random() * 100,
-              size: 12 + Math.random() * 8,
-              duration: 2 + Math.random() * 2,
-              delay: i * 0.2
-            })));
+            setRevealParticles(
+              Array.from({ length: 3 }).map((_, i) => ({
+                component: [Sparkles, Star, Circle][i],
+                x: Math.random() * 100,
+                y: Math.random() * 100,
+                size: 12 + Math.random() * 8,
+                duration: 2 + Math.random() * 2,
+                delay: i * 0.2,
+              }))
+            );
           }, delay);
         }
       },
@@ -209,16 +239,16 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
   }, [delay]);
 
   return (
-    <div 
+    <div
       ref={ref}
       className={`relative transition-all duration-1000 ${
-        isVisible 
-          ? 'opacity-100 translate-y-0 scale-100' 
-          : 'opacity-0 translate-y-10 scale-95'
+        isVisible
+          ? "opacity-100 translate-y-0 scale-100"
+          : "opacity-0 translate-y-10 scale-95"
       } ${className}`}
     >
       {children}
-      
+
       {/* Reveal particles */}
       {isVisible && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -232,7 +262,7 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
                   left: `${particle.x}%`,
                   top: `${particle.y}%`,
                   animationDelay: `${particle.delay}s`,
-                  animationDuration: `${particle.duration}s`
+                  animationDuration: `${particle.duration}s`,
                 }}
               >
                 <IconComponent size={particle.size} />
@@ -251,7 +281,7 @@ const EnhancedProfileImage: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setRotation(prev => prev + 0.5);
+      setRotation((prev) => prev + 0.5);
     }, 50);
     return () => clearInterval(interval);
   }, []);
@@ -268,7 +298,7 @@ const EnhancedProfileImage: React.FC = () => {
             height={400}
             className="transition-shadow duration-500 rounded-lg shadow-2xl shadow-yellow-400/20 group-hover:shadow-yellow-400/40"
           />
-          
+
           {/* Overlay with cellular pattern */}
           <div className="absolute inset-0 transition-opacity duration-500 rounded-lg opacity-0 group-hover:opacity-20 bg-gradient-to-br from-yellow-400/30 to-transparent">
             <svg viewBox="0 0 100 100" className="w-full h-full">
@@ -286,44 +316,44 @@ const EnhancedProfileImage: React.FC = () => {
             </svg>
           </div>
         </div>
-        
+
         {/* Orbital rings */}
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
             className="absolute inset-0 border border-yellow-400 rounded-lg opacity-20"
-            style={{ 
+            style={{
               margin: `${i * 10}px`,
               transform: `rotate(${rotation + i * 45}deg)`,
-              transformOrigin: 'center'
+              transformOrigin: "center",
             }}
           />
         ))}
-        
+
         {/* Floating scientific icons */}
         {[
-          { icon: Dna, position: 'top-4 right-4', delay: '0s' },
-          { icon: Brain, position: 'bottom-4 left-4', delay: '1s' },
-          { icon: Atom, position: 'top-4 left-4', delay: '2s' },
-          { icon: Heart, position: 'bottom-4 right-4', delay: '1.5s' }
+          { icon: Dna, position: "top-4 right-4", delay: "0s" },
+          { icon: Brain, position: "bottom-4 left-4", delay: "1s" },
+          { icon: Atom, position: "top-4 left-4", delay: "2s" },
+          { icon: Heart, position: "bottom-4 right-4", delay: "1.5s" },
         ].map(({ icon: Icon, position, delay }, i) => (
           <div
             key={i}
             className={`absolute ${position} text-yellow-400 opacity-0 group-hover:opacity-80 transition-opacity duration-500 animate-float`}
-            style={{ animationDelay: delay, animationDuration: '4s' }}
+            style={{ animationDelay: delay, animationDuration: "4s" }}
           >
             <Icon size={24} />
           </div>
         ))}
       </div>
-      
+
       {/* Orbiting particles */}
-      {Array.from({ length: 6 }).map((_, i) => {
+      {/* {Array.from({ length: 6 }).map((_, i) => {
         const angle = (rotation + i * 60) * (Math.PI / 180);
         const radius = 180;
         const x = Math.cos(angle) * radius;
         const y = Math.sin(angle) * radius;
-        
+
         return (
           <div
             key={i}
@@ -332,22 +362,31 @@ const EnhancedProfileImage: React.FC = () => {
               transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`,
             }}
           >
-            {[Microscope, FlaskConical, TestTube, Telescope, Target, BookOpen][i] && 
-              React.createElement([Microscope, FlaskConical, TestTube, Telescope, Target, BookOpen][i], { size: 20 })
-            }
+            {[Microscope, FlaskConical, TestTube, , Target, BookOpen][i] &&
+              React.createElement(
+                [
+                  Microscope,
+                  FlaskConical,
+                  TestTube,
+                  Telescope,
+                  Target,
+                  BookOpen,
+                ][i],
+                { size: 20 }
+              )}
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 };
 
 // Research Interest Card with Hover Effects
-const ResearchCard: React.FC<{ title: string; items: string[]; icon: LucideIcon }> = ({ 
-  title, 
-  items, 
-  icon: Icon 
-}) => {
+const ResearchCard: React.FC<{
+  title: string;
+  items: string[];
+  icon: LucideIcon;
+}> = ({ title, items, icon: Icon }) => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
 
   return (
@@ -361,14 +400,14 @@ const ResearchCard: React.FC<{ title: string; items: string[]; icon: LucideIcon 
             style={{
               left: `${20 + i * 30}%`,
               top: `${20 + i * 25}%`,
-              animationDelay: `${i * 0.3}s`
+              animationDelay: `${i * 0.3}s`,
             }}
           >
             <Sparkles size={16} className="animate-pulse" />
           </div>
         ))}
       </div>
-      
+
       <div className="relative z-10">
         <h3 className="flex items-center gap-3 mb-4 text-xl font-bold text-yellow-400 transition-colors group-hover:text-yellow-300">
           <div className="p-2 transition-colors rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
@@ -378,15 +417,19 @@ const ResearchCard: React.FC<{ title: string; items: string[]; icon: LucideIcon 
         </h3>
         <ul className="space-y-3">
           {items.map((item, index) => (
-            <li 
+            <li
               key={index}
               className="flex items-start gap-3 text-gray-300 transition-all duration-200 cursor-default hover:text-yellow-400"
               onMouseEnter={() => setHoveredItem(index)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <div className={`w-2 h-2 rounded-full mt-2 transition-all duration-200 ${
-                hoveredItem === index ? 'bg-yellow-400 scale-125' : 'bg-yellow-400/60'
-              }`} />
+              <div
+                className={`w-2 h-2 rounded-full mt-2 transition-all duration-200 ${
+                  hoveredItem === index
+                    ? "bg-yellow-400 scale-125"
+                    : "bg-yellow-400/60"
+                }`}
+              />
               <span className="relative">
                 {item}
                 {hoveredItem === index && (
@@ -410,18 +453,18 @@ export default function About() {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   const researchInterests = [
     "Computational biology and bioinformatics",
-    "Population genetics and genomics", 
+    "Population genetics and genomics",
     "Disease susceptibility and genetic risk factors",
     "Statistical methods for genetic data analysis",
     "Tuberculosis epidemiology and genetics",
-    "Multiomic data integration"
+    "Multiomic data integration",
   ];
 
   const currentFocus = [
@@ -429,7 +472,7 @@ export default function About() {
     "Genetic and transcriptomic biomarker discovery",
     "Machine learning applications in disease prediction",
     "Diverse population genomics methodologies",
-    "Global health computational solutions"
+    "Global health computational solutions",
   ];
 
   return (
@@ -437,17 +480,17 @@ export default function About() {
       {/* Background Effects */}
       <FloatingBioParticles />
       <DNAStrand />
-      
+
       {/* Mouse follower */}
-      <div 
+      <div
         className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
         style={{
           left: mousePosition.x - 6,
           top: mousePosition.y - 6,
-          transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`
+          transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
         }}
       />
-      
+
       <div className="relative z-10 max-w-6xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
         {/* Header */}
         <BioAnimatedSection className="mb-16 text-center">
@@ -458,11 +501,11 @@ export default function About() {
             <div className="flex items-center justify-center gap-4 mb-4">
               <div className="w-16 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
               <div className="flex space-x-2">
-                {[Brain, Dna].map((Icon, i) => (
-                  <Icon 
+                {[Dna].map((Icon, i) => (
+                  <Icon
                     key={i}
-                    size={20} 
-                    className="text-yellow-400 animate-bounce" 
+                    size={20}
+                    className="text-yellow-400 animate-bounce"
                     style={{ animationDelay: `${i * 0.3}s` }}
                   />
                 ))}
@@ -470,7 +513,8 @@ export default function About() {
               <div className="w-16 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
             </div>
             <p className="max-w-2xl mx-auto text-lg text-gray-400">
-              Exploring the intersection of computational biology, genetics, and global health
+              Exploring the intersection of computational biology, genetics, and
+              global health
             </p>
           </div>
         </BioAnimatedSection>
@@ -493,23 +537,39 @@ export default function About() {
                 </h2>
                 <div className="space-y-4 leading-relaxed text-gray-300">
                   <p>
-                    I am a 3rd-year PhD candidate at UC Davis in the Population Biology Department, 
-                    under the supervision of Dr. Brenna Henn. My research goals are two-fold:
+                    I am a 6th year PhD candidate at UC Davis in the Population
+                    Biology Department, under the supervision of Dr. Brenna
+                    Henn. My research goals are two-fold:
                   </p>
                   <div className="ml-4 space-y-3">
                     <div className="flex items-start gap-3">
-                      <Target className="flex-shrink-0 mt-1 text-yellow-400" size={16} />
-                      <span>Identifying sociodemographic, genetic, and transcriptomic correlates of active tuberculosis progression</span>
+                      <Target
+                        className="flex-shrink-0 mt-1 text-yellow-400"
+                        size={16}
+                      />
+                      <span>
+                        Identifying sociodemographic, genetic, and
+                        transcriptomic correlates of active tuberculosis
+                        progression
+                      </span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Target className="flex-shrink-0 mt-1 text-yellow-400" size={16} />
-                      <span>Optimizing statistical methods to analyze genetic data from diverse human populations</span>
+                      <Target
+                        className="flex-shrink-0 mt-1 text-yellow-400"
+                        size={16}
+                      />
+                      <span>
+                        Optimizing statistical methods to analyze genetic data
+                        from diverse human populations
+                      </span>
                     </div>
                   </div>
                   <p>
-                    My work primarily focuses on the South African Coloured (SAC) communities, known for their 
-                    exceptionally diverse human ancestry and residence in TB-endemic regions. Through this work, 
-                    I aim to deepen our understanding of how genetic and social factors influence disease outcomes.
+                    My work primarily focuses on the South African Coloured
+                    (SAC) communities, known for their exceptionally diverse
+                    human ancestry and residence in TB-endemic regions. Through
+                    this work, I aim to deepen our understanding of how genetic
+                    and social factors influence disease outcomes.
                   </p>
                 </div>
               </div>
@@ -518,14 +578,18 @@ export default function About() {
             <BioAnimatedSection delay={600}>
               <div className="relative p-6 border rounded-lg bg-gray-900/50 border-yellow-400/20 backdrop-blur-sm">
                 <h3 className="flex items-center gap-3 mb-4 text-2xl font-bold text-yellow-400">
-                  <Globe className="animate-spin" size={28} style={{ animationDuration: '3s' }} />
+                  <Globe
+                    className="animate-spin"
+                    size={28}
+                    style={{ animationDuration: "3s" }}
+                  />
                   Future Aspirations
                   <Zap className="animate-pulse" size={20} />
                 </h3>
                 <p className="leading-relaxed text-gray-300">
-                  After graduation, I aspire to transition into the industry, where I can apply the 
-                  computational and analytical skills honed during my PhD to advance global health 
-                  solutions and make a meaningful impact on human wellbeing.
+                  After graduation, I aspire to transition into industry, where
+                  I can apply the computational and analytical skills honed
+                  during my PhD to advance health therapeutics
                 </p>
               </div>
             </BioAnimatedSection>
@@ -535,16 +599,16 @@ export default function About() {
         {/* Research Interests Grid */}
         <div className="grid gap-8 mb-16 md:grid-cols-2">
           <BioAnimatedSection delay={800}>
-            <ResearchCard 
-              title="Research Interests" 
+            <ResearchCard
+              title="Research Interests"
               items={researchInterests}
               icon={Search}
             />
           </BioAnimatedSection>
 
           <BioAnimatedSection delay={1000}>
-            <ResearchCard 
-              title="Current Focus" 
+            <ResearchCard
+              title="Current Focus"
               items={currentFocus}
               icon={Eye}
             />
@@ -564,16 +628,32 @@ export default function About() {
                     left: `${10 + i * 15}%`,
                     top: `${20 + (i % 3) * 30}%`,
                     animation: `float ${8 + i}s linear infinite`,
-                    animationDelay: `${i * 1.2}s`
+                    animationDelay: `${i * 1.2}s`,
                   }}
                 >
-                  {[FlaskConical, TestTube, Beaker, Microscope, Telescope, Award][i] && 
-                    React.createElement([FlaskConical, TestTube, Beaker, Microscope, Telescope, Award][i], { size: 24 })
-                  }
+                  {[
+                    FlaskConical,
+                    TestTube,
+                    Beaker,
+                    Microscope,
+                    Telescope,
+                    Award,
+                  ][i] &&
+                    React.createElement(
+                      [
+                        FlaskConical,
+                        TestTube,
+                        Beaker,
+                        Microscope,
+                        Telescope,
+                        Award,
+                      ][i],
+                      { size: 24 }
+                    )}
                 </div>
               ))}
             </div>
-            
+
             <div className="relative z-10">
               <h3 className="flex items-center gap-4 mb-6 text-3xl font-bold text-yellow-400">
                 <div className="p-3 rounded-full bg-yellow-400/20">
@@ -582,21 +662,24 @@ export default function About() {
                 Current Work & Impact
                 <div className="flex space-x-2">
                   {[Sparkles, Star, Circle].map((Icon, i) => (
-                    <Icon 
+                    <Icon
                       key={i}
-                      size={16} 
-                      className="text-yellow-400 animate-ping" 
+                      size={16}
+                      className="text-yellow-400 animate-ping"
                       style={{ animationDelay: `${i * 0.4}s` }}
                     />
                   ))}
                 </div>
               </h3>
               <p className="text-lg leading-relaxed text-gray-300">
-                My research directly contributes to understanding tuberculosis susceptibility in genetically 
-                diverse populations. By developing computational methods and analyzing multiomic datasets, 
-                I aim to identify biomarkers that could lead to earlier detection and more personalized 
-                treatment approaches. This work has implications not only for TB management but also for 
-                advancing precision medicine approaches in underrepresented populations globally.
+                My research directly contributes to understanding tuberculosis
+                susceptibility in genetically diverse populations. By developing
+                computational methods and analyzing multiomic datasets, I aim to
+                identify biomarkers that could lead to earlier detection and
+                more personalized treatment approaches. This work has
+                implications not only for TB management but also for advancing
+                precision medicine approaches in underrepresented populations
+                globally.
               </p>
             </div>
           </div>
@@ -606,17 +689,18 @@ export default function About() {
       {/* Global Styles */}
       <style jsx global>{`
         @keyframes float {
-          0%, 100% { 
-            transform: translateY(0px) rotate(0deg); 
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
           }
-          33% { 
-            transform: translateY(-15px) rotate(120deg); 
+          33% {
+            transform: translateY(-15px) rotate(120deg);
           }
-          66% { 
-            transform: translateY(-8px) rotate(240deg); 
+          66% {
+            transform: translateY(-8px) rotate(240deg);
           }
         }
-        
+
         .animate-float {
           animation: float var(--float-duration, 6s) ease-in-out infinite;
         }
