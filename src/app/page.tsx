@@ -49,7 +49,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import Image from "next/image";
-import osho from "../../public/osho.avif";
+import osho from "../../public/daviduncle.jpg";
 import Link from "next/link";
 
 // Types
@@ -137,6 +137,7 @@ interface Publication {
   year: string;
   volume: string;
   pages: string;
+  link?: string; // Optional link for online access
 }
 
 interface SocialLink {
@@ -650,73 +651,73 @@ const ProteinFolding: React.FC = () => {
 // };
 
 // Advanced Scientific Particle System
-const AdvancedParticleSystem: React.FC = () => {
-  const [particles, setParticles] = useState<Particle[]>([]);
+// const AdvancedParticleSystem: React.FC = () => {
+//   const [particles, setParticles] = useState<Particle[]>([]);
 
-  useEffect(() => {
-    const biologicalIcons: BiologicalIcon[] = [
-      { component: Dna, size: 20, type: "dna" },
-      { component: Atom, size: 18, type: "atom" },
-      { component: Microscope, size: 22, type: "instrument" },
-      { component: FlaskConical, size: 18, type: "lab" },
-      { component: Brain, size: 20, type: "organ" },
-      { component: Heart, size: 18, type: "organ" },
-      { component: Eye, size: 16, type: "organ" },
-      { component: Leaf, size: 18, type: "plant" },
-      { component: Bug, size: 16, type: "insect" },
-      { component: Fish, size: 20, type: "aquatic" },
-      { component: TreePine, size: 22, type: "plant" },
-      { component: Flower, size: 18, type: "plant" },
-      { component: TestTube, size: 16, type: "lab" },
-      { component: Beaker, size: 18, type: "lab" },
-      { component: Telescope, size: 20, type: "instrument" },
-      { component: Target, size: 16, type: "research" },
-      { component: Orbit, size: 20, type: "molecular" },
-      { component: Waves, size: 18, type: "signal" },
-      { component: Zap, size: 16, type: "energy" },
-      { component: Sparkles, size: 14, type: "reaction" },
-    ];
+//   useEffect(() => {
+//     const biologicalIcons: BiologicalIcon[] = [
+//       { component: Dna, size: 20, type: "dna" },
+//       { component: Atom, size: 18, type: "atom" },
+//       { component: Microscope, size: 22, type: "instrument" },
+//       { component: FlaskConical, size: 18, type: "lab" },
+//       { component: Brain, size: 20, type: "organ" },
+//       { component: Heart, size: 18, type: "organ" },
+//       { component: Eye, size: 16, type: "organ" },
+//       { component: Leaf, size: 18, type: "plant" },
+//       { component: Bug, size: 16, type: "insect" },
+//       { component: Fish, size: 20, type: "aquatic" },
+//       { component: TreePine, size: 22, type: "plant" },
+//       { component: Flower, size: 18, type: "plant" },
+//       { component: TestTube, size: 16, type: "lab" },
+//       { component: Beaker, size: 18, type: "lab" },
+//       { component: Telescope, size: 20, type: "instrument" },
+//       { component: Target, size: 16, type: "research" },
+//       { component: Orbit, size: 20, type: "molecular" },
+//       { component: Waves, size: 18, type: "signal" },
+//       { component: Zap, size: 16, type: "energy" },
+//       { component: Sparkles, size: 14, type: "reaction" },
+//     ];
 
-    const newParticles: Particle[] = Array.from({ length: 25 }).map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      icon: biologicalIcons[Math.floor(Math.random() * biologicalIcons.length)],
-      duration: Math.random() * 15 + 10,
-      delay: Math.random() * 8,
-      direction: Math.random() * 360,
-      speed: Math.random() * 2 + 1,
-      amplitude: Math.random() * 30 + 20,
-    }));
-    setParticles(newParticles);
-  }, []);
+//     const newParticles: Particle[] = Array.from({ length: 25 }).map((_, i) => ({
+//       id: i,
+//       x: Math.random() * 100,
+//       y: Math.random() * 100,
+//       icon: biologicalIcons[Math.floor(Math.random() * biologicalIcons.length)],
+//       duration: Math.random() * 15 + 10,
+//       delay: Math.random() * 8,
+//       direction: Math.random() * 360,
+//       speed: Math.random() * 2 + 1,
+//       amplitude: Math.random() * 30 + 20,
+//     }));
+//     setParticles(newParticles);
+//   }, []);
 
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => {
-        const IconComponent = particle.icon.component;
-        return (
-          <div
-            key={particle.id}
-            className="absolute text-yellow-400 opacity-25 animate-float"
-            style={
-              {
-                left: `${particle.x}%`,
-                top: `${particle.y}%`,
-                animationDuration: `${particle.duration}s`,
-                animationDelay: `${particle.delay}s`,
-                transform: `rotate(${particle.direction}deg)`,
-                "--float-amplitude": `${particle.amplitude}px`,
-              } as React.CSSProperties
-            }
-          >
-            <IconComponent size={particle.icon.size} />
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+//   return (
+//     <div className="absolute inset-0 overflow-hidden pointer-events-none">
+//       {particles.map((particle) => {
+//         const IconComponent = particle.icon.component;
+//         return (
+//           <div
+//             key={particle.id}
+//             className="absolute text-yellow-400 opacity-25 animate-float"
+//             style={
+//               {
+//                 left: `${particle.x}%`,
+//                 top: `${particle.y}%`,
+//                 animationDuration: `${particle.duration}s`,
+//                 animationDelay: `${particle.delay}s`,
+//                 transform: `rotate(${particle.direction}deg)`,
+//                 "--float-amplitude": `${particle.amplitude}px`,
+//               } as React.CSSProperties
+//             }
+//           >
+//             <IconComponent size={particle.icon.size} />
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
 
 // Enhanced 3D Molecular Sphere with Orbiting Elements
 const AdvancedMolecularSphere: React.FC = () => {
@@ -884,7 +885,7 @@ const AdvancedMolecularSphere: React.FC = () => {
       </div>
 
       {/* Floating biology icons around sphere */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* <div className="absolute inset-0 pointer-events-none">
         {[Dna, Atom, Brain, Heart, Leaf, Bug].map((Icon, i) => (
           <div
             key={i}
@@ -899,7 +900,7 @@ const AdvancedMolecularSphere: React.FC = () => {
             <Icon size={20} />
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -1061,7 +1062,7 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
   delay = 0,
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [bioParticles, setBioParticles] = useState<BioParticle[]>([]);
+  // const [bioParticles, setBioParticles] = useState<BioParticle[]>([]);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -1071,14 +1072,14 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
           setTimeout(() => {
             setIsVisible(true);
             // Generate bio particles on reveal
-            setBioParticles(
-              Array.from({ length: 5 }).map((_, i) => ({
-                id: i,
-                x: Math.random() * 100,
-                y: Math.random() * 100,
-                icon: [Sparkles, Star, Circle, Atom, Dna][i % 5],
-              }))
-            );
+            // setBioParticles(
+            //   Array.from({ length: 5 }).map((_, i) => ({
+            //     id: i,
+            //     x: Math.random() * 100,
+            //     y: Math.random() * 100,
+            //     icon: [Sparkles, Star, Circle, Atom, Dna][i % 5],
+            //   }))
+            // );
           }, delay);
         }
       },
@@ -1104,7 +1105,7 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
       {children}
 
       {/* Bio reveal particles */}
-      {isVisible && (
+      {/* {isVisible && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {bioParticles.map((particle) => {
             const IconComponent = particle.icon;
@@ -1124,7 +1125,7 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
             );
           })}
         </div>
-      )}
+      )} */}
     </div>
   );
 };
@@ -1236,6 +1237,7 @@ export default function Home() {
       year: "2024",
       volume: "4(7)",
       pages: "e0002643",
+      link: "https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0002643",
     },
     {
       title:
@@ -1246,6 +1248,7 @@ export default function Home() {
       year: "2023",
       volume: "11",
       pages: "e14723",
+      link: "https://peerj.com/articles/14723/",
     },
   ];
 
@@ -1296,7 +1299,7 @@ export default function Home() {
     <div className="flex min-h-screen text-white bg-black">
       {/* Advanced Background Effects */}
       <DNAHelix />
-      <AdvancedParticleSystem />
+      {/* <AdvancedParticleSystem /> */}
       <CellMembrane />
 
       {/* Mouse follower effect */}
@@ -1369,7 +1372,7 @@ export default function Home() {
                   </div>
 
                   {/* Enhanced floating scientific symbols */}
-                  <div className="absolute text-yellow-400 -top-6 -right-6 animate-float">
+                  {/* <div className="absolute text-yellow-400 -top-6 -right-6 animate-float">
                     <Dna size={40} />
                   </div>
                   <div
@@ -1401,7 +1404,7 @@ export default function Home() {
                     style={{ animationDelay: "0.5s" }}
                   >
                     <Heart size={26} />
-                  </div>
+                  </div> */}
                 </div>
               </BioAnimatedSection>
 
@@ -1469,7 +1472,7 @@ export default function Home() {
                   </p>
 
                   {/* Floating particles in description */}
-                  <div className="absolute inset-0 pointer-events-none">
+                  {/* <div className="absolute inset-0 pointer-events-none">
                     {[Sparkles, Star, Circle].map((Icon, i) => (
                       <Icon
                         key={i}
@@ -1482,7 +1485,7 @@ export default function Home() {
                         }}
                       />
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               </BioAnimatedSection>
 
@@ -1533,7 +1536,7 @@ export default function Home() {
                       <social.icon size={24} className="relative z-10" />
 
                       {/* Particle effects on hover */}
-                      <div className="absolute inset-0 transition-opacity duration-300 opacity-0 pointer-events-none group-hover:opacity-100">
+                      {/* <div className="absolute inset-0 transition-opacity duration-300 opacity-0 pointer-events-none group-hover:opacity-100">
                         {social.particles.map((Particle, i) => (
                           <Particle
                             key={i}
@@ -1546,7 +1549,7 @@ export default function Home() {
                             }}
                           />
                         ))}
-                      </div>
+                      </div> */}
 
                       <div className="absolute px-3 py-1 text-xs text-white transition-opacity duration-300 transform -translate-x-1/2 bg-gray-800 rounded opacity-0 -top-12 left-1/2 group-hover:opacity-100 whitespace-nowrap">
                         {social.label}
@@ -1581,7 +1584,7 @@ export default function Home() {
         {/* CV Section - Enhanced with more biology */}
         <section className="relative px-4 py-16 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-black to-gray-900">
           {/* Section background effects */}
-          <div className="absolute inset-0 overflow-hidden">
+          {/* <div className="absolute inset-0 overflow-hidden">
             {Array.from({ length: 10 }).map((_, i) => (
               <div
                 key={i}
@@ -1621,7 +1624,7 @@ export default function Home() {
                   )}
               </div>
             ))}
-          </div>
+          </div> */}
 
           <div className="relative z-10 max-w-4xl mx-auto">
             <BioAnimatedSection>
@@ -1689,7 +1692,7 @@ export default function Home() {
                       <BioAnimatedSection key={index} delay={400 + index * 200}>
                         <div className="relative p-6 overflow-hidden transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-105 hover:shadow-xl hover:border-yellow-400/50 group">
                           {/* Background particle animation */}
-                          <div className="absolute inset-0 pointer-events-none opacity-20">
+                          {/* <div className="absolute inset-0 pointer-events-none opacity-20">
                             {edu.particles.map((Particle, i) => (
                               <Particle
                                 key={i}
@@ -1703,7 +1706,7 @@ export default function Home() {
                                 }}
                               />
                             ))}
-                          </div>
+                          </div> */}
 
                           <div className="relative z-10 flex items-start gap-4">
                             <div className="relative p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
@@ -1862,6 +1865,12 @@ export default function Home() {
                         key={index}
                         className="p-6 transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-102 hover:border-yellow-400/30 group"
                       >
+                        <a
+                          href={publication.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          
+                        >
                         <div className="flex items-start gap-4">
                           <div className="p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
                             <ExternalLink
@@ -1882,6 +1891,7 @@ export default function Home() {
                             </p>
                           </div>
                         </div>
+                        </a>
                       </div>
                     ))}
                   </div>
@@ -1897,7 +1907,7 @@ export default function Home() {
         <AdvancedMolecularSphere />
 
         {/* Additional floating elements */}
-        <div className="absolute inset-0 pointer-events-none">
+        {/* <div className="absolute inset-0 pointer-events-none">
           {[Dna, Brain, Heart, Atom, Leaf, Bug, Fish, TreePine].map(
             (Icon, i) => (
               <div
@@ -1914,7 +1924,7 @@ export default function Home() {
               </div>
             )
           )}
-        </div>
+        </div> */}
       </div>
 
       {/* Enhanced Global Styles */}

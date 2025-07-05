@@ -68,68 +68,69 @@ interface Project {
 
 // Floating Background Particles
 const FloatingBioParticles: React.FC = () => {
-  const [particles, setParticles] = useState<BioParticle[]>([]);
+  // const [particles, setParticles] = useState<BioParticle[]>([]);
 
   useEffect(() => {
-    const biologicalIcons: LucideIcon[] = [
-      Dna,
-      Atom,
-      Brain,
-      Heart,
-      Microscope,
-      FlaskConical,
-      Leaf,
-      Bug,
-      Fish,
-      TreePine,
-      Sparkles,
-      Star,
-      Circle,
-      Target,
-      Telescope,
-      TestTube,
-      Beaker,
-      Activity,
-      Zap,
-      Eye,
-    ];
+    // const biologicalIcons: LucideIcon[] = [
+    //   Dna,
+    //   Atom,
+    //   Brain,
+    //   Heart,
+    //   Microscope,
+    //   FlaskConical,
+    //   Leaf,
+    //   Bug,
+    //   Fish,
+    //   TreePine,
+    //   Sparkles,
+    //   Star,
+    //   Circle,
+    //   Target,
+    //   Telescope,
+    //   TestTube,
+    //   Beaker,
+    //   Activity,
+    //   Zap,
+    //   Eye,
+    // ];
 
-    const newParticles: BioParticle[] = Array.from({ length: 15 }).map(
-      (_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        icon: biologicalIcons[
-          Math.floor(Math.random() * biologicalIcons.length)
-        ],
-        size: Math.random() * 8 + 16,
-        duration: Math.random() * 10 + 8,
-        delay: Math.random() * 5,
-      })
-    );
-    setParticles(newParticles);
+    // const newParticles: BioParticle[] = Array.from({ length: 15 }).map(
+    //   (_, i) => ({
+    //     id: i,
+    //     x: Math.random() * 100,
+    //     y: Math.random() * 100,
+    //     icon: biologicalIcons[
+    //       Math.floor(Math.random() * biologicalIcons.length)
+    //     ],
+    //     size: Math.random() * 8 + 16,
+    //     duration: Math.random() * 10 + 8,
+    //     delay: Math.random() * 5,
+    //   })
+    // );
+    // setParticles(newParticles);
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none opacity-10">
-      {particles.map((particle) => {
-        const IconComponent = particle.icon;
-        return (
-          <div
-            key={particle.id}
-            className="absolute text-yellow-400 animate-float"
-            style={{
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              animationDuration: `${particle.duration}s`,
-              animationDelay: `${particle.delay}s`,
-            }}
-          >
-            <IconComponent size={particle.size} />
-          </div>
-        );
-      })}
-    </div>
+    // <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none opacity-10">
+    //   {particles.map((particle) => {
+    //     const IconComponent = particle.icon;
+    //     return (
+    //       <div
+    //         key={particle.id}
+    //         className="absolute text-yellow-400 animate-float"
+    //         style={{
+    //           left: `${particle.x}%`,
+    //           top: `${particle.y}%`,
+    //           animationDuration: `${particle.duration}s`,
+    //           animationDelay: `${particle.delay}s`,
+    //         }}
+    //       >
+    //         <IconComponent size={particle.size} />
+    //       </div>
+    //     );
+    //   })}
+    // </div>
+    <div></div>
   );
 };
 
@@ -406,7 +407,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
       </div>
 
       {/* Corner decorations */}
-      {[
+      {/* {[
         { icon: Target, position: "top-2 right-2" },
         { icon: Zap, position: "bottom-2 left-2" },
       ].map(({ icon: Icon, position }, i) => (
@@ -417,7 +418,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
         >
           <Icon size={16} />
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };
@@ -575,7 +576,7 @@ export default function Projects() {
 
             {/* Floating decorative elements */}
             <div className="absolute inset-0 pointer-events-none">
-              {[
+              {/* {[
                 { icon: Dna, position: "top-4 left-4", delay: "0s" },
                 { icon: Brain, position: "top-4 right-4", delay: "1s" },
                 { icon: Heart, position: "bottom-4 left-4", delay: "2s" },
@@ -588,7 +589,7 @@ export default function Projects() {
                 >
                   <Icon size={24} />
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
         </BioAnimatedSection>

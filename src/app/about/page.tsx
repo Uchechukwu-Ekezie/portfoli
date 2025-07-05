@@ -30,7 +30,7 @@ import {
   Award,
   LucideIcon,
 } from "lucide-react";
-import show from "../../../public/osho.avif";
+import show from "../../../public/daviduncle.jpg";
 
 // Types
 interface BioParticle {
@@ -60,68 +60,69 @@ interface FloatingIcon {
 
 // Floating Background Particles
 const FloatingBioParticles: React.FC = () => {
-  const [particles, setParticles] = useState<BioParticle[]>([]);
+  // const [particles, setParticles] = useState<BioParticle[]>([]);
 
   useEffect(() => {
-    const biologicalIcons: LucideIcon[] = [
-      Dna,
-      Atom,
-      Brain,
-      Heart,
-      Microscope,
-      FlaskConical,
-      Leaf,
-      Bug,
-      Fish,
-      TreePine,
-      Sparkles,
-      Star,
-      Circle,
-      Target,
-      Telescope,
-      TestTube,
-      Beaker,
-      Activity,
-      Zap,
-      Eye,
-    ];
+    // const biologicalIcons: LucideIcon[] = [
+    //   Dna,
+    //   Atom,
+    //   Brain,
+    //   Heart,
+    //   Microscope,
+    //   FlaskConical,
+    //   Leaf,
+    //   Bug,
+    //   Fish,
+    //   TreePine,
+    //   Sparkles,
+    //   Star,
+    //   Circle,
+    //   Target,
+    //   Telescope,
+    //   TestTube,
+    //   Beaker,
+    //   Activity,
+    //   Zap,
+    //   Eye,
+    // ];
 
-    const newParticles: BioParticle[] = Array.from({ length: 15 }).map(
-      (_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        icon: biologicalIcons[
-          Math.floor(Math.random() * biologicalIcons.length)
-        ],
-        size: Math.random() * 8 + 16,
-        duration: Math.random() * 10 + 8,
-        delay: Math.random() * 5,
-      })
-    );
-    setParticles(newParticles);
+    // const newParticles: BioParticle[] = Array.from({ length: 15 }).map(
+    //   (_, i) => ({
+    //     id: i,
+    //     x: Math.random() * 100,
+    //     y: Math.random() * 100,
+    //     icon: biologicalIcons[
+    //       Math.floor(Math.random() * biologicalIcons.length)
+    //     ],
+    //     size: Math.random() * 8 + 16,
+    //     duration: Math.random() * 10 + 8,
+    //     delay: Math.random() * 5,
+    //   })
+    // );
+    // setParticles(newParticles);
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none opacity-10">
-      {particles.map((particle) => {
-        const IconComponent = particle.icon;
-        return (
-          <div
-            key={particle.id}
-            className="absolute text-yellow-400 animate-float"
-            style={{
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              animationDuration: `${particle.duration}s`,
-              animationDelay: `${particle.delay}s`,
-            }}
-          >
-            <IconComponent size={particle.size} />
-          </div>
-        );
-      })}
-    </div>
+    // <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none opacity-10">
+    //   {particles.map((particle) => {
+    //     const IconComponent = particle.icon;
+    //     return (
+    //       <div
+    //         key={particle.id}
+    //         className="absolute text-yellow-400 animate-float"
+    //         style={{
+    //           left: `${particle.x}%`,
+    //           top: `${particle.y}%`,
+    //           animationDuration: `${particle.duration}s`,
+    //           animationDelay: `${particle.delay}s`,
+    //         }}
+    //       >
+    //         <IconComponent size={particle.size} />
+    //       </div>
+    //     );
+    //   })}
+    // </div>
+    <div></div>
   );
 };
 
@@ -331,7 +332,7 @@ const EnhancedProfileImage: React.FC = () => {
         ))}
 
         {/* Floating scientific icons */}
-        {[
+        {/* {[
           { icon: Dna, position: "top-4 right-4", delay: "0s" },
           { icon: Brain, position: "bottom-4 left-4", delay: "1s" },
           { icon: Atom, position: "top-4 left-4", delay: "2s" },
@@ -344,7 +345,7 @@ const EnhancedProfileImage: React.FC = () => {
           >
             <Icon size={24} />
           </div>
-        ))}
+        ))} */}
       </div>
 
       {/* Orbiting particles */}
