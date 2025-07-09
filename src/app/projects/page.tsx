@@ -4,24 +4,24 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Dna,
   Atom,
-  Brain,
-  Heart,
+  // Brain,
+  // Heart,
   Microscope,
   FlaskConical,
-  Leaf,
-  Bug,
-  Fish,
-  TreePine,
+  // Leaf,
+  // Bug,
+  // Fish,
+  // TreePine,
   Sparkles,
   Star,
   Circle,
   Target,
-  Telescope,
-  TestTube,
-  Beaker,
-  Activity,
-  Zap,
-  Eye,
+  // Telescope,
+  // TestTube,
+  // Beaker,
+  // Activity,
+  // Zap,
+  // Eye,
   Globe,
   Users,
   Award,
@@ -32,15 +32,15 @@ import {
 } from "lucide-react";
 
 // Types
-interface BioParticle {
-  id: number;
-  x: number;
-  y: number;
-  icon: LucideIcon;
-  size: number;
-  duration: number;
-  delay: number;
-}
+// interface BioParticle {
+//   id: number;
+//   x: number;
+//   y: number;
+//   icon: LucideIcon;
+//   size: number;
+//   duration: number;
+//   delay: number;
+// }
 
 interface BioAnimatedSectionProps {
   children: React.ReactNode;

@@ -4,15 +4,15 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   Dna,
-  Atom,
-  Brain,
-  Heart,
+  // Atom,
+  // Brain,
+  // Heart,
   Microscope,
   FlaskConical,
-  Leaf,
-  Bug,
-  Fish,
-  TreePine,
+  // Leaf,
+  // Bug,
+  // Fish,
+  // TreePine,
   Sparkles,
   Star,
   Circle,
@@ -33,15 +33,15 @@ import {
 import show from "../../../public/daviduncle.jpg";
 
 // Types
-interface BioParticle {
-  id: number;
-  x: number;
-  y: number;
-  icon: LucideIcon;
-  size: number;
-  duration: number;
-  delay: number;
-}
+// interface BioParticle {
+//   id: number;
+//   x: number;
+//   y: number;
+//   icon: LucideIcon;
+//   size: number;
+//   duration: number;
+//   delay: number;
+// }
 
 interface BioAnimatedSectionProps {
   children: React.ReactNode;

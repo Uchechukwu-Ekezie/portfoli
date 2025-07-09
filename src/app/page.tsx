@@ -21,13 +21,13 @@ import {
   Brain,
   Activity,
   Zap,
-  Eye,
-  Heart,
+  // Eye,
+  // Heart,
   Leaf,
   Bug,
   Fish,
-  TreePine,
-  Flower,
+  // TreePine,
+  // Flower,
   Sparkles,
   Star,
   Circle,
@@ -38,12 +38,12 @@ import {
   X,
   Target,
   Globe,
-  Orbit,
-  Waves,
+  // Orbit,
+  // Waves,
   // Sun,
   Lightbulb,
   Search,
-  Telescope,
+  // Telescope,
   Beaker,
   TestTube,
   LucideIcon,
@@ -73,23 +73,23 @@ interface MembranePoint {
 //   strength: number;
 // }
 
-interface BiologicalIcon {
-  component: LucideIcon;
-  size: number;
-  type: string;
-}
+// interface BiologicalIcon {
+//   component: LucideIcon;
+//   size: number;
+//   type: string;
+// }
 
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  icon: BiologicalIcon;
-  duration: number;
-  delay: number;
-  direction: number;
-  speed: number;
-  amplitude: number;
-}
+// interface Particle {
+//   id: number;
+//   x: number;
+//   y: number;
+//   icon: BiologicalIcon;
+//   duration: number;
+//   delay: number;
+//   direction: number;
+//   speed: number;
+//   amplitude: number;
+// }
 
 interface Orbital {
   id: number;
@@ -99,12 +99,12 @@ interface Orbital {
   inclination: number;
 }
 
-interface BioParticle {
-  id: number;
-  x: number;
-  y: number;
-  icon: LucideIcon;
-}
+// interface BioParticle {
+//   id: number;
+//   x: number;
+//   y: number;
+//   icon: LucideIcon;
+// }
 
 
 // interface Level {
