@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   Github,
-  Twitter,
   Mail,
   Linkedin,
   ChevronDown,
@@ -31,17 +30,14 @@ import {
   Sparkles,
   Star,
   Circle,
-  Triangle,
   Square,
   Plus,
   Minus,
   X,
-  Target,
   Globe,
   // Orbit,
   // Waves,
   // Sun,
-  Lightbulb,
   Search,
   // Telescope,
   Beaker,
@@ -527,72 +523,72 @@ const CellMembrane: React.FC = () => {
 // };
 
 // Protein Folding Animation
-const ProteinFolding: React.FC = () => {
-  const [foldState, setFoldState] = useState<number>(0);
+// const ProteinFolding: React.FC = () => {
+//   const [foldState, setFoldState] = useState<number>(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFoldState((prev) => (prev + 1) % 4);
-    }, 1500);
-    return () => clearInterval(interval);
-  }, []);
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setFoldState((prev) => (prev + 1) % 4);
+//     }, 1500);
+//     return () => clearInterval(interval);
+//   }, []);
 
-  const getPath = (): string => {
-    switch (foldState) {
-      case 0:
-        return "M 10 20 Q 30 10 50 20 Q 70 30 90 20";
-      case 1:
-        return "M 10 20 Q 20 5 30 20 Q 50 35 70 15 Q 80 5 90 20";
-      case 2:
-        return "M 10 20 Q 25 35 40 20 Q 55 5 70 20 Q 85 35 90 20";
-      case 3:
-        return "M 10 20 Q 30 30 50 15 Q 70 5 90 25";
-      default:
-        return "M 10 20 Q 30 10 50 20 Q 70 30 90 20";
-    }
-  };
+//   const getPath = (): string => {
+//     switch (foldState) {
+//       case 0:
+//         return "M 10 20 Q 30 10 50 20 Q 70 30 90 20";
+//       case 1:
+//         return "M 10 20 Q 20 5 30 20 Q 50 35 70 15 Q 80 5 90 20";
+//       case 2:
+//         return "M 10 20 Q 25 35 40 20 Q 55 5 70 20 Q 85 35 90 20";
+//       case 3:
+//         return "M 10 20 Q 30 30 50 15 Q 70 5 90 25";
+//       default:
+//         return "M 10 20 Q 30 10 50 20 Q 70 30 90 20";
+//     }
+//   };
 
-  return (
-    <div className="w-24 h-12">
-      <svg viewBox="0 0 100 40" className="w-full h-full">
-        <defs>
-          <linearGradient
-            id="proteinGradient"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stopColor="#facc15" />
-            <stop offset="50%" stopColor="#eab308" />
-            <stop offset="100%" stopColor="#ca8a04" />
-          </linearGradient>
-        </defs>
+//   return (
+//     <div className="w-24 h-12">
+//       <svg viewBox="0 0 100 40" className="w-full h-full">
+//         <defs>
+//           <linearGradient
+//             id="proteinGradient"
+//             x1="0%"
+//             y1="0%"
+//             x2="100%"
+//             y2="0%"
+//           >
+//             <stop offset="0%" stopColor="#facc15" />
+//             <stop offset="50%" stopColor="#eab308" />
+//             <stop offset="100%" stopColor="#ca8a04" />
+//           </linearGradient>
+//         </defs>
 
-        <path
-          d={getPath()}
-          stroke="url(#proteinGradient)"
-          strokeWidth="3"
-          fill="none"
-          className="transition-all duration-1000"
-        />
+//         <path
+//           d={getPath()}
+//           stroke="url(#proteinGradient)"
+//           strokeWidth="3"
+//           fill="none"
+//           className="transition-all duration-1000"
+//         />
 
-        {/* Amino acid residues */}
-        {Array.from({ length: 7 }).map((_, i) => (
-          <circle
-            key={i}
-            cx={15 + i * 12}
-            cy={20 + Math.sin(foldState + i) * 10}
-            r="2"
-            fill="#facc15"
-            className="transition-all duration-1000 animate-pulse"
-            style={{ animationDelay: `${i * 0.2}s` }}
-          />
-        ))}
-      </svg>
-    </div>
-  );
-};
+//         {/* Amino acid residues */}
+//         {Array.from({ length: 7 }).map((_, i) => (
+//           <circle
+//             key={i}
+//             cx={15 + i * 12}
+//             cy={20 + Math.sin(foldState + i) * 10}
+//             r="2"
+//             fill="#facc15"
+//             className="transition-all duration-1000 animate-pulse"
+//             style={{ animationDelay: `${i * 0.2}s` }}
+//           />
+//         ))}
+//       </svg>
+//     </div>
+//   );
+// };
 
 // Ecosystem Food Chain Animation
 // const EcosystemChain: React.FC = () => {
@@ -1259,12 +1255,12 @@ export default function Home() {
       label: "GitHub",
       particles: [Star, Circle],
     },
-    {
-      icon: Twitter,
-      href: "#",
-      label: "Twitter",
-      particles: [Sparkles, Triangle],
-    },
+    // {
+    //   icon: Twitter,
+    //   href: "#",
+    //   label: "Twitter",
+    //   particles: [Sparkles, Triangle],
+    // },
     {
       icon: Mail,
       href: "mailto:oyageshio@ucdavis.edu",
@@ -1410,14 +1406,14 @@ export default function Home() {
 
               <BioAnimatedSection delay={600}>
                 <h1 className="mb-4 text-4xl font-bold text-yellow-400 lg:text-5xl">
-                  Hi, I&#39;m Oshiomah P. Oyageshio
+                   Oshiomah P. Oyageshio
                 </h1>
               </BioAnimatedSection>
 
               <BioAnimatedSection delay={1000}>
-                <h2 className="flex items-center justify-center gap-4 mb-6 text-xl text-gray-300 lg:text-2xl lg:justify-start">
-                  <div className="flex items-center space-x-2">
-                    <FlaskConical
+                <h2 className="flex items-center justify-center gap-4 mb-6 text-xl text-center text-gray-300 lg:text-2xl lg:justify-start">
+                  <div className="flex items-center text-center">
+                    {/* <FlaskConical
                       className="text-yellow-400 animate-pulse"
                       size={28}
                     />
@@ -1426,13 +1422,13 @@ export default function Home() {
                       className="text-yellow-400 animate-spin"
                       size={28}
                       style={{ animationDuration: "3s" }}
-                    />
+                    /> */}
                   </div>
-                  <span className="text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text">
-                    Interdisciplinary Scientist
+                  <span className="text-center text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text">
+                    Bioinformatics & Population Genetics
                   </span>
                   <div className="flex items-center space-x-2">
-                    <Brain
+                    {/* <Brain
                       className="text-yellow-400 animate-pulse"
                       size={28}
                       style={{ animationDelay: "1s" }}
@@ -1442,7 +1438,7 @@ export default function Home() {
                       className="text-yellow-400 animate-bounce"
                       size={28}
                       style={{ animationDelay: "0.5s" }}
-                    />
+                    /> */}
                   </div>
                 </h2>
               </BioAnimatedSection>
@@ -1457,7 +1453,7 @@ export default function Home() {
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-transparent animate-pulse"></div>
                   <p className="relative z-10 flex items-start gap-3">
                     <div className="flex flex-col space-y-2">
-                      <BookOpen
+                      {/* <BookOpen
                         className="text-yellow-400 animate-pulse"
                         size={20}
                       />
@@ -1465,7 +1461,7 @@ export default function Home() {
                         className="text-yellow-400 animate-spin"
                         size={16}
                         style={{ animationDuration: "4s" }}
-                      />
+                      /> */}
                     </div>
                     I am a 6th Year PhD Candidate at UCDavis in the Population
                     Biology Department supervised by Dr. Brenna Henn.
@@ -1638,7 +1634,7 @@ export default function Home() {
                     <div className="absolute rounded-full -inset-2 bg-yellow-400/20 animate-ping"></div>
                   </div>
                   Curriculum Vitae
-                  <div className="flex space-x-2">
+                  {/* <div className="flex space-x-2">
                     {[BookOpen, Search, Target].map((Icon, i) => (
                       <Icon
                         key={i}
@@ -1647,7 +1643,7 @@ export default function Home() {
                         style={{ animationDelay: `${i * 0.3}s` }}
                       />
                     ))}
-                  </div>
+                  </div> */}
                 </h2>
 
                 <a
@@ -1661,10 +1657,10 @@ export default function Home() {
                     className="relative z-10 group-hover:animate-bounce"
                   />
                   <span className="relative z-10">Download CV</span>
-                  <Sparkles
+                  {/* <Sparkles
                     size={16}
                     className="relative z-10 group-hover:animate-spin"
-                  />
+                  /> */}
                 </a>
               </div>
             </BioAnimatedSection>
@@ -1677,13 +1673,13 @@ export default function Home() {
 
                   <h3 className="relative z-10 flex items-center gap-4 pb-2 mb-8 text-2xl font-bold text-yellow-400 transition-all duration-300 border-b-2 border-yellow-400 group-hover:border-yellow-300">
                     <div className="flex items-center space-x-2">
-                      <BookOpen size={28} className="animate-pulse" />
+                      {/* <BookOpen size={28} className="animate-pulse" />
                       <Brain size={24} className="animate-bounce" />
-                      <Lightbulb size={20} className="animate-ping" />
+                      <Lightbulb size={20} className="animate-ping" /> */}
                     </div>
                     Education
                     <div className="ml-auto">
-                      <ProteinFolding />
+                      {/* <ProteinFolding /> */}
                     </div>
                   </h3>
 
@@ -1717,7 +1713,7 @@ export default function Home() {
                               <div className="flex items-center gap-2 mb-2 font-semibold text-yellow-400">
                                 <Calendar size={16} className="animate-pulse" />
                                 {edu.years}
-                                <Sparkles size={12} className="animate-ping" />
+                                {/* <Sparkles size={12} className="animate-ping" /> */}
                               </div>
                               <h4 className="mb-2 text-xl font-bold transition-colors duration-300 group-hover:text-yellow-400">
                                 {edu.degree}
@@ -1743,9 +1739,9 @@ export default function Home() {
                 <div>
                   <h3 className="relative z-10 flex items-center gap-4 pb-2 mb-8 text-2xl font-bold text-yellow-400 transition-all duration-300 border-b-2 border-yellow-400 group-hover:border-yellow-300">
                     <div className="flex items-center space-x-2">
-                      <FlaskConical size={28} className="animate-pulse" />
+                      {/* <FlaskConical size={28} className="animate-pulse" />
                       <Microscope size={24} className="animate-bounce" />
-                      <Target size={20} className="animate-ping" />
+                      <Target size={20} className="animate-ping" /> */}
                     </div>
                     Professional Experience
                   </h3>
@@ -1797,9 +1793,9 @@ export default function Home() {
                 <div>
                   <h3 className="flex items-center gap-4 pb-2 mb-8 text-2xl font-bold text-yellow-400 border-b-2 border-yellow-400">
                     <div className="flex items-center space-x-2">
-                      <Atom size={28} className="animate-pulse" />
+                      {/* <Atom size={28} className="animate-pulse" />
                       <Zap size={24} className="animate-bounce" />
-                      <Brain size={20} className="animate-ping" />
+                      <Brain size={20} className="animate-ping" /> */}
                     </div>
                     Technical Proficiencies
                   </h3>
@@ -1854,7 +1850,7 @@ export default function Home() {
                     <div className="flex items-center space-x-2">
                       <BookOpen size={28} className="animate-pulse" />
                       <Search size={24} className="animate-bounce" />
-                      <Award size={20} className="animate-ping" />
+                      {/* <Award size={20} className="animate-ping" /> */}
                     </div>
                     Selected Publications
                   </h3>
