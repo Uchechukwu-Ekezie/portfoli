@@ -2,33 +2,33 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import {
-  Dna,
-  Atom,
+  // Dna,
+  // Atom,
   // Brain,
   // Heart,
-  Microscope,
-  FlaskConical,
+  // Microscope,
+  // FlaskConical,
   // Leaf,
   // Bug,
   // Fish,
   // TreePine,
-  Sparkles,
-  Star,
-  Circle,
-  Target,
+  // Sparkles,
+  // Star,
+  // Circle,
+  // Target,
   // Telescope,
   // TestTube,
   // Beaker,
   // Activity,
   // Zap,
   // Eye,
-  Globe,
-  Users,
+  // Globe,
+  // Users,
   Award,
-  LucideIcon,
-  Database,
-  BarChart3,
-  TrendingUp,
+  // LucideIcon,
+  // Database,
+  // BarChart3,
+  // TrendingUp,
 } from "lucide-react";
 
 // Types
@@ -48,14 +48,14 @@ interface BioAnimatedSectionProps {
   delay?: number;
 }
 
-interface FloatingIcon {
-  component: LucideIcon;
-  x: number;
-  y: number;
-  size: number;
-  duration: number;
-  delay: number;
-}
+// interface FloatingIcon {
+//   component: LucideIcon;
+//   x: number;
+//   y: number;
+//   size: number;
+//   duration: number;
+//   delay: number;
+// }
 
 interface Project {
   title: string;
@@ -214,7 +214,6 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
   delay = 0,
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [revealParticles, setRevealParticles] = useState<FloatingIcon[]>([]);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -223,17 +222,6 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
         if (entry.isIntersecting) {
           setTimeout(() => {
             setIsVisible(true);
-            // Generate reveal particles
-            setRevealParticles(
-              Array.from({ length: 3 }).map((_, i) => ({
-                component: [Sparkles, Star, Circle][i],
-                x: Math.random() * 100,
-                y: Math.random() * 100,
-                size: 12 + Math.random() * 8,
-                duration: 2 + Math.random() * 2,
-                delay: i * 0.2,
-              }))
-            );
           }, delay);
         }
       },
@@ -259,7 +247,7 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
       {children}
 
       {/* Reveal particles */}
-      {isVisible && (
+      {/* {isVisible && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {revealParticles.map((particle, i) => {
             const IconComponent = particle.component;
@@ -279,7 +267,7 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
             );
           })}
         </div>
-      )}
+      )} */}
     </div>
   );
 };
@@ -289,14 +277,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
   project,
 }) => {
   const [hoveredTech, setHoveredTech] = useState<number | null>(null);
-  const [rotation, setRotation] = useState<number>(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRotation((prev) => prev + 0.5);
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -314,7 +294,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
   return (
     <div className="relative transition-all duration-500 border border-gray-700 rounded-lg group bg-gray-900/50 backdrop-blur-sm hover:bg-gray-800/70 hover:border-yellow-400/30 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/10">
       {/* Background particles */}
-      <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
+      {/* <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
@@ -333,17 +313,17 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
               })}
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Orbital ring effect */}
-      <div
+      {/* <div
         className="absolute inset-0 transition-opacity duration-500 border border-yellow-400 rounded-lg opacity-0 group-hover:opacity-10"
         style={{
           margin: "10px",
           transform: `rotate(${rotation}deg)`,
           transformOrigin: "center",
         }}
-      />
+      /> */}
 
       <div className="relative z-10 p-6">
         <div className="flex items-start justify-between mb-4">
@@ -374,10 +354,10 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
               {tech}
               {hoveredTech === techIndex && (
                 <div className="absolute -top-1 -right-1">
-                  <Sparkles
+                  {/* <Sparkles
                     size={10}
                     className="text-yellow-400 animate-ping"
-                  />
+                  /> */}
                 </div>
               )}
             </span>
@@ -467,53 +447,53 @@ export default function Projects() {
       demo: "https://oyageshio.wixsite.com/oshi-omics/projects",
       status: "Active",
     },
-    {
-      title: "TB Immune Cell Classification",
-      description:
-        "Comprehensive immune cell classification and characterization pipeline to uncover disease-specific immune signatures and cell-type-specific responses in tuberculosis patients using advanced computational methods.",
-      technologies: [
-        "Python",
-        "R",
-        "Cell Classification",
-        "Immunology",
-        "Machine Learning",
-      ],
-      github: "#",
-      demo: "https://oyageshio.wixsite.com/oshi-omics/projects",
-      status: "Active",
-    },
-    {
-      title: "TB Differential Gene Expression",
-      description:
-        "Conducting differential gene expression analysis to pinpoint key genes and pathways associated with TB susceptibility and progression, utilizing state-of-the-art bioinformatics approaches.",
-      technologies: [
-        "R",
-        "Python",
-        "DESeq2",
-        "Pathway Analysis",
-        "Genomics",
-        "Statistics",
-      ],
-      github: "#",
-      demo: "https://oyageshio.wixsite.com/oshi-omics/projects",
-      status: "Active",
-    },
-    {
-      title: "TB eQTL Discovery Pipeline",
-      description:
-        "Discovering disease- and ancestry-associated quantitative trait expression loci (eQTLs) to uncover genetic variants influencing immune gene regulation in admixed populations affected by tuberculosis.",
-      technologies: [
-        "Python",
-        "R",
-        "eQTL Analysis",
-        "Population Genetics",
-        "GWAS",
-        "Genomics",
-      ],
-      github: "#",
-      demo: "https://oyageshio.wixsite.com/oshi-omics/projects",
-      status: "Active",
-    },
+    // {
+    //   title: "TB Immune Cell Classification",
+    //   description:
+    //     "Comprehensive immune cell classification and characterization pipeline to uncover disease-specific immune signatures and cell-type-specific responses in tuberculosis patients using advanced computational methods.",
+    //   technologies: [
+    //     "Python",
+    //     "R",
+    //     "Cell Classification",
+    //     "Immunology",
+    //     "Machine Learning",
+    //   ],
+    //   github: "#",
+    //   demo: "https://oyageshio.wixsite.com/oshi-omics/projects",
+    //   status: "Active",
+    // },
+    // {
+    //   title: "TB Differential Gene Expression",
+    //   description:
+    //     "Conducting differential gene expression analysis to pinpoint key genes and pathways associated with TB susceptibility and progression, utilizing state-of-the-art bioinformatics approaches.",
+    //   technologies: [
+    //     "R",
+    //     "Python",
+    //     "DESeq2",
+    //     "Pathway Analysis",
+    //     "Genomics",
+    //     "Statistics",
+    //   ],
+    //   github: "#",
+    //   demo: "https://oyageshio.wixsite.com/oshi-omics/projects",
+    //   status: "Active",
+    // },
+    // {
+    //   title: "TB eQTL Discovery Pipeline",
+    //   description:
+    //     "Discovering disease- and ancestry-associated quantitative trait expression loci (eQTLs) to uncover genetic variants influencing immune gene regulation in admixed populations affected by tuberculosis.",
+    //   technologies: [
+    //     "Python",
+    //     "R",
+    //     "eQTL Analysis",
+    //     "Population Genetics",
+    //     "GWAS",
+    //     "Genomics",
+    //   ],
+    //   github: "#",
+    //   demo: "https://oyageshio.wixsite.com/oshi-omics/projects",
+    //   status: "Active",
+    // },
     {
       title: "CAAPA Pathogenic Variant Annotation",
       description:
@@ -527,7 +507,7 @@ export default function Projects() {
       ],
       github: "#",
       demo: "#",
-      status: "Published",
+      status: "Active",
     },
   ];
 
@@ -556,7 +536,7 @@ export default function Projects() {
             </h1>
             <div className="flex items-center justify-center gap-4 mb-4">
               <div className="w-16 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
-              <div className="flex space-x-2">
+              {/* <div className="flex space-x-2">
                 {[FlaskConical, Database].map((Icon, i) => (
                   <Icon
                     key={i}
@@ -565,7 +545,7 @@ export default function Projects() {
                     style={{ animationDelay: `${i * 0.3}s` }}
                   />
                 ))}
-              </div>
+              </div> */}
               <div className="w-16 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
             </div>
             <p className="max-w-3xl mx-auto text-lg text-gray-400">
@@ -607,7 +587,7 @@ export default function Projects() {
         <BioAnimatedSection delay={1000} className="mt-16">
           <div className="relative p-8 border rounded-lg bg-gradient-to-br from-gray-900/80 via-gray-800/50 to-gray-900/80 border-yellow-400/30 backdrop-blur-sm">
             {/* Background decorative elements */}
-            <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
+            {/* <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
@@ -626,7 +606,7 @@ export default function Projects() {
                     )}
                 </div>
               ))}
-            </div>
+            </div> */}
 
             <div className="relative z-10">
               <h3 className="flex items-center gap-4 mb-6 text-3xl font-bold text-yellow-400">
@@ -634,7 +614,7 @@ export default function Projects() {
                   <Award className="animate-pulse" size={32} />
                 </div>
                 Research Impact & Goals
-                <div className="flex space-x-2">
+                {/* <div className="flex space-x-2">
                   {[Sparkles, Star, Circle].map((Icon, i) => (
                     <Icon
                       key={i}
@@ -643,7 +623,7 @@ export default function Projects() {
                       style={{ animationDelay: `${i * 0.4}s` }}
                     />
                   ))}
-                </div>
+                </div> */}
               </h3>
               <p className="text-lg leading-relaxed text-gray-300">
                 My research directly contributes to understanding tuberculosis

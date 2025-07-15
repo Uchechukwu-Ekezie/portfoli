@@ -3,46 +3,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
-  Dna,
-  // Atom,
-  // Brain,
-  // Heart,
-  Microscope,
-  FlaskConical,
-  // Leaf,
-  // Bug,
-  // Fish,
-  // TreePine,
-  Sparkles,
-  Star,
-  Circle,
-  Target,
-  Telescope,
-  TestTube,
-  Beaker,
-  Activity,
-  Zap,
+  // Dna,
+  // Microscope,
+  // FlaskConical,
+  // Beaker,
+  // Activity,
   Eye,
-  // BookOpen,
   Search,
   Globe,
   Users,
-  Award,
   LucideIcon,
 } from "lucide-react";
 import show from "../../../public/daviduncle.jpg";
 
 // Types
-// interface BioParticle {
-//   id: number;
-//   x: number;
-//   y: number;
-//   icon: LucideIcon;
-//   size: number;
-//   duration: number;
-//   delay: number;
-// }
-
 interface BioAnimatedSectionProps {
   children: React.ReactNode;
   className?: string;
@@ -60,82 +34,25 @@ interface FloatingIcon {
 
 // Floating Background Particles
 const FloatingBioParticles: React.FC = () => {
-  // const [particles, setParticles] = useState<BioParticle[]>([]);
-
-  useEffect(() => {
-    // const biologicalIcons: LucideIcon[] = [
-    //   Dna,
-    //   Atom,
-    //   Brain,
-    //   Heart,
-    //   Microscope,
-    //   FlaskConical,
-    //   Leaf,
-    //   Bug,
-    //   Fish,
-    //   TreePine,
-    //   Sparkles,
-    //   Star,
-    //   Circle,
-    //   Target,
-    //   Telescope,
-    //   TestTube,
-    //   Beaker,
-    //   Activity,
-    //   Zap,
-    //   Eye,
-    // ];
-
-    // const newParticles: BioParticle[] = Array.from({ length: 15 }).map(
-    //   (_, i) => ({
-    //     id: i,
-    //     x: Math.random() * 100,
-    //     y: Math.random() * 100,
-    //     icon: biologicalIcons[
-    //       Math.floor(Math.random() * biologicalIcons.length)
-    //     ],
-    //     size: Math.random() * 8 + 16,
-    //     duration: Math.random() * 10 + 8,
-    //     delay: Math.random() * 5,
-    //   })
-    // );
-    // setParticles(newParticles);
-  }, []);
-
-  return (
-    // <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none opacity-10">
-    //   {particles.map((particle) => {
-    //     const IconComponent = particle.icon;
-    //     return (
-    //       <div
-    //         key={particle.id}
-    //         className="absolute text-yellow-400 animate-float"
-    //         style={{
-    //           left: `${particle.x}%`,
-    //           top: `${particle.y}%`,
-    //           animationDuration: `${particle.duration}s`,
-    //           animationDelay: `${particle.delay}s`,
-    //         }}
-    //       >
-    //         <IconComponent size={particle.size} />
-    //       </div>
-    //     );
-    //   })}
-    // </div>
-    <div></div>
-  );
+  return <div></div>;
 };
 
 // DNA Strand Background
 const DNAStrand: React.FC = () => {
   const [time, setTime] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const interval = setInterval(() => {
       setTime((prev) => prev + 0.02);
     }, 50);
     return () => clearInterval(interval);
   }, []);
+
+  if (!isClient) {
+    return <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-8"></div>;
+  }
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-8">
@@ -206,26 +123,20 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
   delay = 0,
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [revealParticles, setRevealParticles] = useState<FloatingIcon[]>([]);
+  const [revealParticles] = useState<FloatingIcon[]>([]);
+  const [isClient, setIsClient] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setIsClient(true);
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setIsVisible(true);
-            // Generate reveal particles
-            setRevealParticles(
-              Array.from({ length: 3 }).map((_, i) => ({
-                component: [Sparkles, Star, Circle][i],
-                x: Math.random() * 100,
-                y: Math.random() * 100,
-                size: 12 + Math.random() * 8,
-                duration: 2 + Math.random() * 2,
-                delay: i * 0.2,
-              }))
-            );
+            // Generate reveal particles with consistent values
+          
           }, delay);
         }
       },
@@ -251,7 +162,7 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
       {children}
 
       {/* Reveal particles */}
-      {isVisible && (
+      {isVisible && isClient && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {revealParticles.map((particle, i) => {
             const IconComponent = particle.component;
@@ -279,8 +190,10 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
 // Enhanced Profile Image with Molecular Orbit
 const EnhancedProfileImage: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const interval = setInterval(() => {
       setRotation((prev) => prev + 0.5);
     }, 50);
@@ -318,8 +231,8 @@ const EnhancedProfileImage: React.FC = () => {
           </div>
         </div>
 
-        {/* Orbital rings */}
-        {Array.from({ length: 4 }).map((_, i) => (
+        {/* Orbital rings - only show on client */}
+        {isClient && Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
             className="absolute inset-0 border border-yellow-400 rounded-lg opacity-20"
@@ -330,54 +243,7 @@ const EnhancedProfileImage: React.FC = () => {
             }}
           />
         ))}
-
-        {/* Floating scientific icons */}
-        {/* {[
-          { icon: Dna, position: "top-4 right-4", delay: "0s" },
-          { icon: Brain, position: "bottom-4 left-4", delay: "1s" },
-          { icon: Atom, position: "top-4 left-4", delay: "2s" },
-          { icon: Heart, position: "bottom-4 right-4", delay: "1.5s" },
-        ].map(({ icon: Icon, position, delay }, i) => (
-          <div
-            key={i}
-            className={`absolute ${position} text-yellow-400 opacity-0 group-hover:opacity-80 transition-opacity duration-500 animate-float`}
-            style={{ animationDelay: delay, animationDuration: "4s" }}
-          >
-            <Icon size={24} />
-          </div>
-        ))} */}
       </div>
-
-      {/* Orbiting particles */}
-      {/* {Array.from({ length: 6 }).map((_, i) => {
-        const angle = (rotation + i * 60) * (Math.PI / 180);
-        const radius = 180;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-
-        return (
-          <div
-            key={i}
-            className="absolute text-yellow-400 top-1/2 left-1/2 opacity-40"
-            style={{
-              transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`,
-            }}
-          >
-            {[Microscope, FlaskConical, TestTube, , Target, BookOpen][i] &&
-              React.createElement(
-                [
-                  Microscope,
-                  FlaskConical,
-                  TestTube,
-                  Telescope,
-                  Target,
-                  BookOpen,
-                ][i],
-                { size: 20 }
-              )}
-          </div>
-        );
-      })} */}
     </div>
   );
 };
@@ -392,23 +258,6 @@ const ResearchCard: React.FC<{
 
   return (
     <div className="relative p-6 transition-all duration-300 border border-gray-700 rounded-lg bg-gray-800/50 backdrop-blur-sm hover:bg-gray-800/70 hover:border-yellow-400/30 hover:scale-105 group">
-      {/* Background particles */}
-      <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute text-yellow-400 transition-opacity duration-500 opacity-0 group-hover:opacity-20"
-            style={{
-              left: `${20 + i * 30}%`,
-              top: `${20 + i * 25}%`,
-              animationDelay: `${i * 0.3}s`,
-            }}
-          >
-            <Sparkles size={16} className="animate-pulse" />
-          </div>
-        ))}
-      </div>
-
       <div className="relative z-10">
         <h3 className="flex items-center gap-3 mb-4 text-xl font-bold text-yellow-400 transition-colors group-hover:text-yellow-300">
           <div className="p-2 transition-colors rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
@@ -433,11 +282,6 @@ const ResearchCard: React.FC<{
               />
               <span className="relative">
                 {item}
-                {hoveredItem === index && (
-                  <div className="absolute top-0 -right-4">
-                    <Zap size={12} className="text-yellow-400 animate-ping" />
-                  </div>
-                )}
               </span>
             </li>
           ))}
@@ -449,8 +293,10 @@ const ResearchCard: React.FC<{
 
 export default function About() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -482,15 +328,17 @@ export default function About() {
       <FloatingBioParticles />
       <DNAStrand />
 
-      {/* Mouse follower */}
-      <div
-        className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
-        style={{
-          left: mousePosition.x - 6,
-          top: mousePosition.y - 6,
-          transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
-        }}
-      />
+      {/* Mouse follower - only show on client */}
+      {isClient && (
+        <div
+          className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
+          style={{
+            left: mousePosition.x - 6,
+            top: mousePosition.y - 6,
+            transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
+          }}
+        />
+      )}
 
       <div className="relative z-10 max-w-6xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
         {/* Header */}
@@ -502,14 +350,11 @@ export default function About() {
             <div className="flex items-center justify-center gap-4 mb-4">
               <div className="w-16 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
               <div className="flex space-x-2">
-                {[Dna].map((Icon, i) => (
-                  <Icon
-                    key={i}
-                    size={20}
-                    className="text-yellow-400 animate-bounce"
-                    style={{ animationDelay: `${i * 0.3}s` }}
-                  />
-                ))}
+                {/* <Dna
+                  size={20}
+                  className="text-yellow-400 animate-bounce"
+                  style={{ animationDelay: "0s" }}
+                /> */}
               </div>
               <div className="w-16 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
             </div>
@@ -534,7 +379,7 @@ export default function About() {
                 <h2 className="flex items-center gap-3 mb-6 text-3xl font-bold text-yellow-400">
                   <Users className="animate-pulse" size={32} />
                   My Journey
-                  <Activity className="animate-bounce" size={24} />
+                  {/* <Activity className="animate-bounce" size={24} /> */}
                 </h2>
                 <div className="space-y-4 leading-relaxed text-gray-300">
                   <p>
@@ -544,10 +389,6 @@ export default function About() {
                   </p>
                   <div className="ml-4 space-y-3">
                     <div className="flex items-start gap-3">
-                      <Target
-                        className="flex-shrink-0 mt-1 text-yellow-400"
-                        size={16}
-                      />
                       <span>
                         Identifying sociodemographic, genetic, and
                         transcriptomic correlates of active tuberculosis
@@ -555,10 +396,6 @@ export default function About() {
                       </span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Target
-                        className="flex-shrink-0 mt-1 text-yellow-400"
-                        size={16}
-                      />
                       <span>
                         Optimizing statistical methods to analyze genetic data
                         from diverse human populations
@@ -585,12 +422,11 @@ export default function About() {
                     style={{ animationDuration: "3s" }}
                   />
                   Future Aspirations
-                  <Zap className="animate-pulse" size={20} />
                 </h3>
                 <p className="leading-relaxed text-gray-300">
                   After graduation, I aspire to transition into industry, where
                   I can apply the computational and analytical skills honed
-                  during my PhD to advance health therapeutics
+                  during my PhD to advance health therapeutics
                 </p>
               </div>
             </BioAnimatedSection>
@@ -621,36 +457,22 @@ export default function About() {
           <div className="relative p-8 border rounded-lg bg-gradient-to-br from-gray-900/80 via-gray-800/50 to-gray-900/80 border-yellow-400/30 backdrop-blur-sm">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
-              {Array.from({ length: 6 }).map((_, i) => (
+              {Array.from({ length: 4 }).map((_, i) => (
                 <div
                   key={i}
                   className="absolute text-yellow-400 opacity-10"
                   style={{
-                    left: `${10 + i * 15}%`,
-                    top: `${20 + (i % 3) * 30}%`,
+                    left: `${10 + i * 20}%`,
+                    top: `${20 + (i % 2) * 40}%`,
                     animation: `float ${8 + i}s linear infinite`,
                     animationDelay: `${i * 1.2}s`,
                   }}
                 >
-                  {[
-                    FlaskConical,
-                    TestTube,
-                    Beaker,
-                    Microscope,
-                    Telescope,
-                    Award,
-                  ][i] &&
+                  {/* {[FlaskConical, Beaker, Microscope, Dna][i] &&
                     React.createElement(
-                      [
-                        FlaskConical,
-                        TestTube,
-                        Beaker,
-                        Microscope,
-                        Telescope,
-                        Award,
-                      ][i],
+                      [FlaskConical, Beaker, Microscope, Dna][i],
                       { size: 24 }
-                    )}
+                    )} */}
                 </div>
               ))}
             </div>
@@ -658,19 +480,9 @@ export default function About() {
             <div className="relative z-10">
               <h3 className="flex items-center gap-4 mb-6 text-3xl font-bold text-yellow-400">
                 <div className="p-3 rounded-full bg-yellow-400/20">
-                  <FlaskConical className="animate-pulse" size={32} />
+                  {/* <FlaskConical className="animate-pulse" size={32} /> */}
                 </div>
                 Current Work & Impact
-                <div className="flex space-x-2">
-                  {[Sparkles, Star, Circle].map((Icon, i) => (
-                    <Icon
-                      key={i}
-                      size={16}
-                      className="text-yellow-400 animate-ping"
-                      style={{ animationDelay: `${i * 0.4}s` }}
-                    />
-                  ))}
-                </div>
               </h3>
               <p className="text-lg leading-relaxed text-gray-300">
                 My research directly contributes to understanding tuberculosis
