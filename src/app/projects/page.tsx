@@ -429,7 +429,7 @@ export default function Projects() {
       ],
       github: "#",
       demo: "https://oyageshio.wixsite.com/oshi-omics/projects",
-      status: "Active",
+      status: "Published",
     },
     {
       title: "TB scRNA-seq Immunogenetic Analysis",
