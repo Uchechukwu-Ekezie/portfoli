@@ -87,13 +87,6 @@ interface MembranePoint {
 //   amplitude: number;
 // }
 
-interface Orbital {
-  id: number;
-  radius: number;
-  speed: number;
-  phase: number;
-  inclination: number;
-}
 
 // interface BioParticle {
 //   id: number;
@@ -148,11 +141,6 @@ interface MousePosition {
   y: number;
 }
 
-interface Rotation {
-  x: number;
-  y: number;
-  z: number;
-}
 
 // Component Props
 
@@ -175,7 +163,7 @@ const DNAHelix = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-12">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-12 hidden sm:block">
       <svg className="w-full h-full" viewBox="0 0 400 1200">
         <defs>
           <linearGradient id="dnaGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -367,7 +355,7 @@ const CellMembrane: React.FC = () => {
   }, []);
 
   return (
-    <div className="absolute top-0 left-0 w-full h-32 pointer-events-none opacity-20">
+    <div className="absolute top-0 left-0 w-full h-32 pointer-events-none opacity-20 hidden sm:block">
       <svg className="w-full h-full" viewBox="0 0 100 30">
         <defs>
           <linearGradient
@@ -715,191 +703,6 @@ const CellMembrane: React.FC = () => {
 //   );
 // };
 
-// Enhanced 3D Molecular Sphere with Orbiting Elements
-const AdvancedMolecularSphere: React.FC = () => {
-  const [rotation, setRotation] = useState<Rotation>({ x: 0, y: 0, z: 0 });
-  const [orbitals, setOrbitals] = useState<Orbital[]>([]);
-
-  useEffect(() => {
-    // Create orbital elements
-    const newOrbitals: Orbital[] = Array.from({ length: 12 }).map((_, i) => ({
-      id: i,
-      radius: 60 + i * 15,
-      speed: 0.5 + i * 0.2,
-      phase: i * 30,
-      inclination: i * 15,
-    }));
-    setOrbitals(newOrbitals);
-
-    const interval = setInterval(() => {
-      setRotation((prev) => ({
-        x: prev.x + 0.3,
-        y: prev.y + 0.7,
-        z: prev.z + 0.2,
-      }));
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="relative mx-auto w-96 h-96 perspective-1000">
-      <div
-        className="relative w-full h-full preserve-3d"
-        style={{
-          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) rotateZ(${rotation.z}deg)`,
-        }}
-      >
-        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 200">
-          <defs>
-            <radialGradient
-              id="advancedSphereGradient"
-              cx="50%"
-              cy="50%"
-              r="50%"
-            >
-              <stop offset="0%" stopColor="#facc15" stopOpacity="1" />
-              <stop offset="30%" stopColor="#eab308" stopOpacity="0.8" />
-              <stop offset="60%" stopColor="#ca8a04" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#854d0e" stopOpacity="0.2" />
-            </radialGradient>
-            <filter id="advancedSphereGlow">
-              <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            <linearGradient
-              id="orbitalGradient"
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="0%"
-            >
-              <stop offset="0%" stopColor="#facc15" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#ca8a04" stopOpacity="0.3" />
-            </linearGradient>
-          </defs>
-
-          {/* Complex orbital patterns */}
-          {orbitals.map((orbital, i) => (
-            <g key={orbital.id}>
-              <circle
-                cx="100"
-                cy="100"
-                r={orbital.radius}
-                fill="none"
-                stroke="url(#orbitalGradient)"
-                strokeWidth="1.5"
-                strokeDasharray="3,2"
-                className="animate-spin"
-                style={{
-                  animationDuration: `${20 + i * 3}s`,
-                  animationDirection: i % 2 ? "reverse" : "normal",
-                }}
-              />
-
-              {/* Orbital electrons */}
-              <circle
-                cx={
-                  100 +
-                  Math.cos(rotation.y * 0.01 + orbital.phase) * orbital.radius
-                }
-                cy={
-                  100 +
-                  Math.sin(rotation.y * 0.01 + orbital.phase) * orbital.radius
-                }
-                r="2"
-                fill="#facc15"
-                filter="url(#advancedSphereGlow)"
-                className="animate-pulse"
-                style={{ animationDelay: `${i * 0.3}s` }}
-              />
-            </g>
-          ))}
-
-          {/* Electron shells */}
-          {Array.from({ length: 8 }).map((_, i) => (
-            <ellipse
-              key={`shell-${i}`}
-              cx="100"
-              cy="100"
-              rx="90"
-              ry={30 + Math.sin((i * Math.PI) / 4) * 40}
-              fill="none"
-              stroke="url(#advancedSphereGradient)"
-              strokeWidth="2"
-              transform={`rotate(${i * 22.5} 100 100)`}
-              filter="url(#advancedSphereGlow)"
-              className="animate-pulse"
-              style={{ animationDelay: `${i * 0.5}s` }}
-            />
-          ))}
-
-          {/* Central nucleus with detail */}
-          <circle
-            cx="100"
-            cy="100"
-            r="12"
-            fill="url(#advancedSphereGradient)"
-            filter="url(#advancedSphereGlow)"
-            className="animate-ping"
-          />
-          <circle
-            cx="100"
-            cy="100"
-            r="8"
-            fill="#facc15"
-            className="animate-pulse"
-          />
-
-          {/* Quantum field fluctuations */}
-          {Array.from({ length: 20 }).map((_, i) => (
-            <circle
-              key={`quantum-${i}`}
-              cx={
-                100 +
-                Math.cos((i * Math.PI) / 10) *
-                  (80 + Math.sin(rotation.x * 0.01) * 20)
-              }
-              cy={
-                100 +
-                Math.sin((i * Math.PI) / 10) *
-                  (80 + Math.cos(rotation.y * 0.01) * 20)
-              }
-              r="1"
-              fill="#facc15"
-              opacity="0.6"
-              className="animate-ping"
-              style={{
-                animationDelay: `${i * 0.1}s`,
-                animationDuration: "2s",
-              }}
-            />
-          ))}
-        </svg>
-      </div>
-
-      {/* Floating biology icons around sphere */}
-      {/* <div className="absolute inset-0 pointer-events-none">
-        {[Dna, Atom, Brain, Heart, Leaf, Bug].map((Icon, i) => (
-          <div
-            key={i}
-            className="absolute text-yellow-400 opacity-40 animate-float"
-            style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + Math.sin(i) * 40}%`,
-              animationDelay: `${i * 1.5}s`,
-              animationDuration: "6s",
-            }}
-          >
-            <Icon size={20} />
-          </div>
-        ))}
-      </div> */}
-    </div>
-  );
-};
 
 // Enhanced Typewriter with Scientific Elements
 // const ScientificTypewriter: React.FC<ScientificTypewriterProps> = ({
@@ -1280,7 +1083,7 @@ export default function Home() {
     "Bash",
     "R",
     "Markdown",
-    "C++",
+  
     "Linux Shell Scripting",
     "UNIX",
   ];
@@ -1298,9 +1101,9 @@ export default function Home() {
       {/* <AdvancedParticleSystem /> */}
       <CellMembrane />
 
-      {/* Mouse follower effect */}
+      {/* Mouse follower effect - hidden on mobile for performance */}
       <div
-        className="fixed z-50 w-4 h-4 transition-all duration-1000 bg-yellow-400 rounded-full pointer-events-none opacity-20"
+        className="hidden sm:block fixed z-50 w-4 h-4 transition-all duration-1000 bg-yellow-400 rounded-full pointer-events-none opacity-20"
         style={{
           left: mousePosition.x - 8,
           top: mousePosition.y - 8,
@@ -1311,25 +1114,164 @@ export default function Home() {
       {/* Left Side - Scrollable Content */}
       <div className="relative z-10 flex-1 overflow-y-auto">
         {/* Hero Section */}
-        <section className="relative flex items-center px-4 pt-24 pb-16 max-w-[1440px] mx-auto min-h-screen sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto lg:mx-0 lg:ml-8">
-            <div className="text-center lg:text-left md:pl-12">
-              {/* Lab Equipment Animation */}
-              {/* <BioAnimatedSection delay={100}>
-                <LabEquipment />
-              </BioAnimatedSection> */}
+        <section className="relative flex items-center px-3 pt-12 pb-6 sm:pt-20 sm:pb-12 lg:pt-24 lg:pb-16 max-w-[1440px] mx-auto min-h-screen sm:px-6 lg:px-8">
+          <div className="w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Left Side - Content */}
+              <div className="text-center lg:text-left order-2 lg:order-1">
+                {/* Lab Equipment Animation */}
+                {/* <BioAnimatedSection delay={100}>
+                  <LabEquipment />
+                </BioAnimatedSection> */}
 
+                <BioAnimatedSection delay={600}>
+                  <h1 className="mb-4 text-3xl font-bold text-yellow-400 sm:text-4xl lg:text-5xl">
+                     Oshiomah P. Oyageshio
+                  </h1>
+                </BioAnimatedSection>
+
+                <BioAnimatedSection delay={1000}>
+                  <h2 className="flex flex-col items-center gap-2 mb-6 text-lg text-center text-gray-300 sm:text-xl lg:text-2xl lg:flex-row lg:justify-start">
+                    <span className="text-center text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text">
+                      Bioinformatics & Population Genetics
+                    </span>
+                  </h2>
+                </BioAnimatedSection>
+
+                {/* Biological Processes Visualization */}
+                {/* <BioAnimatedSection delay={1100}>
+                  <BiologicalProcesses />
+                </BioAnimatedSection> */}
+
+                <BioAnimatedSection delay={1200}>
+                  <div className="relative max-w-lg p-4 sm:p-6 mx-auto mb-6 sm:mb-8 overflow-hidden text-gray-400 border rounded-lg lg:mx-0 bg-gray-900/50 backdrop-blur-sm border-yellow-400/20">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-transparent animate-pulse"></div>
+                    <p className="relative z-10 text-sm sm:text-base">
+                      I am a 6th Year PhD Candidate at UCDavis in the Population
+                      Biology Department supervised by Dr. Brenna Henn.
+                    </p>
+
+                    {/* Floating particles in description */}
+                    {/* <div className="absolute inset-0 pointer-events-none">
+                      {[Sparkles, Star, Circle].map((Icon, i) => (
+                        <Icon
+                          key={i}
+                          size={8}
+                          className="absolute text-yellow-400 opacity-40 animate-ping"
+                          style={{
+                            left: `${20 + i * 25}%`,
+                            top: `${30 + i * 20}%`,
+                            animationDelay: `${i * 0.8}s`,
+                          }}
+                        />
+                      ))}
+                    </div> */}
+                  </div>
+                </BioAnimatedSection>
+
+                <BioAnimatedSection delay={1400}>
+                  <div className="flex flex-col justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 sm:flex-row lg:justify-start">
+                    <Link href="/about">
+                      <button className="relative flex items-center justify-center gap-2 px-4 py-2 sm:px-6 sm:py-3 overflow-hidden text-sm sm:text-base font-medium text-black transition-all duration-300 bg-yellow-400 rounded-md hover:bg-yellow-500 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/25 group">
+                        <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-yellow-300 to-yellow-500 group-hover:opacity-100"></div>
+                        <Users
+                          className="relative z-10 group-hover:animate-spin"
+                          size={18}
+                        />
+                        <span className="relative z-10">About Me</span>
+                        <Sparkles
+                          className="relative z-10 group-hover:animate-ping"
+                          size={14}
+                        />
+                      </button>
+                    </Link>
+                    <Link href="/contact">
+                      <button className="relative flex items-center justify-center gap-2 px-4 py-2 sm:px-6 sm:py-3 overflow-hidden text-sm sm:text-base font-medium text-yellow-400 transition-all duration-300 border border-yellow-400 rounded-md hover:bg-yellow-400 hover:text-black hover:scale-105 group">
+                        <div className="absolute inset-0 transition-transform duration-300 origin-left scale-x-0 bg-yellow-400 group-hover:scale-x-100"></div>
+                        <Mail
+                          className="relative z-10 group-hover:animate-bounce"
+                          size={18}
+                        />
+                        <span className="relative z-10">Contact</span>
+                        <Zap
+                          className="relative z-10 group-hover:animate-pulse"
+                          size={14}
+                        />
+                      </button>
+                    </Link>
+                  </div>
+                </BioAnimatedSection>
+
+                <BioAnimatedSection delay={1600}>
+                  <div className="flex justify-center gap-4 sm:gap-6 mb-6 sm:mb-8 lg:justify-start">
+                    {socialLinks.map((social, index) => (
+                      <a
+                        key={index}
+                        href={social.href}
+                        className="relative p-3 sm:p-4 overflow-hidden text-yellow-400 transition-all duration-300 bg-gray-800 rounded-full group hover:bg-yellow-400 hover:text-black hover:scale-125 hover:rotate-12"
+                        title={social.label}
+                      >
+                        <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-br from-yellow-400/20 to-transparent group-hover:opacity-100"></div>
+
+                        <social.icon size={20} className="relative z-10 sm:w-6 sm:h-6" />
+
+                        {/* Particle effects on hover */}
+                        {/* <div className="absolute inset-0 transition-opacity duration-300 opacity-0 pointer-events-none group-hover:opacity-100">
+                          {social.particles.map((Particle, i) => (
+                            <Particle
+                              key={i}
+                              size={8}
+                              className="absolute text-yellow-400 animate-ping"
+                              style={{
+                                left: `${20 + i * 40}%`,
+                                top: `${20 + i * 40}%`,
+                                animationDelay: `${i * 0.3}s`,
+                              }}
+                            />
+                          ))}
+                        </div> */}
+
+                        <div className="absolute px-2 py-1 text-xs text-white transition-opacity duration-300 transform -translate-x-1/2 bg-gray-800 rounded opacity-0 -top-10 left-1/2 group-hover:opacity-100 whitespace-nowrap">
+                          {social.label}
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </BioAnimatedSection>
+
+                <div className="text-center lg:text-left">
+                  <div className="inline-flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-yellow-400 rounded-full bg-gray-900/50 backdrop-blur-sm">
+                    <ChevronDown
+                      className="animate-bounce"
+                      size={24}
+                      style={{
+                        transform: `translateY(${
+                          Math.sin(scrollY * 0.01) * 5
+                        }px)`,
+                        animationDuration: "2s",
+                      }}
+                    />
+                    <span className="text-xs sm:text-sm animate-pulse">
+                      Scroll to explore the journey
+                    </span>
+                    <Activity className="animate-pulse" size={14} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Side - Profile Image */}
+              <div className="flex justify-center lg:justify-end order-1 lg:order-2">
               <BioAnimatedSection delay={200}>
-                <div className="relative mb-8 group">
-                  <div className="relative mx-auto overflow-hidden border-4 border-yellow-400 rounded-full w-80 h-80 lg:mx-0 bg-gradient-to-br from-yellow-400/20 to-transparent backdrop-blur-sm">
+                <div className="relative group">
+                  <div className="relative overflow-hidden border-2 sm:border-4 border-yellow-400 rounded-full w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] xl:w-[600px] xl:h-[600px] bg-gradient-to-br from-yellow-400/20 to-transparent backdrop-blur-sm">
                     {/* Enhanced Profile with Multiple Animations */}
                     <div className="relative flex items-center justify-center w-full h-full text-6xl font-bold text-yellow-400 transition-transform duration-500 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 group-hover:scale-105">
                       <Image
                         src={osho}
-                        alt="Jacob West-Roberts"
-                        width={350}
-                        height={350}
-                        className="mx-auto border-4 border-yellow-400 rounded-full lg:mx-0"
+                        alt="Oshiomah P. Oyageshio"
+                        width={600}
+                        height={600}
+                        className="w-full h-full object-cover rounded-full"
                       />
 
                       {/* Cellular structure overlay */}
@@ -1367,7 +1309,7 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Enhanced floating scientific symbols */}
+                  {/* Floating scientific symbols around the image */}
                   {/* <div className="absolute text-yellow-400 -top-6 -right-6 animate-float">
                     <Dna size={40} />
                   </div>
@@ -1399,186 +1341,17 @@ export default function Home() {
                     className="absolute text-yellow-400 top-3/4 -right-6 animate-float"
                     style={{ animationDelay: "0.5s" }}
                   >
-                    <Heart size={26} />
+                    <Activity size={26} />
                   </div> */}
                 </div>
               </BioAnimatedSection>
-
-              <BioAnimatedSection delay={600}>
-                <h1 className="mb-4 text-4xl font-bold text-yellow-400 lg:text-5xl">
-                   Oshiomah P. Oyageshio
-                </h1>
-              </BioAnimatedSection>
-
-              <BioAnimatedSection delay={1000}>
-                <h2 className="flex items-center justify-center gap-4 mb-6 text-xl text-center text-gray-300 lg:text-2xl lg:justify-start">
-                  <div className="flex items-center text-center">
-                    {/* <FlaskConical
-                      className="text-yellow-400 animate-pulse"
-                      size={28}
-                    />
-                 
-                    <Dna
-                      className="text-yellow-400 animate-spin"
-                      size={28}
-                      style={{ animationDuration: "3s" }}
-                    /> */}
-                  </div>
-                  <span className="text-center text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text">
-                    Bioinformatics & Population Genetics
-                  </span>
-                  <div className="flex items-center space-x-2">
-                    {/* <Brain
-                      className="text-yellow-400 animate-pulse"
-                      size={28}
-                      style={{ animationDelay: "1s" }}
-                    />
-                    <Atom className="text-yellow-400 animate-ping" size={28} />
-                    <TestTube
-                      className="text-yellow-400 animate-bounce"
-                      size={28}
-                      style={{ animationDelay: "0.5s" }}
-                    /> */}
-                  </div>
-                </h2>
-              </BioAnimatedSection>
-
-              {/* Biological Processes Visualization */}
-              {/* <BioAnimatedSection delay={1100}>
-                <BiologicalProcesses />
-              </BioAnimatedSection> */}
-
-              <BioAnimatedSection delay={1200}>
-                <div className="relative max-w-lg p-6 mx-auto mb-8 overflow-hidden text-gray-400 border rounded-lg lg:mx-0 bg-gray-900/50 backdrop-blur-sm border-yellow-400/20">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-transparent animate-pulse"></div>
-                  <p className="relative z-10 flex items-start gap-3">
-                    <div className="flex flex-col space-y-2">
-                      {/* <BookOpen
-                        className="text-yellow-400 animate-pulse"
-                        size={20}
-                      />
-                      <Dna
-                        className="text-yellow-400 animate-spin"
-                        size={16}
-                        style={{ animationDuration: "4s" }}
-                      /> */}
-                    </div>
-                    I am a 6th Year PhD Candidate at UCDavis in the Population
-                    Biology Department supervised by Dr. Brenna Henn.
-                  </p>
-
-                  {/* Floating particles in description */}
-                  {/* <div className="absolute inset-0 pointer-events-none">
-                    {[Sparkles, Star, Circle].map((Icon, i) => (
-                      <Icon
-                        key={i}
-                        size={8}
-                        className="absolute text-yellow-400 opacity-40 animate-ping"
-                        style={{
-                          left: `${20 + i * 25}%`,
-                          top: `${30 + i * 20}%`,
-                          animationDelay: `${i * 0.8}s`,
-                        }}
-                      />
-                    ))}
-                  </div> */}
-                </div>
-              </BioAnimatedSection>
-
-              <BioAnimatedSection delay={1400}>
-                <div className="flex flex-col justify-center gap-4 mb-8 sm:flex-row lg:justify-start">
-                  <Link href="/about">
-                    <button className="relative flex items-center gap-2 px-6 py-3 overflow-hidden font-medium text-black transition-all duration-300 bg-yellow-400 rounded-md hover:bg-yellow-500 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/25 group">
-                      <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-yellow-300 to-yellow-500 group-hover:opacity-100"></div>
-                      <Users
-                        className="relative z-10 group-hover:animate-spin"
-                        size={20}
-                      />
-                      <span className="relative z-10">About Me</span>
-                      <Sparkles
-                        className="relative z-10 group-hover:animate-ping"
-                        size={16}
-                      />
-                    </button>
-                  </Link>
-                  <Link href="/contact">
-                    <button className="relative flex items-center gap-2 px-6 py-3 overflow-hidden font-medium text-yellow-400 transition-all duration-300 border border-yellow-400 rounded-md hover:bg-yellow-400 hover:text-black hover:scale-105 group">
-                      <div className="absolute inset-0 transition-transform duration-300 origin-left scale-x-0 bg-yellow-400 group-hover:scale-x-100"></div>
-                      <Mail
-                        className="relative z-10 group-hover:animate-bounce"
-                        size={20}
-                      />
-                      <span className="relative z-10">Contact</span>
-                      <Zap
-                        className="relative z-10 group-hover:animate-pulse"
-                        size={16}
-                      />
-                    </button>
-                  </Link>
-                </div>
-              </BioAnimatedSection>
-
-              <BioAnimatedSection delay={1600}>
-                <div className="flex justify-center gap-6 mb-8 lg:justify-start">
-                  {socialLinks.map((social, index) => (
-                    <a
-                      key={index}
-                      href={social.href}
-                      className="relative p-4 overflow-hidden text-yellow-400 transition-all duration-300 bg-gray-800 rounded-full group hover:bg-yellow-400 hover:text-black hover:scale-125 hover:rotate-12"
-                      title={social.label}
-                    >
-                      <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-br from-yellow-400/20 to-transparent group-hover:opacity-100"></div>
-
-                      <social.icon size={24} className="relative z-10" />
-
-                      {/* Particle effects on hover */}
-                      {/* <div className="absolute inset-0 transition-opacity duration-300 opacity-0 pointer-events-none group-hover:opacity-100">
-                        {social.particles.map((Particle, i) => (
-                          <Particle
-                            key={i}
-                            size={8}
-                            className="absolute text-yellow-400 animate-ping"
-                            style={{
-                              left: `${20 + i * 40}%`,
-                              top: `${20 + i * 40}%`,
-                              animationDelay: `${i * 0.3}s`,
-                            }}
-                          />
-                        ))}
-                      </div> */}
-
-                      <div className="absolute px-3 py-1 text-xs text-white transition-opacity duration-300 transform -translate-x-1/2 bg-gray-800 rounded opacity-0 -top-12 left-1/2 group-hover:opacity-100 whitespace-nowrap">
-                        {social.label}
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </BioAnimatedSection>
-
-              <div className="text-center lg:text-left">
-                <div className="inline-flex items-center gap-3 p-3 text-yellow-400 rounded-full bg-gray-900/50 backdrop-blur-sm">
-                  <ChevronDown
-                    className="animate-bounce"
-                    size={32}
-                    style={{
-                      transform: `translateY(${
-                        Math.sin(scrollY * 0.01) * 5
-                      }px)`,
-                      animationDuration: "2s",
-                    }}
-                  />
-                  <span className="text-sm animate-pulse">
-                    Scroll to explore the journey
-                  </span>
-                  <Activity className="animate-pulse" size={16} />
-                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* CV Section - Enhanced with more biology */}
-        <section className="relative px-4 py-16 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-black to-gray-900">
+        <section className="relative px-3 py-10 sm:py-16 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-black to-gray-900">
           {/* Section background effects */}
           {/* <div className="absolute inset-0 overflow-hidden">
             {Array.from({ length: 10 }).map((_, i) => (
@@ -1624,14 +1397,14 @@ export default function Home() {
 
           <div className="relative z-10 max-w-4xl mx-auto">
             <BioAnimatedSection>
-              <div className="relative flex flex-col items-center justify-between mb-12 sm:flex-row">
-                <h2 className="flex items-center gap-4 mb-4 text-3xl font-bold text-transparent sm:mb-0 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text">
+              <div className="relative flex flex-col items-center justify-between mb-8 sm:mb-12 sm:flex-row">
+                <h2 className="flex items-center gap-3 sm:gap-4 mb-4 text-2xl sm:text-3xl font-bold text-transparent sm:mb-0 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text">
                   <div className="relative">
                     <Award
                       className="text-yellow-400 animate-pulse"
-                      size={32}
+                      size={24}
                     />
-                    <div className="absolute rounded-full -inset-2 bg-yellow-400/20 animate-ping"></div>
+                    <div className="absolute rounded-full -inset-1 sm:-inset-2 bg-yellow-400/20 animate-ping"></div>
                   </div>
                   Curriculum Vitae
                   {/* <div className="flex space-x-2">
@@ -1649,11 +1422,11 @@ export default function Home() {
                 <a
                   href="/cv.pdf"
                   download="Oshiomah_Oyageshio_CV.pdf"
-                  className="relative flex items-center px-6 py-3 space-x-2 overflow-hidden font-semibold text-black transition-all duration-300 transform bg-yellow-400 rounded-lg shadow-lg group hover:bg-yellow-500 hover:scale-105 hover:shadow-yellow-400/25"
+                  className="relative flex items-center px-4 py-2 sm:px-6 sm:py-3 space-x-2 overflow-hidden text-sm sm:text-base font-semibold text-black transition-all duration-300 transform bg-yellow-400 rounded-lg shadow-lg group hover:bg-yellow-500 hover:scale-105 hover:shadow-yellow-400/25"
                 >
                   <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-yellow-300 to-yellow-500 group-hover:opacity-100"></div>
                   <Download
-                    size={18}
+                    size={16}
                     className="relative z-10 group-hover:animate-bounce"
                   />
                   <span className="relative z-10">Download CV</span>
@@ -1665,13 +1438,13 @@ export default function Home() {
               </div>
             </BioAnimatedSection>
 
-            <div className="space-y-16">
+            <div className="space-y-12 sm:space-y-16">
               {/* Education with enhanced animations */}
               <BioAnimatedSection delay={300}>
                 <div className="relative group">
-                  <div className="absolute transition-opacity duration-500 rounded-lg opacity-0 -inset-4 bg-gradient-to-r from-yellow-400/10 to-transparent group-hover:opacity-100"></div>
+                  <div className="absolute transition-opacity duration-500 rounded-lg opacity-0 -inset-2 sm:-inset-4 bg-gradient-to-r from-yellow-400/10 to-transparent group-hover:opacity-100"></div>
 
-                  <h3 className="relative z-10 flex items-center gap-4 pb-2 mb-8 text-2xl font-bold text-yellow-400 transition-all duration-300 border-b-2 border-yellow-400 group-hover:border-yellow-300">
+                  <h3 className="relative z-10 flex items-center gap-3 sm:gap-4 pb-2 mb-6 sm:mb-8 text-xl sm:text-2xl font-bold text-yellow-400 transition-all duration-300 border-b-2 border-yellow-400 group-hover:border-yellow-300">
                     <div className="flex items-center space-x-2">
                       {/* <BookOpen size={28} className="animate-pulse" />
                       <Brain size={24} className="animate-bounce" />
@@ -1683,10 +1456,10 @@ export default function Home() {
                     </div>
                   </h3>
 
-                  <div className="relative z-10 space-y-8">
+                  <div className="relative z-10 space-y-6 sm:space-y-8">
                     {educationData.map((edu, index) => (
                       <BioAnimatedSection key={index} delay={400 + index * 200}>
-                        <div className="relative p-6 overflow-hidden transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-105 hover:shadow-xl hover:border-yellow-400/50 group">
+                        <div className="relative p-4 sm:p-6 overflow-hidden transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-105 hover:shadow-xl hover:border-yellow-400/50 group">
                           {/* Background particle animation */}
                           {/* <div className="absolute inset-0 pointer-events-none opacity-20">
                             {edu.particles.map((Particle, i) => (
@@ -1704,22 +1477,22 @@ export default function Home() {
                             ))}
                           </div> */}
 
-                          <div className="relative z-10 flex items-start gap-4">
-                            <div className="relative p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
-                              <edu.icon className="text-yellow-400" size={24} />
+                          <div className="relative z-10 flex items-start gap-3 sm:gap-4">
+                            <div className="relative p-2 sm:p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
+                              <edu.icon className="text-yellow-400" size={20} />
                               <div className="absolute rounded-full opacity-0 -inset-1 bg-yellow-400/20 animate-ping group-hover:opacity-100"></div>
                             </div>
                             <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-2 font-semibold text-yellow-400">
-                                <Calendar size={16} className="animate-pulse" />
+                              <div className="flex items-center gap-2 mb-2 text-sm sm:text-base font-semibold text-yellow-400">
+                                <Calendar size={14} className="animate-pulse" />
                                 {edu.years}
                                 {/* <Sparkles size={12} className="animate-ping" /> */}
                               </div>
-                              <h4 className="mb-2 text-xl font-bold transition-colors duration-300 group-hover:text-yellow-400">
+                              <h4 className="mb-2 text-lg sm:text-xl font-bold transition-colors duration-300 group-hover:text-yellow-400">
                                 {edu.degree}
                               </h4>
-                              <p className="flex items-center gap-2 mb-2 text-gray-400">
-                                <MapPin size={16} className="animate-bounce" />
+                              <p className="flex items-center gap-2 mb-2 text-sm sm:text-base text-gray-400">
+                                <MapPin size={14} className="animate-bounce" />
                                 {edu.institution}
                               </p>
                               {/* <p className="text-sm italic text-gray-500">
@@ -1737,7 +1510,7 @@ export default function Home() {
               {/* Professional Experience */}
               <BioAnimatedSection delay={600}>
                 <div>
-                  <h3 className="relative z-10 flex items-center gap-4 pb-2 mb-8 text-2xl font-bold text-yellow-400 transition-all duration-300 border-b-2 border-yellow-400 group-hover:border-yellow-300">
+                  <h3 className="relative z-10 flex items-center gap-3 sm:gap-4 pb-2 mb-6 sm:mb-8 text-xl sm:text-2xl font-bold text-yellow-400 transition-all duration-300 border-b-2 border-yellow-400 group-hover:border-yellow-300">
                     <div className="flex items-center space-x-2">
                       {/* <FlaskConical size={28} className="animate-pulse" />
                       <Microscope size={24} className="animate-bounce" />
@@ -1746,34 +1519,34 @@ export default function Home() {
                     Professional Experience
                   </h3>
 
-                  <div className="space-y-8">
+                  <div className="space-y-6 sm:space-y-8">
                     {jobData.map((job, index) => (
                       <BioAnimatedSection key={index} delay={700 + index * 300}>
-                        <div className="relative p-6 overflow-hidden transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-102 hover:shadow-xl hover:border-yellow-400/30 group">
-                          <div className="flex items-start gap-4">
-                            <div className="p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
-                              <job.icon className="text-yellow-400" size={24} />
+                        <div className="relative p-4 sm:p-6 overflow-hidden transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-102 hover:shadow-xl hover:border-yellow-400/30 group">
+                          <div className="flex items-start gap-3 sm:gap-4">
+                            <div className="p-2 sm:p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
+                              <job.icon className="text-yellow-400" size={20} />
                             </div>
                             <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-2 font-semibold text-yellow-400">
-                                <Calendar size={16} className="animate-pulse" />
+                              <div className="flex items-center gap-2 mb-2 text-sm sm:text-base font-semibold text-yellow-400">
+                                <Calendar size={14} className="animate-pulse" />
                                 {job.period}
                               </div>
-                              <h4 className="mb-2 text-xl font-bold transition-colors duration-300 group-hover:text-yellow-400">
+                              <h4 className="mb-2 text-lg sm:text-xl font-bold transition-colors duration-300 group-hover:text-yellow-400">
                                 {job.title}
                               </h4>
-                              <p className="flex items-center gap-2 mb-4 text-gray-400">
-                                <MapPin size={16} className="animate-bounce" />
+                              <p className="flex items-center gap-2 mb-3 sm:mb-4 text-sm sm:text-base text-gray-400">
+                                <MapPin size={14} className="animate-bounce" />
                                 {job.company}
                               </p>
-                              <ul className="space-y-2 text-sm text-gray-400">
+                              <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-400">
                                 {job.achievements.map(
                                   (achievement, achIndex) => (
                                     <li
                                       key={achIndex}
                                       className="flex items-start gap-2 transition-colors duration-200 hover:text-gray-300"
                                     >
-                                      <div className="flex-shrink-0 w-2 h-2 mt-2 bg-yellow-400 rounded-full"></div>
+                                      <div className="flex-shrink-0 w-1.5 h-1.5 sm:w-2 sm:h-2 mt-1.5 sm:mt-2 bg-yellow-400 rounded-full"></div>
                                       {achievement}
                                     </li>
                                   )
@@ -1791,7 +1564,7 @@ export default function Home() {
               {/* Technical Proficiencies */}
               <BioAnimatedSection delay={900}>
                 <div>
-                  <h3 className="flex items-center gap-4 pb-2 mb-8 text-2xl font-bold text-yellow-400 border-b-2 border-yellow-400">
+                  <h3 className="flex items-center gap-3 sm:gap-4 pb-2 mb-6 sm:mb-8 text-xl sm:text-2xl font-bold text-yellow-400 border-b-2 border-yellow-400">
                     <div className="flex items-center space-x-2">
                       {/* <Atom size={28} className="animate-pulse" />
                       <Zap size={24} className="animate-bounce" />
@@ -1800,38 +1573,38 @@ export default function Home() {
                     Technical Proficiencies
                   </h3>
 
-                  <div className="grid gap-8 md:grid-cols-2">
-                    <div className="p-6 transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-105 hover:border-yellow-400/30">
-                      <h4 className="flex items-center gap-2 mb-4 text-lg font-semibold text-yellow-400">
-                        <FlaskConical size={20} />
+                  <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
+                    <div className="p-4 sm:p-6 transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-105 hover:border-yellow-400/30">
+                      <h4 className="flex items-center gap-2 mb-3 sm:mb-4 text-base sm:text-lg font-semibold text-yellow-400">
+                        <FlaskConical size={18} />
                         Programming Languages
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {programmingSkills.map((skill, index) => (
                           <span
                             key={index}
-                            className="flex items-center gap-1 px-3 py-2 text-sm text-yellow-400 transition-all duration-200 rounded-full cursor-default bg-yellow-400/20 hover:bg-yellow-400/30 hover:scale-110"
+                            className="flex items-center gap-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm text-yellow-400 transition-all duration-200 rounded-full cursor-default bg-yellow-400/20 hover:bg-yellow-400/30 hover:scale-110"
                           >
-                            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-yellow-400 rounded-full animate-pulse"></div>
                             {skill}
                           </span>
                         ))}
                       </div>
                     </div>
 
-                    <div className="p-6 transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-105 hover:border-yellow-400/30">
-                      <h4 className="flex items-center gap-2 mb-4 text-lg font-semibold text-yellow-400">
-                        <Dna size={20} />
+                    <div className="p-4 sm:p-6 transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-105 hover:border-yellow-400/30">
+                      <h4 className="flex items-center gap-2 mb-3 sm:mb-4 text-base sm:text-lg font-semibold text-yellow-400">
+                        <Dna size={18} />
                         Fields of Expertise
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {expertiseFields.map((field, index) => (
                           <span
                             key={index}
-                            className="flex items-center gap-1 px-3 py-2 text-sm text-yellow-400 transition-all duration-200 rounded-full cursor-default bg-yellow-400/20 hover:bg-yellow-400/30 hover:scale-110"
+                            className="flex items-center gap-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm text-yellow-400 transition-all duration-200 rounded-full cursor-default bg-yellow-400/20 hover:bg-yellow-400/30 hover:scale-110"
                           >
                             <div
-                              className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"
+                              className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-yellow-400 rounded-full animate-pulse"
                               style={{ animationDelay: `${index * 0.2}s` }}
                             ></div>
                             {field}
@@ -1846,20 +1619,20 @@ export default function Home() {
               {/* Selected Publications */}
               <BioAnimatedSection delay={1100}>
                 <div>
-                  <h3 className="flex items-center gap-4 pb-2 mb-8 text-2xl font-bold text-yellow-400 border-b-2 border-yellow-400">
+                  <h3 className="flex items-center gap-3 sm:gap-4 pb-2 mb-6 sm:mb-8 text-xl sm:text-2xl font-bold text-yellow-400 border-b-2 border-yellow-400">
                     <div className="flex items-center space-x-2">
-                      <BookOpen size={28} className="animate-pulse" />
-                      <Search size={24} className="animate-bounce" />
+                      <BookOpen size={20} className="animate-pulse" />
+                      <Search size={18} className="animate-bounce" />
                       {/* <Award size={20} className="animate-ping" /> */}
                     </div>
                     Selected Publications
                   </h3>
 
-                  <div className="space-y-6">
+                  <div className="space-y-4 sm:space-y-6">
                     {publicationData.map((publication, index) => (
                       <div
                         key={index}
-                        className="p-6 transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-102 hover:border-yellow-400/30 group"
+                        className="p-4 sm:p-6 transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-102 hover:border-yellow-400/30 group"
                       >
                         <a
                           href={publication.link}
@@ -1867,21 +1640,21 @@ export default function Home() {
                           rel="noopener noreferrer"
                           
                         >
-                        <div className="flex items-start gap-4">
-                          <div className="p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
+                        <div className="flex items-start gap-3 sm:gap-4">
+                          <div className="p-2 sm:p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
                             <ExternalLink
                               className="text-yellow-400"
-                              size={20}
+                              size={18}
                             />
                           </div>
                           <div className="flex-1">
-                            <h4 className="mb-2 text-lg font-semibold transition-colors duration-300 group-hover:text-yellow-400">
+                            <h4 className="mb-2 text-base sm:text-lg font-semibold transition-colors duration-300 group-hover:text-yellow-400">
                               {publication.title}
                             </h4>
-                            <p className="mb-2 text-sm text-gray-400">
+                            <p className="mb-2 text-xs sm:text-sm text-gray-400">
                               {publication.authors}
                             </p>
-                            <p className="text-sm text-yellow-400">
+                            <p className="text-xs sm:text-sm text-yellow-400">
                               <em>{publication.journal}</em> ({publication.year}
                               ), {publication.volume}, {publication.pages}.
                             </p>
@@ -1898,30 +1671,6 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Right Side - Fixed Enhanced Molecular Sphere */}
-      <div className="fixed top-0 right-0 z-0 items-center justify-center hidden h-screen bg-black lg:flex lg:w-1/2 xl:w-2/5">
-        <AdvancedMolecularSphere />
-
-        {/* Additional floating elements */}
-        {/* <div className="absolute inset-0 pointer-events-none">
-          {[Dna, Brain, Heart, Atom, Leaf, Bug, Fish, TreePine].map(
-            (Icon, i) => (
-              <div
-                key={i}
-                className="absolute text-yellow-400 opacity-30"
-                style={{
-                  left: `${10 + (i % 4) * 25}%`,
-                  top: `${10 + Math.floor(i / 4) * 25}%`,
-                  animation: `float ${8 + i}s linear infinite`,
-                  animationDelay: `${i * 0.8}s`,
-                }}
-              >
-                <Icon size={20 + (i % 3) * 4} />
-              </div>
-            )
-          )}
-        </div> */}
-      </div>
 
       {/* Enhanced Global Styles */}
       <style jsx global>{`
@@ -1985,7 +1734,7 @@ export default function Home() {
 
         /* Enhanced scrollbar */
         ::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -1999,6 +1748,21 @@ export default function Home() {
 
         ::-webkit-scrollbar-thumb:hover {
           background: linear-gradient(to bottom, #eab308, #ca8a04);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+          .animate-float {
+            animation-duration: 8s;
+          }
+          
+          .animate-pulse {
+            animation-duration: 3s;
+          }
+          
+          .animate-bounce {
+            animation-duration: 2s;
+          }
         }
       `}</style>
     </div>

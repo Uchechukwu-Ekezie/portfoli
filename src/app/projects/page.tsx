@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import {
   // Dna,
   // Atom,
@@ -291,7 +292,18 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
     }
   };
 
-  return (
+  const getProjectLink = (title: string) => {
+    switch (title) {
+      case "TB scRNA-seq Immunogenetic Analysis":
+        return "/tb-scrna-seq";
+      default:
+        return "#";
+    }
+  };
+
+  const isClickable = project.title === "TB scRNA-seq Immunogenetic Analysis";
+
+  const CardContent = () => (
     <div className="relative transition-all duration-500 border border-gray-700 rounded-lg group bg-gray-900/50 backdrop-blur-sm hover:bg-gray-800/70 hover:border-yellow-400/30 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/10">
       {/* Background particles */}
       {/* <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
@@ -401,6 +413,16 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
       ))} */}
     </div>
   );
+
+  if (isClickable) {
+    return (
+      <Link href={getProjectLink(project.title)} className="block">
+        <CardContent />
+      </Link>
+    );
+  }
+
+  return <CardContent />;
 };
 
 export default function Projects() {
