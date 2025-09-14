@@ -131,47 +131,53 @@ const ImageGallery: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   const images = [
-    // {
-    //   src: "/two.jpg",
-    //   title: "RNA marker gene expression across annotated immune populations",
-    //   description: "Heatmap displaying significantly differentially expressed genes between TB cases and controls"
-    // },
-    // {
-    //   src: "/three.jpg",
-    //   title: "Immune Cell Trajectory",
-    //   description: "Pseudotime analysis revealing developmental trajectories of immune cells in TB progression"
-    // },
-    // {
-    //   src: "/four.jpg",
-    //   title: "Pathway Enrichment Analysis",
-    //   description: "Gene set enrichment analysis highlighting key biological pathways associated with TB susceptibility"
-    // },
+    {
+      src: "/two.jpg",
+      title: "RNA marker gene expression across annotated immune populations",
+      description: "Heatmap displaying significantly differentially expressed genes between TB cases and controls"
+    },
+    {
+      src: "/three.jpg",
+      title: "Immune Cell Trajectory",
+      description: "Pseudotime analysis revealing developmental trajectories of immune cells in TB progression"
+    },
+    {
+      src: "/four.jpg",
+      title: "Pathway Enrichment Analysis",
+      description: "Gene set enrichment analysis highlighting key biological pathways associated with TB susceptibility"
+    },
     {
       src: "/five.jpg",
-      // title: "Cell-Cell Communication",
-      // description: "Network analysis showing intercellular communication patterns in the TB immune microenvironment"
+      title: "Cell-Cell Communication",
+      description: "Network analysis showing intercellular communication patterns in the TB immune microenvironment"
     },
     {
       src: "/six.jpg",
-          // title: "Genetic Variant Association",
-          // description: "Manhattan plot displaying genetic variants significantly associated with TB progression"
+      title: "Genetic Variant Association",
+      description: "Manhattan plot displaying genetic variants significantly associated with TB progression"
     },
     {
       src: "/seven.jpg",
-      // title: "Multi-omic Integration",
-      // description: "Integrated analysis combining scRNA-seq data with genomic and clinical information"
+      title: "Multi-omic Integration",
+      description: "Integrated analysis combining scRNA-seq data with genomic and clinical information"
     }
   ];
 
   const images2 = [
     {
       src: "/eight.jpg",
+      title: "Additional Analysis 1",
+      description: "Supplementary analysis results"
     },
     {
       src: "/nine.jpg",
+      title: "Additional Analysis 2", 
+      description: "Supplementary analysis results"
     },
     {
       src: "/ten.jpg",
+      title: "Additional Analysis 3",
+      description: "Supplementary analysis results"
     }
   ];
 
@@ -269,8 +275,8 @@ const ImageGallery: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  {/* <h4 className="text-sm font-semibold text-yellow-400 mb-1">{image.title}</h4>
-                  <p className="text-xs text-gray-300 line-clamp-2">{image.description}</p> */}
+                  <h4 className="text-sm font-semibold text-yellow-400 mb-1">{image.title}</h4>
+                  <p className="text-xs text-gray-300 line-clamp-2">{image.description}</p>
                 </div>
               </div>
             </div>

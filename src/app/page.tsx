@@ -342,6 +342,7 @@ const DNAHelix = () => {
 // Cellular Membrane Animation
 const CellMembrane: React.FC = () => {
   const [membrane, setMembrane] = useState<MembranePoint[]>([]);
+  const [time, setTime] = useState(0);
 
   useEffect(() => {
     const points: MembranePoint[] = Array.from({ length: 20 }).map((_, i) => ({
@@ -350,6 +351,13 @@ const CellMembrane: React.FC = () => {
       phase: i * 0.3,
     }));
     setMembrane(points);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime((prev) => prev + 0.05);
+    }, 40);
+    return () => clearInterval(interval);
   }, []);
 
   return (
