@@ -127,39 +127,42 @@ const DNAStrand: React.FC = () => {
 };
 
 // Image Gallery Component
-const ImageGallery: React.FC = () => {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+interface ImageGalleryProps {
+  setSelectedImage: (image: number | null) => void;
+}
+
+const ImageGallery: React.FC<ImageGalleryProps> = ({ setSelectedImage }) => {
 
   const images = [
-    {
-      src: "/two.jpg",
-      title: "RNA marker gene expression across annotated immune populations",
-      description: "Heatmap displaying significantly differentially expressed genes between TB cases and controls"
-    },
-    {
-      src: "/three.jpg",
-      title: "Immune Cell Trajectory",
-      description: "Pseudotime analysis revealing developmental trajectories of immune cells in TB progression"
-    },
-    {
-      src: "/four.jpg",
-      title: "Pathway Enrichment Analysis",
-      description: "Gene set enrichment analysis highlighting key biological pathways associated with TB susceptibility"
-    },
+    // {
+    //   src: "/two.jpg",
+    //   title: "RNA marker gene expression across annotated immune populations",
+    //   description: "Heatmap displaying significantly differentially expressed genes between TB cases and controls"
+    // },
+    // {
+    //   src: "/three.jpg",
+    //   title: "Immune Cell Trajectory",
+    //   description: "Pseudotime analysis revealing developmental trajectories of immune cells in TB progression"
+    // },
+    // {
+    //   src: "/four.jpg",
+    //   title: "Pathway Enrichment Analysis",
+    //   description: "Gene set enrichment analysis highlighting key biological pathways associated with TB susceptibility"
+    // },
     {
       src: "/five.jpg",
-      title: "Cell-Cell Communication",
-      description: "Network analysis showing intercellular communication patterns in the TB immune microenvironment"
+      // title: "Cell-Cell Communication",
+      // description: "Network analysis showing intercellular communication patterns in the TB immune microenvironment"
     },
     {
       src: "/six.jpg",
-      title: "Genetic Variant Association",
-      description: "Manhattan plot displaying genetic variants significantly associated with TB progression"
+      // title: "Genetic Variant Association",
+      // description: "Manhattan plot displaying genetic variants significantly associated with TB progression"
     },
     {
       src: "/seven.jpg",
-      title: "Multi-omic Integration",
-      description: "Integrated analysis combining scRNA-seq data with genomic and clinical information"
+      // title: "Multi-omic Integration",
+      // description: "Integrated analysis combining scRNA-seq data with genomic and clinical information"
     }
   ];
 
@@ -200,7 +203,9 @@ const ImageGallery: React.FC = () => {
               height={400}
               className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
             />
-            {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-t
+            
+            ransparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <h5 className="text-sm font-semibold text-yellow-400 mb-1">UMAP of PBMCs from TB case–control CITE-seq</h5>
                 <p className="text-xs text-gray-300">Single-cell RNA sequencing analysis showing distinct cell populations in tuberculosis patients and controls</p>
@@ -268,17 +273,17 @@ const ImageGallery: React.FC = () => {
             <div className="relative overflow-hidden rounded-lg border border-gray-700 bg-gray-900/50 backdrop-blur-sm group-hover:border-yellow-400/30">
               <Image
                 src={image.src}
-                alt={image.title}
+                alt= ""
                 width={400}
                 height={192}
                 className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <h4 className="text-sm font-semibold text-yellow-400 mb-1">{image.title}</h4>
                   <p className="text-xs text-gray-300 line-clamp-2">{image.description}</p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         ))}
@@ -289,7 +294,7 @@ const ImageGallery: React.FC = () => {
         <h4 className="text-xl font-semibold text-yellow-300 mb-4">Protein expression of validation on  PBMC subsets</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {images2.map((image, index) => (
-            <div key={index} className="relative group cursor-pointer transition-all duration-300 hover:scale-105" onClick={() => setSelectedImage(index)}>
+            <div key={index} className="relative group cursor-pointer transition-all duration-300 hover:scale-105" onClick={() => setSelectedImage(index + images.length)}>
               <div className="relative overflow-hidden rounded-lg border border-gray-700 bg-gray-900/50 backdrop-blur-sm group-hover:border-yellow-400/30">
                 <Image
                   src={image.src}
@@ -305,39 +310,6 @@ const ImageGallery: React.FC = () => {
 
       </div>
 
-      {/* Modal for Full Image View */}
-      {selectedImage !== null && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-          onClick={() => setSelectedImage(null)}
-        >
-          <div className="relative max-w-4xl max-h-[90vh] mx-4">
-            <Image
-              src={selectedImage === -1 ? "/one.jpg" : images[selectedImage].src}
-              alt={selectedImage === -1 ? "UMAP of PBMCs from TB case–control CITE-seq" : images[selectedImage].title}
-              width={800}
-              height={600}
-              className="max-w-full max-h-full object-contain rounded-lg"
-            />
-            <div className="absolute top-4 right-4">
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="p-2 text-white bg-gray-800/80 rounded-full hover:bg-gray-700/80 transition-colors"
-              >
-                ×
-              </button>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent rounded-b-lg">
-              <h4 className="text-xl font-bold text-yellow-400 mb-2">
-                {selectedImage === -1 ? "UMAP of PBMCs from TB case–control CITE-seq" : images[selectedImage].title}
-              </h4>
-              <p className="text-gray-300">
-                {selectedImage === -1 ? "Single-cell RNA sequencing analysis showing distinct cell populations in tuberculosis patients and controls" : images[selectedImage].description}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
@@ -345,6 +317,7 @@ const ImageGallery: React.FC = () => {
 export default function TBScRNAPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isClient, setIsClient] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -355,6 +328,20 @@ export default function TBScRNAPage() {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  // Lock scroll when modal is open
+  useEffect(() => {
+    if (selectedImage !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedImage]);
 
   return (
     <div className="relative min-h-screen pt-24 overflow-hidden text-white bg-black">
@@ -479,7 +466,7 @@ export default function TBScRNAPage() {
 
         {/* Image Gallery */}
         <BioAnimatedSection delay={400}>
-          <ImageGallery />
+          <ImageGallery setSelectedImage={setSelectedImage} />
         </BioAnimatedSection>
 
         {/* Research Impact */}
@@ -508,6 +495,63 @@ export default function TBScRNAPage() {
           </div>
         </BioAnimatedSection>
       </div>
+
+      {/* Modal for Full Image View - Root Level */}
+      {selectedImage !== null && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm"
+          style={{ 
+            position: 'fixed', 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1rem'
+          }}
+          onClick={() => setSelectedImage(null)}
+        >
+          <div 
+            className="relative"
+            style={{
+              maxWidth: '80vw',
+              maxHeight: '80vh',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Image
+              src={
+                selectedImage === -1 
+                  ? "/one.jpg" 
+                  : selectedImage < 3 
+                    ? ["/five.jpg", "/six.jpg", "/seven.jpg"][selectedImage]
+                    : ["/eight.jpg", "/nine.jpg", "/ten.jpg"][selectedImage - 3]
+              }
+              alt=""
+              width={800}
+              height={600}
+              className="max-w-full max-h-full object-contain rounded-lg"
+            />
+            <div className="absolute top-4 right-4">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedImage(null);
+                }}
+                className="p-3 text-white bg-gray-800/90 rounded-full hover:bg-gray-700/90 transition-colors text-xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Global Styles */}
       <style jsx global>{`
