@@ -427,8 +427,10 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
 
 export default function Projects() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -540,14 +542,16 @@ export default function Projects() {
       <DNAStrand />
 
       {/* Mouse follower */}
-      <div
-        className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
-        style={{
-          left: mousePosition.x - 6,
-          top: mousePosition.y - 6,
-          transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
-        }}
-      />
+      {isClient && (
+        <div
+          className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
+          style={{
+            left: mousePosition.x - 6,
+            top: mousePosition.y - 6,
+            transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
+          }}
+        />
+      )}
 
       <div className="relative z-10 px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Header */}

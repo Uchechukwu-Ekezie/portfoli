@@ -131,40 +131,47 @@ const ImageGallery: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   const images = [
-    {
-      src: "/one.jpg",
-      title: "Cell Type Classification",
-      description: "UMAP visualization showing distinct cell populations identified through single-cell RNA sequencing analysis"
-    },
-    {
-      src: "/two.jpg", 
-      title: "Differential Gene Expression",
-      description: "Heatmap displaying significantly differentially expressed genes between TB cases and controls"
-    },
-    {
-      src: "/three.jpg",
-      title: "Immune Cell Trajectory",
-      description: "Pseudotime analysis revealing developmental trajectories of immune cells in TB progression"
-    },
-    {
-      src: "/four.jpg",
-      title: "Pathway Enrichment Analysis",
-      description: "Gene set enrichment analysis highlighting key biological pathways associated with TB susceptibility"
-    },
+    // {
+    //   src: "/two.jpg",
+    //   title: "RNA marker gene expression across annotated immune populations",
+    //   description: "Heatmap displaying significantly differentially expressed genes between TB cases and controls"
+    // },
+    // {
+    //   src: "/three.jpg",
+    //   title: "Immune Cell Trajectory",
+    //   description: "Pseudotime analysis revealing developmental trajectories of immune cells in TB progression"
+    // },
+    // {
+    //   src: "/four.jpg",
+    //   title: "Pathway Enrichment Analysis",
+    //   description: "Gene set enrichment analysis highlighting key biological pathways associated with TB susceptibility"
+    // },
     {
       src: "/five.jpg",
-      title: "Cell-Cell Communication",
-      description: "Network analysis showing intercellular communication patterns in the TB immune microenvironment"
+      // title: "Cell-Cell Communication",
+      // description: "Network analysis showing intercellular communication patterns in the TB immune microenvironment"
     },
     {
       src: "/six.jpg",
-      title: "Genetic Variant Association",
-      description: "Manhattan plot displaying genetic variants significantly associated with TB progression"
+          // title: "Genetic Variant Association",
+          // description: "Manhattan plot displaying genetic variants significantly associated with TB progression"
     },
     {
       src: "/seven.jpg",
-      title: "Multi-omic Integration",
-      description: "Integrated analysis combining scRNA-seq data with genomic and clinical information"
+      // title: "Multi-omic Integration",
+      // description: "Integrated analysis combining scRNA-seq data with genomic and clinical information"
+    }
+  ];
+
+  const images2 = [
+    {
+      src: "/eight.jpg",
+    },
+    {
+      src: "/nine.jpg",
+    },
+    {
+      src: "/ten.jpg",
     }
   ];
 
@@ -172,6 +179,78 @@ const ImageGallery: React.FC = () => {
     <div className="space-y-8">
       <h3 className="text-2xl font-bold text-yellow-400 mb-6">Research Visualizations</h3>
       
+      {/* UMAP Visualization Section */}
+      <div className="mb-8">
+        <h4 className="text-xl font-semibold text-yellow-300 mb-4">UMAP of PBMCs from TB case–control CITE-seq</h4>
+        <div 
+          className="relative group cursor-pointer transition-all duration-300 hover:scale-105 max-w-2xl"
+          onClick={() => setSelectedImage(-1)}
+        >
+          <div className="relative overflow-hidden rounded-lg border border-gray-700 bg-gray-900/50 backdrop-blur-sm group-hover:border-yellow-400/30">
+            <Image
+              src="/one.jpg"
+              alt="UMAP of PBMCs from TB case–control CITE-seq"
+              width={800}
+              height={400}
+              className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+            {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <h5 className="text-sm font-semibold text-yellow-400 mb-1">UMAP of PBMCs from TB case–control CITE-seq</h5>
+                <p className="text-xs text-gray-300">Single-cell RNA sequencing analysis showing distinct cell populations in tuberculosis patients and controls</p>
+              </div>
+            </div> */}
+          </div>
+        </div>
+      </div>
+       {/* RNA marker gene expression across annotated immune populations */}
+       <div className="mb-8">
+         <h4 className="text-xl font-semibold text-yellow-300 mb-4">RNA marker gene expression across annotated immune populations</h4>
+         {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+           <div 
+             className="relative group cursor-pointer transition-all duration-300 hover:scale-105"
+             onClick={() => setSelectedImage(0)}
+           >
+             <div className="relative overflow-hidden rounded-lg border border-gray-700 bg-gray-900/50 backdrop-blur-sm group-hover:border-yellow-400/30">
+               <Image
+                 src="/two.jpg"
+                 alt="RNA marker gene expression across annotated immune populations"
+                 width={400}
+                 height={300}
+                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+               />
+             </div>
+           </div>
+           <div 
+             className="relative group cursor-pointer transition-all duration-300 hover:scale-105"
+             onClick={() => setSelectedImage(1)}
+           >
+             <div className="relative overflow-hidden rounded-lg border border-gray-700 bg-gray-900/50 backdrop-blur-sm group-hover:border-yellow-400/30">
+               <Image
+                 src="/three.jpg"
+                 alt="Immune cell trajectory analysis"
+                 width={400}
+                 height={300}
+                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+               />
+             </div>
+           </div>
+           <div 
+             className="relative group cursor-pointer transition-all duration-300 hover:scale-105"
+             onClick={() => setSelectedImage(2)}
+           >
+             <div className="relative overflow-hidden rounded-lg border border-gray-700 bg-gray-900/50 backdrop-blur-sm group-hover:border-yellow-400/30">
+               <Image
+                 src="/four.jpg"
+                 alt="Pathway enrichment analysis"
+                 width={400}
+                 height={300}
+                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+               />
+             </div>
+           </div>
+         </div> */}
+        </div>
       {/* Grid of Images */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {images.map((image, index) => (
@@ -190,13 +269,34 @@ const ImageGallery: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h4 className="text-sm font-semibold text-yellow-400 mb-1">{image.title}</h4>
-                  <p className="text-xs text-gray-300 line-clamp-2">{image.description}</p>
+                  {/* <h4 className="text-sm font-semibold text-yellow-400 mb-1">{image.title}</h4>
+                  <p className="text-xs text-gray-300 line-clamp-2">{image.description}</p> */}
                 </div>
               </div>
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Protein expression of validation on  PBMC subsets */}
+      <div className="mb-8">
+        <h4 className="text-xl font-semibold text-yellow-300 mb-4">Protein expression of validation on  PBMC subsets</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {images2.map((image, index) => (
+            <div key={index} className="relative group cursor-pointer transition-all duration-300 hover:scale-105" onClick={() => setSelectedImage(index)}>
+              <div className="relative overflow-hidden rounded-lg border border-gray-700 bg-gray-900/50 backdrop-blur-sm group-hover:border-yellow-400/30">
+                <Image
+                  src={image.src}
+                  alt={image.title}
+                  width={400}
+                  height={192}
+                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
       </div>
 
       {/* Modal for Full Image View */}
@@ -207,8 +307,8 @@ const ImageGallery: React.FC = () => {
         >
           <div className="relative max-w-4xl max-h-[90vh] mx-4">
             <Image
-              src={images[selectedImage].src}
-              alt={images[selectedImage].title}
+              src={selectedImage === -1 ? "/one.jpg" : images[selectedImage].src}
+              alt={selectedImage === -1 ? "UMAP of PBMCs from TB case–control CITE-seq" : images[selectedImage].title}
               width={800}
               height={600}
               className="max-w-full max-h-full object-contain rounded-lg"
@@ -222,8 +322,12 @@ const ImageGallery: React.FC = () => {
               </button>
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent rounded-b-lg">
-              <h4 className="text-xl font-bold text-yellow-400 mb-2">{images[selectedImage].title}</h4>
-              <p className="text-gray-300">{images[selectedImage].description}</p>
+              <h4 className="text-xl font-bold text-yellow-400 mb-2">
+                {selectedImage === -1 ? "UMAP of PBMCs from TB case–control CITE-seq" : images[selectedImage].title}
+              </h4>
+              <p className="text-gray-300">
+                {selectedImage === -1 ? "Single-cell RNA sequencing analysis showing distinct cell populations in tuberculosis patients and controls" : images[selectedImage].description}
+              </p>
             </div>
           </div>
         </div>
@@ -234,8 +338,10 @@ const ImageGallery: React.FC = () => {
 
 export default function TBScRNAPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -250,14 +356,16 @@ export default function TBScRNAPage() {
       <DNAStrand />
 
       {/* Mouse follower */}
-      <div
-        className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
-        style={{
-          left: mousePosition.x - 6,
-          top: mousePosition.y - 6,
-          transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
-        }}
-      />
+      {isClient && (
+        <div
+          className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
+          style={{
+            left: mousePosition.x - 6,
+            top: mousePosition.y - 6,
+            transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
+          }}
+        />
+      )}
 
       <div className="relative z-10 px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Back Button */}

@@ -222,9 +222,8 @@ const DNAHelix = () => {
             <g key={i}>
               {/* DNA backbone strands - smooth helical curves */}
               <path
-                d={`M ${leftX} ${y} Q ${(leftX + leftX2) / 2} ${
-                  y + 10
-                } ${leftX2} ${y + 20}`}
+                d={`M ${leftX} ${y} Q ${(leftX + leftX2) / 2} ${y + 10
+                  } ${leftX2} ${y + 20}`}
                 stroke="url(#dnaGradient)"
                 strokeWidth="3"
                 fill="none"
@@ -232,9 +231,8 @@ const DNAHelix = () => {
                 opacity={leftOpacity * 0.9 + 0.3}
               />
               <path
-                d={`M ${rightX} ${y} Q ${(rightX + rightX2) / 2} ${
-                  y + 10
-                } ${rightX2} ${y + 20}`}
+                d={`M ${rightX} ${y} Q ${(rightX + rightX2) / 2} ${y + 10
+                  } ${rightX2} ${y + 20}`}
                 stroke="url(#dnaGradient)"
                 strokeWidth="3"
                 fill="none"
@@ -376,7 +374,7 @@ const CellMembrane: React.FC = () => {
           d={`M 0 10 ${membrane
             .map(
               (p) =>
-                `L ${p.x} ${10 + Math.sin(Date.now() * 0.001 + p.phase) * 3}`
+                `L ${p.x} ${10 + Math.sin(time * 0.001 + p.phase) * 3}`
             )
             .join(" ")}`}
           stroke="url(#membraneGradient)"
@@ -388,8 +386,7 @@ const CellMembrane: React.FC = () => {
           d={`M 0 20 ${membrane
             .map(
               (p) =>
-                `L ${p.x} ${
-                  20 + Math.sin(Date.now() * 0.001 + p.phase + Math.PI) * 3
+                `L ${p.x} ${20 + Math.sin(time * 0.001 + p.phase + Math.PI) * 3
                 }`
             )
             .join(" ")}`}
@@ -895,11 +892,10 @@ const BioAnimatedSection: React.FC<BioAnimatedSectionProps> = ({
   return (
     <div
       ref={ref}
-      className={`relative transition-all duration-1000 ${
-        isVisible
+      className={`relative transition-all duration-1000 ${isVisible
           ? "opacity-100 translate-y-0 scale-100"
           : "opacity-0 translate-y-10 scale-95"
-      } ${className}`}
+        } ${className}`}
     >
       {children}
 
@@ -936,8 +932,10 @@ export default function Home() {
     x: 0,
     y: 0,
   });
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const handleScroll = () => setScrollY(window.scrollY);
     const handleMouseMove = (e: MouseEvent) =>
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -1083,9 +1081,10 @@ export default function Home() {
     "Bash",
     "R",
     "Markdown",
-  
+
     "Linux Shell Scripting",
     "UNIX",
+    "GitHub",
   ];
   const expertiseFields: string[] = [
     "Bioinformatics",
@@ -1102,14 +1101,16 @@ export default function Home() {
       <CellMembrane />
 
       {/* Mouse follower effect - hidden on mobile for performance */}
-      <div
-        className="hidden sm:block fixed z-50 w-4 h-4 transition-all duration-1000 bg-yellow-400 rounded-full pointer-events-none opacity-20"
-        style={{
-          left: mousePosition.x - 8,
-          top: mousePosition.y - 8,
-          transform: `scale(${1 + Math.sin(Date.now() * 0.005)})`,
-        }}
-      />
+      {isClient && (
+        <div
+          className="hidden sm:block fixed z-50 w-4 h-4 transition-all duration-1000 bg-yellow-400 rounded-full pointer-events-none opacity-20"
+          style={{
+            left: mousePosition.x - 8,
+            top: mousePosition.y - 8,
+            transform: `scale(${1 + Math.sin(Date.now() * 0.005)})`,
+          }}
+        />
+      )}
 
       {/* Left Side - Scrollable Content */}
       <div className="relative z-10 flex-1 overflow-y-auto">
@@ -1126,7 +1127,7 @@ export default function Home() {
 
                 <BioAnimatedSection delay={600}>
                   <h1 className="mb-4 text-3xl font-bold text-yellow-400 sm:text-4xl lg:text-5xl">
-                     Oshiomah P. Oyageshio
+                    Oshiomah P. Oyageshio
                   </h1>
                 </BioAnimatedSection>
 
@@ -1245,9 +1246,8 @@ export default function Home() {
                       className="animate-bounce"
                       size={24}
                       style={{
-                        transform: `translateY(${
-                          Math.sin(scrollY * 0.01) * 5
-                        }px)`,
+                        transform: `translateY(${Math.sin(scrollY * 0.01) * 5
+                          }px)`,
                         animationDuration: "2s",
                       }}
                     />
@@ -1261,56 +1261,55 @@ export default function Home() {
 
               {/* Right Side - Profile Image */}
               <div className="flex justify-center lg:justify-end order-1 lg:order-2">
-              <BioAnimatedSection delay={200}>
-                <div className="relative group">
-                  <div className="relative overflow-hidden border-2 sm:border-4 border-yellow-400 rounded-full w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] xl:w-[600px] xl:h-[600px] bg-gradient-to-br from-yellow-400/20 to-transparent backdrop-blur-sm">
-                    {/* Enhanced Profile with Multiple Animations */}
-                    <div className="relative flex items-center justify-center w-full h-full text-6xl font-bold text-yellow-400 transition-transform duration-500 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 group-hover:scale-105">
-                      <Image
-                        src={osho}
-                        alt="Oshiomah P. Oyageshio"
-                        width={600}
-                        height={600}
-                        className="w-full h-full object-cover rounded-full"
-                      />
+                <BioAnimatedSection delay={200}>
+                  <div className="relative group">
+                    <div className="relative overflow-hidden border-2 sm:border-4 border-yellow-400 rounded-full w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] xl:w-[600px] xl:h-[600px] bg-gradient-to-br from-yellow-400/20 to-transparent backdrop-blur-sm">
+                      {/* Enhanced Profile with Multiple Animations */}
+                      <div className="relative flex items-center justify-center w-full h-full text-6xl font-bold text-yellow-400 transition-transform duration-500 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 group-hover:scale-105">
+                        <Image
+                          src={osho}
+                          alt="Oshiomah P. Oyageshio"
+                          width={600}
+                          height={600}
+                          className="w-full h-full object-cover rounded-full"
+                        />
 
-                      {/* Cellular structure overlay */}
-                      <div className="absolute inset-0 opacity-30">
-                        <svg viewBox="0 0 100 100" className="w-full h-full">
-                          {Array.from({ length: 8 }).map((_, i) => (
-                            <circle
-                              key={i}
-                              cx={30 + (i % 3) * 20}
-                              cy={30 + Math.floor(i / 3) * 20}
-                              r="3"
-                              fill="#facc15"
-                              className="animate-ping"
-                              style={{ animationDelay: `${i * 0.3}s` }}
-                            />
-                          ))}
-                        </svg>
+                        {/* Cellular structure overlay */}
+                        <div className="absolute inset-0 opacity-30">
+                          <svg viewBox="0 0 100 100" className="w-full h-full">
+                            {Array.from({ length: 8 }).map((_, i) => (
+                              <circle
+                                key={i}
+                                cx={30 + (i % 3) * 20}
+                                cy={30 + Math.floor(i / 3) * 20}
+                                r="3"
+                                fill="#facc15"
+                                className="animate-ping"
+                                style={{ animationDelay: `${i * 0.3}s` }}
+                              />
+                            ))}
+                          </svg>
+                        </div>
+                      </div>
+
+                      {/* Multiple orbital rings with different speeds */}
+                      <div className="absolute inset-0 rounded-full">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <div
+                            key={i}
+                            className="absolute inset-0 border border-yellow-400 rounded-full opacity-30"
+                            style={{
+                              margin: `${i * 15}px`,
+                              animation: `spin ${8 + i * 3}s linear infinite ${i % 2 ? "reverse" : "normal"
+                                }`,
+                            }}
+                          />
+                        ))}
                       </div>
                     </div>
 
-                    {/* Multiple orbital rings with different speeds */}
-                    <div className="absolute inset-0 rounded-full">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className="absolute inset-0 border border-yellow-400 rounded-full opacity-30"
-                          style={{
-                            margin: `${i * 15}px`,
-                            animation: `spin ${8 + i * 3}s linear infinite ${
-                              i % 2 ? "reverse" : "normal"
-                            }`,
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Floating scientific symbols around the image */}
-                  {/* <div className="absolute text-yellow-400 -top-6 -right-6 animate-float">
+                    {/* Floating scientific symbols around the image */}
+                    {/* <div className="absolute text-yellow-400 -top-6 -right-6 animate-float">
                     <Dna size={40} />
                   </div>
                   <div
@@ -1343,8 +1342,8 @@ export default function Home() {
                   >
                     <Activity size={26} />
                   </div> */}
-                </div>
-              </BioAnimatedSection>
+                  </div>
+                </BioAnimatedSection>
               </div>
             </div>
           </div>
@@ -1570,14 +1569,14 @@ export default function Home() {
                       <Zap size={24} className="animate-bounce" />
                       <Brain size={20} className="animate-ping" /> */}
                     </div>
-                    Technical Proficiencies
+                    Core Competencies
                   </h3>
 
                   <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
                     <div className="p-4 sm:p-6 transition-all duration-300 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 hover:scale-105 hover:border-yellow-400/30">
                       <h4 className="flex items-center gap-2 mb-3 sm:mb-4 text-base sm:text-lg font-semibold text-yellow-400">
                         <FlaskConical size={18} />
-                        Programming Languages
+                        Technical Skills
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {programmingSkills.map((skill, index) => (
@@ -1638,28 +1637,28 @@ export default function Home() {
                           href={publication.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          
+
                         >
-                        <div className="flex items-start gap-3 sm:gap-4">
-                          <div className="p-2 sm:p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
-                            <ExternalLink
-                              className="text-yellow-400"
-                              size={18}
-                            />
+                          <div className="flex items-start gap-3 sm:gap-4">
+                            <div className="p-2 sm:p-3 transition-colors duration-300 rounded-full bg-yellow-400/20 group-hover:bg-yellow-400/30">
+                              <ExternalLink
+                                className="text-yellow-400"
+                                size={18}
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <h4 className="mb-2 text-base sm:text-lg font-semibold transition-colors duration-300 group-hover:text-yellow-400">
+                                {publication.title}
+                              </h4>
+                              <p className="mb-2 text-xs sm:text-sm text-gray-400">
+                                {publication.authors}
+                              </p>
+                              <p className="text-xs sm:text-sm text-yellow-400">
+                                <em>{publication.journal}</em> ({publication.year}
+                                ), {publication.volume}, {publication.pages}.
+                              </p>
+                            </div>
                           </div>
-                          <div className="flex-1">
-                            <h4 className="mb-2 text-base sm:text-lg font-semibold transition-colors duration-300 group-hover:text-yellow-400">
-                              {publication.title}
-                            </h4>
-                            <p className="mb-2 text-xs sm:text-sm text-gray-400">
-                              {publication.authors}
-                            </p>
-                            <p className="text-xs sm:text-sm text-yellow-400">
-                              <em>{publication.journal}</em> ({publication.year}
-                              ), {publication.volume}, {publication.pages}.
-                            </p>
-                          </div>
-                        </div>
                         </a>
                       </div>
                     ))}
