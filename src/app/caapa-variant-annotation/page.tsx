@@ -224,9 +224,9 @@ export default function CAAPAVariantPage() {
 
                         {/* Video 2 */}
                         <div>
-                            <h4 className="text-xl font-semibold text-yellow-300 mb-4">2. allele frequency barplots for populations</h4>
+                            <h4 className="text-xl font-semibold text-yellow-300 mb-4">2. Allele frequency barplots for populations</h4>
                             <p className="text-gray-400 mt-3 mb-3">
-                                Compare allele frequencies across African, Afro-Caribbean, and Afro–South American populations in one view.
+                                Compare allele frequencies across over 60 human populations in one view.
                             </p>
                             <video
                                 className="w-full max-w-3xl rounded-lg"
