@@ -291,7 +291,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ setSelectedImage }) => {
 
       {/* Protein expression of validation on  PBMC subsets */}
       <div className="mb-8">
-        <h4 className="text-xl font-semibold text-yellow-300 mb-4">Protein expression of validation on  PBMC subsets</h4>
+        <h4 className="text-xl font-semibold text-yellow-300 mb-4">Protein expression validation on  PBMC subsets</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {images2.map((image, index) => (
             <div key={index} className="relative group cursor-pointer transition-all duration-300 hover:scale-105" onClick={() => setSelectedImage(index + images.length)}>

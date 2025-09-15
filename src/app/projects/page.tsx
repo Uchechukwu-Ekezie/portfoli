@@ -296,12 +296,14 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
     switch (title) {
       case "TB scRNA-seq Immunogenetic Analysis":
         return "/tb-scrna-seq";
+      case "CAAPA Pathogenic Variant Annotation":
+        return "/caapa-variant-annotation";
       default:
         return "#";
     }
   };
 
-  const isClickable = project.title === "TB scRNA-seq Immunogenetic Analysis";
+  const isClickable = project.title === "TB scRNA-seq Immunogenetic Analysis" || project.title === "CAAPA Pathogenic Variant Annotation";
 
   const CardContent = () => (
     <div className="relative transition-all duration-500 border border-gray-700 rounded-lg group bg-gray-900/50 backdrop-blur-sm hover:bg-gray-800/70 hover:border-yellow-400/30 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/10">
@@ -543,14 +545,14 @@ export default function Projects() {
 
       {/* Mouse follower */}
       {isClient && (
-        <div
-          className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
-          style={{
-            left: mousePosition.x - 6,
-            top: mousePosition.y - 6,
-            transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
-          }}
-        />
+      <div
+        className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
+        style={{
+          left: mousePosition.x - 6,
+          top: mousePosition.y - 6,
+          transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
+        }}
+      />
       )}
 
       <div className="relative z-10 px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
