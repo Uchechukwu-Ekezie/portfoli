@@ -1,0 +1,46 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "title": "CAAPA Pathogenic Variant Annotation",
+      "description": "Interactive platform for exploring genetic variation and functional annotations in African-ancestry populations",
+      "technologies": ["Next.js", "React", "TypeScript", "TailwindCSS"],
+      "status": "completed",
+      "slug": "caapa-variant-annotation",
+      "featured": true,
+      "images": ["/video1.mp4", "/video2.mp4", "/video3.mp4"],
+      "githubUrl": "",
+      "liveUrl": "",
+      "createdAt": "2024-01-15T00:00:00.000Z",
+      "updatedAt": "2024-01-15T00:00:00.000Z"
+    },
+    {
+      "id": "2", 
+      "title": "TB scRNA-seq Analysis",
+      "description": "Single-cell RNA sequencing analysis of tuberculosis infection patterns",
+      "technologies": ["R", "Python", "Bioconductor", "Seurat"],
+      "status": "in-progress",
+      "slug": "tb-scrna-seq",
+      "featured": true,
+      "images": [],
+      "githubUrl": "",
+      "liveUrl": "",
+      "createdAt": "2024-02-01T00:00:00.000Z",
+      "updatedAt": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "title": "ESPM 112L Data Analysis",
+      "description": "Environmental science data analysis and visualization project",
+      "technologies": ["R", "ggplot2", "dplyr"],
+      "status": "completed",
+      "slug": "espm-112l",
+      "featured": false,
+      "images": [],
+      "githubUrl": "",
+      "liveUrl": "",
+      "createdAt": "2024-03-01T00:00:00.000Z",
+      "updatedAt": "2024-03-01T00:00:00.000Z"
+    }
+  ]
+}
