@@ -55,11 +55,12 @@ async function writeProjectsData(data: ProjectsData) {
 // GET - Retrieve a specific project by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const data = await readProjectsData();
-    const project = data.projects.find((p: Project) => p.id === params.id);
+    const project = data.projects.find((p: Project) => p.id === id);
 
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
@@ -77,7 +78,7 @@ export async function GET(
 // PUT - Update a project
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check authentication
@@ -86,10 +87,11 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
     const projectData = await request.json();
     const data = await readProjectsData();
 
-    const projectIndex = data.projects.findIndex((p: Project) => p.id === params.id);
+    const projectIndex = data.projects.findIndex((p: Project) => p.id === id);
     if (projectIndex === -1) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
@@ -98,7 +100,7 @@ export async function PUT(
     data.projects[projectIndex] = {
       ...data.projects[projectIndex],
       ...projectData,
-      id: params.id, // Ensure ID doesn't change
+      id: id, // Ensure ID doesn't change
       updatedAt: new Date().toISOString(),
     };
 
@@ -122,7 +124,7 @@ export async function PUT(
 // DELETE - Delete a project
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check authentication
@@ -131,8 +133,9 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
     const data = await readProjectsData();
-    const projectIndex = data.projects.findIndex((p: Project) => p.id === params.id);
+    const projectIndex = data.projects.findIndex((p: Project) => p.id === id);
 
     if (projectIndex === -1) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });

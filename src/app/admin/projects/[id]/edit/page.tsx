@@ -22,10 +22,15 @@ interface Project {
   updatedAt: string;
 }
 
-export default function EditProject({ params }: { params: { id: string } }) {
+export default function EditProject({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [projectId, setProjectId] = useState<string>("");
   const [formData, setFormData] = useState<Omit<Project, 'id' | 'createdAt' | 'updatedAt'>>({
     title: "",
     description: "",
@@ -40,37 +45,44 @@ export default function EditProject({ params }: { params: { id: string } }) {
   const [currentTech, setCurrentTech] = useState("");
 
   useEffect(() => {
-    const fetchProjectData = async () => {
-      try {
-        const response = await fetch(`/api/projects/${params.id}`);
-        if (response.ok) {
-          const project = await response.json();
-          setFormData({
-            title: project.title,
-            description: project.description,
-            technologies: project.technologies,
-            status: project.status,
-            slug: project.slug,
-            featured: project.featured,
-            images: project.images,
-            githubUrl: project.githubUrl,
-            liveUrl: project.liveUrl,
-          });
-        } else {
-          alert("Project not found");
+    const initializeComponent = async () => {
+      const resolvedParams = await params;
+      setProjectId(resolvedParams.id);
+      
+      const fetchProjectData = async () => {
+        try {
+          const response = await fetch(`/api/projects/${resolvedParams.id}`);
+          if (response.ok) {
+            const project = await response.json();
+            setFormData({
+              title: project.title,
+              description: project.description,
+              technologies: project.technologies,
+              status: project.status,
+              slug: project.slug,
+              featured: project.featured,
+              images: project.images,
+              githubUrl: project.githubUrl,
+              liveUrl: project.liveUrl,
+            });
+          } else {
+            alert("Project not found");
+            router.push("/admin/projects");
+          }
+        } catch (error) {
+          console.error("Failed to fetch project:", error);
+          alert("Failed to load project");
           router.push("/admin/projects");
+        } finally {
+          setInitialLoading(false);
         }
-      } catch (error) {
-        console.error("Failed to fetch project:", error);
-        alert("Failed to load project");
-        router.push("/admin/projects");
-      } finally {
-        setInitialLoading(false);
-      }
+      };
+      
+      fetchProjectData();
     };
     
-    fetchProjectData();
-  }, [params.id, router]);
+    initializeComponent();
+  }, [params, router]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -104,7 +116,7 @@ export default function EditProject({ params }: { params: { id: string } }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/projects/${params.id}`, {
+      const response = await fetch(`/api/projects/${projectId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
