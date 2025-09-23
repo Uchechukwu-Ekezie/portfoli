@@ -355,7 +355,7 @@ export default function ProfileEditor() {
                     value={formData.social.github}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                    placeholder="https://github.com/username"
+                        placeholder="https://github.com/oshiomah1"
                   />
                 </div>
 
@@ -385,7 +385,7 @@ export default function ProfileEditor() {
                     value={formData.social.twitter}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                    placeholder="https://twitter.com/username"
+                    placeholder="https://twitter.com/oshiomah"
                   />
                 </div>
 
@@ -400,7 +400,7 @@ export default function ProfileEditor() {
                     value={formData.social.orcid}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                    placeholder="https://orcid.org/0000-0000-0000-0000"
+                    placeholder="https://orcid.org/0000-0000-0000-0001"
                   />
                 </div>
               </div>
