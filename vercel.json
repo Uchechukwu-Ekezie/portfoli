@@ -4,12 +4,6 @@
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "devCommand": "npm run dev",
-  "env": {
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "NEXTAUTH_URL": "@nextauth_url",
-    "ADMIN_EMAIL": "@admin_email",
-    "ADMIN_PASSWORD_HASH": "@admin_password_hash"
-  },
   "functions": {
     "src/app/api/**/*.ts": {
       "maxDuration": 30
