@@ -210,8 +210,7 @@ export default function ProfileEditor() {
             </div>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Information */}
             <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
               <h2 className="text-lg font-semibold text-white mb-4 flex items-center">
@@ -371,7 +370,7 @@ export default function ProfileEditor() {
                     value={formData.social.linkedin}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                    placeholder="https://linkedin.com/in/username"
+                    placeholder="https://linkedin.com/in/oshiomah"
                   />
                 </div>
 
