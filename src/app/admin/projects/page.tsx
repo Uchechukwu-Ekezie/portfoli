@@ -44,7 +44,7 @@ export default function ProjectsAdmin() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch("/api/projects");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projects`);
       if (response.ok) {
         const data = await response.json();
         setProjects(data);
@@ -62,7 +62,7 @@ export default function ProjectsAdmin() {
     }
 
     try {
-      const response = await fetch(`/api/projects/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projects/${id}`, {
         method: "DELETE",
       });
 

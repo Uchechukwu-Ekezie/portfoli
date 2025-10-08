@@ -59,7 +59,7 @@ export default function ProfileEditor() {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch("/api/profile");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile`);
       if (response.ok) {
         const data = await response.json();
         setFormData(data);
@@ -162,7 +162,7 @@ export default function ProfileEditor() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/profile", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

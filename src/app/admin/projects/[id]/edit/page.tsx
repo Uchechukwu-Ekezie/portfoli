@@ -51,7 +51,7 @@ export default function EditProject({
       
       const fetchProjectData = async () => {
         try {
-          const response = await fetch(`/api/projects/${resolvedParams.id}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projects/${resolvedParams.id}`);
           if (response.ok) {
             const project = await response.json();
             setFormData({
@@ -116,7 +116,7 @@ export default function EditProject({
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/projects/${projectId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projects/${projectId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
