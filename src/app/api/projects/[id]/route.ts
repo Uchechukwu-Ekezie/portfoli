@@ -1,55 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import fs from "fs/promises";
-import path from "path";
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  technologies: string[];
-  status: string;
-  slug: string;
-  featured: boolean;
-  images: string[];
-  githubUrl: string;
-  liveUrl: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface ProjectsData {
-  projects: Project[];
-}
-
-const PROJECTS_FILE = path.join(process.cwd(), "src/data/projects.json");
 
 // Helper function to check admin authentication
 async function checkAuth() {
   const session = await getServerSession();
   return session?.user?.role === "admin";
-}
-
-// Helper function to read projects data
-async function readProjectsData(): Promise<ProjectsData> {
-  try {
-    const data = await fs.readFile(PROJECTS_FILE, "utf-8");
-    return JSON.parse(data) as ProjectsData;
-  } catch (error) {
-    console.error("Error reading projects data:", error);
-    return { projects: [] };
-  }
-}
-
-// Helper function to write projects data
-async function writeProjectsData(data: ProjectsData) {
-  try {
-    await fs.writeFile(PROJECTS_FILE, JSON.stringify(data, null, 2));
-    return true;
-  } catch (error) {
-    console.error("Error writing projects data:", error);
-    return false;
-  }
 }
 
 // GET - Retrieve a specific project by ID
@@ -59,15 +14,25 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const data = await readProjectsData();
-    const project = data.projects.find((p: Project) => p.id === id);
 
-    if (!project) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projectRoutes/${id}`
+    );
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return NextResponse.json(
+          { error: "Project not found" },
+          { status: 404 }
+        );
+      }
+      throw new Error(`Backend responded with status: ${response.status}`);
     }
 
+    const project = await response.json();
     return NextResponse.json(project);
-  } catch {
+  } catch (error) {
+    console.error("Error fetching project from backend:", error);
     return NextResponse.json(
       { error: "Failed to fetch project" },
       { status: 500 }
@@ -89,31 +54,32 @@ export async function PUT(
 
     const { id } = await params;
     const projectData = await request.json();
-    const data = await readProjectsData();
 
-    const projectIndex = data.projects.findIndex((p: Project) => p.id === id);
-    if (projectIndex === -1) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projectRoutes/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return NextResponse.json(
+          { error: "Project not found" },
+          { status: 404 }
+        );
+      }
+      throw new Error(`Backend responded with status: ${response.status}`);
     }
 
-    // Update the project
-    data.projects[projectIndex] = {
-      ...data.projects[projectIndex],
-      ...projectData,
-      id: id, // Ensure ID doesn't change
-      updatedAt: new Date().toISOString(),
-    };
-
-    const success = await writeProjectsData(data);
-    if (!success) {
-      return NextResponse.json(
-        { error: "Failed to update project" },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json(data.projects[projectIndex]);
-  } catch {
+    const updatedProject = await response.json();
+    return NextResponse.json(updatedProject);
+  } catch (error) {
+    console.error("Error updating project in backend:", error);
     return NextResponse.json(
       { error: "Failed to update project" },
       { status: 500 }
@@ -134,29 +100,28 @@ export async function DELETE(
     }
 
     const { id } = await params;
-    const data = await readProjectsData();
-    const projectIndex = data.projects.findIndex((p: Project) => p.id === id);
 
-    if (projectIndex === -1) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projectRoutes/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return NextResponse.json(
+          { error: "Project not found" },
+          { status: 404 }
+        );
+      }
+      throw new Error(`Backend responded with status: ${response.status}`);
     }
 
-    // Remove the project
-    const deletedProject = data.projects.splice(projectIndex, 1)[0];
-
-    const success = await writeProjectsData(data);
-    if (!success) {
-      return NextResponse.json(
-        { error: "Failed to delete project" },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ 
-      message: "Project deleted successfully", 
-      project: deletedProject 
-    });
-  } catch {
+    const result = await response.json();
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error("Error deleting project in backend:", error);
     return NextResponse.json(
       { error: "Failed to delete project" },
       { status: 500 }
