@@ -1,20 +1,21 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useSession } from "next-auth/react"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function Navigation() {
-  const pathname = usePathname()
-  const { data: session } = useSession()
+  const pathname = usePathname();
+  const { data: session } = useSession();
 
   const navItems = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Projects", href: "/projects" },
+    { name: "Quiz", href: "/quiz" },
     { name: "Contact", href: "/contact" },
     // { name: "ESPM 112L", href: "/espm-112l" },
-  ]
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
@@ -26,8 +27,8 @@ export default function Navigation() {
               OP
             </Link>
             {/* Hidden admin access - only visible when you know to look for it */}
-            <Link 
-              href="/admin" 
+            <Link
+              href="/admin"
               className="ml-4 text-xs text-gray-600 hover:text-yellow-400 transition-colors opacity-30 hover:opacity-100"
               title="Admin Access"
             >
@@ -48,7 +49,7 @@ export default function Navigation() {
                 {item.name}
               </Link>
             ))}
-            
+
             {/* Show admin link if logged in */}
             {session?.user?.role === "admin" && (
               <Link
@@ -62,5 +63,5 @@ export default function Navigation() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
