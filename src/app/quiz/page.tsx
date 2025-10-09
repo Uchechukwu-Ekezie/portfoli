@@ -111,14 +111,14 @@ export default function QuizPage() {
 
   const getCellTypeEmoji = (cellType: string) => {
     const emojiMap: { [key: string]: string } = {
-      "CD4+": "🤝",
-      "CD8+": "⚡",
-      "γδ T": "🎨",
-      NK: "🛡️",
+      "CD4+": "🗣️",
+      "CD8+": "⚔️",
+      "γδ T": "�",
+      NK: "�",
       B: "📚",
-      Monocyte: "🔧",
-      Dendritic: "📢",
-      Treg: "🕊️",
+      Monocyte: "�",
+      Dendritic: "�",
+      Treg: "☮️",
     };
     return emojiMap[cellType] || "🧬";
   };
@@ -169,18 +169,6 @@ export default function QuizPage() {
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               {quizData.quizInfo.description}
             </p>
-            <div className="bg-gray-900 rounded-lg p-6 max-w-md mx-auto mb-8">
-              <h3 className="text-lg font-semibold mb-4 text-yellow-400">
-                Quiz Details:
-              </h3>
-              <ul className="text-left space-y-2 text-gray-300">
-                <li>• {quizData.questions.length} questions total</li>
-                <li>• Personality assessment format</li>
-                <li>• No time limit</li>
-                <li>• You can go back to previous questions</li>
-                <li>• Discover your PBMC personality!</li>
-              </ul>
-            </div>
             <button
               onClick={() => setQuizStarted(true)}
               className="bg-yellow-400 text-black px-8 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
@@ -212,7 +200,7 @@ export default function QuizPage() {
               >
                 {result.cellType}
               </div>
-              <div className="text-xl text-gray-300 mb-6">
+              <div className="text-lg text-gray-300 mb-6 whitespace-pre-line text-left">
                 {result.description}
               </div>
 

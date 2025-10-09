@@ -7,14 +7,14 @@
     "isPersonalityQuiz": true
   },
   "cellTypes": {
-    "CD4+": "CD4+ T Helper Cell - The Supportive Leader",
-    "CD8+": "CD8+ T Cytotoxic Cell - The Direct Action Taker",
-    "γδ T": "Gamma Delta T Cell - The Creative Unconventional",
-    "NK": "Natural Killer Cell - The Quiet Guardian",
-    "B": "B Cell - The Knowledge Keeper",
-    "Monocyte": "Monocyte - The Adaptable Helper",
-    "Dendritic": "Dendritic Cell - The Master Communicator",
-    "Treg": "Regulatory T Cell - The Peaceful Mediator"
+    "CD4+": "CD4+ T cell – The Coach 🗣️\n\nYou're the motivator, always steering the group toward success. In lab meetings you shine by guiding discussion, and outside the lab, you're the one hyping up your friends. You're a team player who thrives when everyone else thrives too.",
+    "CD8+": "CD8+ T cell – The Warrior ⚔️\n\nYou're direct, bold, and decisive. In meetings you cut straight to the point, and in life you don't shy away from challenges. You bring intensity and focus that keeps everyone on their toes.",
+    "γδ T": "γδ T cell – The Wildcard 🎲\n\nQuirky, creative, and a little chaotic — you're the one who brings fresh energy and surprises. Whether it's thrifting, vibing, or brainstorming, you keep things unpredictable in the best way.",
+    "NK": "NK cell – The Lone Wolf 🐺\n\nIndependent and instinct-driven, you like to hang back, observe, and strike when the moment calls for it. You don't need the spotlight, but people know you're quietly dependable.",
+    "B": "B cell – The Archivist 📚\n\nYou're detail-oriented and memory-driven. In lab meetings you're the one taking notes, and outside, you're the one with receipts, playlists, and archives of the group's best moments.",
+    "Monocyte": "Monocyte – The Multitasker 🔄\n\nPractical, flexible, and hands-on. You don't mind doing the grunt work if it keeps things moving, whether in the lab or in group life. You're the unsung hero who makes sure nothing falls apart.",
+    "Dendritic": "Dendritic cell – The Storyteller 📡\n\nYou're the communicator, the social bridge. You thrive on connecting people and making sure information flows smoothly. In presentations, you're the one who frames the big picture.",
+    "Treg": "Regulatory T cell (Treg) – The Peacekeeper ☮️\n\nBalanced, empathetic, and calming, you keep things from spiraling. You're the vibe stabilizer of your group — the one who quietly makes sure everyone feels okay."
   },
   "questions": [
     {

@@ -18,46 +18,103 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.log("Missing credentials");
           return null;
         }
 
         try {
-          // Send login request to backend
-          const response = await fetch(
+          // Try multiple possible backend endpoints
+          const possibleEndpoints = [
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: credentials.email,
-                password: credentials.password,
-              }),
-            }
-          );
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/login`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/login`,
+          ];
 
-          if (!response.ok) {
-            console.error(
-              "Backend auth failed:",
-              response.status,
-              response.statusText
-            );
+          let authResult = null;
+          let successfulEndpoint = null;
+
+          for (const backendUrl of possibleEndpoints) {
+            console.log("Trying endpoint:", backendUrl);
+
+            try {
+              const response = await fetch(backendUrl, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  email: credentials.email,
+                  password: credentials.password,
+                }),
+              });
+
+              console.log(`Response from ${backendUrl}:`, response.status);
+
+              if (response.ok) {
+                const result = await response.json();
+                console.log("Response data:", result);
+
+                // Check different possible response formats
+                if (
+                  result.success ||
+                  result.token ||
+                  result.user ||
+                  result.authenticated
+                ) {
+                  authResult = result;
+                  successfulEndpoint = backendUrl;
+                  break;
+                }
+              } else {
+                const errorText = await response.text();
+                console.log(
+                  `Error from ${backendUrl}:`,
+                  response.status,
+                  errorText
+                );
+              }
+            } catch (endpointError) {
+              console.log(
+                `Failed to connect to ${backendUrl}:`,
+                endpointError instanceof Error
+                  ? endpointError.message
+                  : String(endpointError)
+              );
+            }
+          }
+
+          if (!authResult) {
+            console.error("All backend endpoints failed");
             return null;
           }
 
-          const authResult = await response.json();
+          console.log("Successful authentication via:", successfulEndpoint);
+          console.log("Auth result:", authResult);
 
-          // Check if login was successful
-          if (authResult.success && authResult.user) {
+          // Handle different response formats
+          let user = null;
+
+          if (authResult.user) {
+            user = authResult.user;
+          } else if (authResult.data && authResult.data.user) {
+            user = authResult.data.user;
+          } else if (authResult.email) {
+            // Direct user object
+            user = authResult;
+          }
+
+          if (user) {
+            console.log("User found:", user);
             return {
-              id: authResult.user.id || "1",
-              email: authResult.user.email,
-              name: authResult.user.name || "Portfolio Admin",
-              role: authResult.user.role || "admin",
+              id: user.id || user._id || "1",
+              email: user.email || credentials.email,
+              name: user.name || user.username || "Portfolio Admin",
+              role: user.role || "admin",
             } as AdminUser;
           }
 
+          console.log("No user found in response");
           return null;
         } catch (error) {
           console.error("Auth error:", error);
