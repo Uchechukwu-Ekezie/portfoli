@@ -1,11 +1,5 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-
-// In a real app, this would come from a database
-// For simplicity, we'll use environment variables
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@portfolio.com";
-const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || "$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj5TN5.ZK.M6"; // "admin123"
 
 interface AdminUser {
   id: string;
@@ -20,35 +14,57 @@ const handler = NextAuth({
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
-        // Check if email matches admin email
-        if (credentials.email !== ADMIN_EMAIL) {
+        try {
+          // Send login request to backend
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: credentials.email,
+                password: credentials.password,
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            console.error(
+              "Backend auth failed:",
+              response.status,
+              response.statusText
+            );
+            return null;
+          }
+
+          const authResult = await response.json();
+
+          // Check if login was successful
+          if (authResult.success && authResult.user) {
+            return {
+              id: authResult.user.id || "1",
+              email: authResult.user.email,
+              name: authResult.user.name || "Portfolio Admin",
+              role: authResult.user.role || "admin",
+            } as AdminUser;
+          }
+
+          return null;
+        } catch (error) {
+          console.error("Auth error:", error);
           return null;
         }
-
-        // For development, allow plain text password comparison
-        // In production, use bcrypt comparison
-        const isValidPassword = credentials.password === "admin123" || 
-          await bcrypt.compare(credentials.password, ADMIN_PASSWORD_HASH);
-
-        if (!isValidPassword) {
-          return null;
-        }
-
-        return {
-          id: "1",
-          email: ADMIN_EMAIL,
-          name: "Portfolio Admin",
-          role: "admin"
-        } as AdminUser;
-      }
-    })
+      },
+    }),
   ],
   session: {
     strategy: "jwt",
