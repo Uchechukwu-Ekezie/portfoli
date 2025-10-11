@@ -12,7 +12,6 @@ export default function Navigation() {
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Projects", href: "/projects" },
-    { name: "Quiz", href: "/quiz" },
     { name: "Contact", href: "/contact" },
     // { name: "ESPM 112L", href: "/espm-112l" },
   ];

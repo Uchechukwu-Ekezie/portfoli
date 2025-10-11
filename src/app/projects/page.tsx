@@ -94,7 +94,6 @@ const FloatingBioParticles: React.FC = () => {
     //   Zap,
     //   Eye,
     // ];
-
     // const newParticles: BioParticle[] = Array.from({ length: 15 }).map(
     //   (_, i) => ({
     //     id: i,
@@ -303,7 +302,9 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
     }
   };
 
-  const isClickable = project.title === "TB scRNA-seq Immunogenetic Analysis" || project.title === "CAAPA Pathogenic Variant Annotation";
+  const isClickable =
+    project.title === "TB scRNA-seq Immunogenetic Analysis" ||
+    project.title === "CAAPA Pathogenic Variant Annotation";
 
   const CardContent = () => (
     <div className="relative transition-all duration-500 border border-gray-700 rounded-lg group bg-gray-900/50 backdrop-blur-sm hover:bg-gray-800/70 hover:border-yellow-400/30 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/10">
@@ -545,14 +546,14 @@ export default function Projects() {
 
       {/* Mouse follower */}
       {isClient && (
-      <div
-        className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
-        style={{
-          left: mousePosition.x - 6,
-          top: mousePosition.y - 6,
-          transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
-        }}
-      />
+        <div
+          className="fixed z-50 w-3 h-3 transition-all duration-300 bg-yellow-400 rounded-full pointer-events-none opacity-30"
+          style={{
+            left: mousePosition.x - 6,
+            top: mousePosition.y - 6,
+            transform: `scale(${1 + Math.sin(Date.now() * 0.005) * 0.3})`,
+          }}
+        />
       )}
 
       <div className="relative z-10 px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -610,6 +611,58 @@ export default function Projects() {
             </BioAnimatedSection>
           ))}
         </div>
+
+        {/* Quiz Section */}
+        <BioAnimatedSection delay={800} className="mt-16">
+          <div className="relative p-8 text-center border rounded-lg bg-gradient-to-br from-gray-900/80 via-gray-800/50 to-gray-900/80 border-yellow-400/30 backdrop-blur-sm">
+            <div className="relative z-10">
+              <h3 className="mb-4 text-3xl font-bold text-yellow-400">
+                Discover Your PBMC Personality! 🧬
+              </h3>
+              <p className="max-w-2xl mx-auto mb-6 text-lg leading-relaxed text-gray-300">
+                Take this fun quiz to see what type of peripheral blood
+                mononuclear cell matches your personality! Are you a supportive
+                CD4+ T cell or a bold CD8+ warrior? Find out which immune cell
+                type you are!
+              </p>
+              <Link
+                href="/quiz"
+                className="inline-flex items-center gap-2 px-8 py-3 text-lg font-semibold text-black transition-all duration-300 bg-yellow-400 rounded-lg hover:bg-yellow-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/20"
+              >
+                Take the Quiz
+                <span className="text-xl">🎯</span>
+              </Link>
+            </div>
+
+            {/* Background decorative elements */}
+            <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
+              <div
+                className="absolute top-4 left-4 text-yellow-400 opacity-20 animate-bounce"
+                style={{ animationDelay: "0s" }}
+              >
+                🧬
+              </div>
+              <div
+                className="absolute top-4 right-4 text-yellow-400 opacity-20 animate-bounce"
+                style={{ animationDelay: "1s" }}
+              >
+                🔬
+              </div>
+              <div
+                className="absolute bottom-4 left-4 text-yellow-400 opacity-20 animate-bounce"
+                style={{ animationDelay: "2s" }}
+              >
+                🧪
+              </div>
+              <div
+                className="absolute bottom-4 right-4 text-yellow-400 opacity-20 animate-bounce"
+                style={{ animationDelay: "1.5s" }}
+              >
+                ⚗️
+              </div>
+            </div>
+          </div>
+        </BioAnimatedSection>
 
         {/* Research Impact Section */}
         <BioAnimatedSection delay={1000} className="mt-16">
