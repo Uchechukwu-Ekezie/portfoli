@@ -29,7 +29,8 @@ export default function AdminLogin() {
       });
 
       if (result?.error) {
-        setError("Invalid credentials. Please try again.");
+        // Show backend/NextAuth error if available for clarity
+        setError(result.error);
       } else {
         // Check if login was successful and redirect
         const session = await getSession();
@@ -61,9 +62,7 @@ export default function AdminLogin() {
           <div className="mx-auto h-12 w-12 bg-yellow-400 rounded-full flex items-center justify-center">
             <Lock className="h-6 w-6 text-black" />
           </div>
-          <h2 className="mt-6 text-3xl font-bold text-white">
-            Admin Login
-          </h2>
+          <h2 className="mt-6 text-3xl font-bold text-white">Admin Login</h2>
           <p className="mt-2 text-sm text-gray-400">
             Sign in to access the portfolio administration panel
           </p>
@@ -74,7 +73,10 @@ export default function AdminLogin() {
           <div className="space-y-4">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Email Address
               </label>
               <div className="relative">
@@ -96,7 +98,10 @@ export default function AdminLogin() {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -118,7 +123,11 @@ export default function AdminLogin() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white"
                 >
-                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
                 </button>
               </div>
             </div>
@@ -157,7 +166,9 @@ export default function AdminLogin() {
 
         {/* Development Info */}
         <div className="mt-8 p-4 bg-gray-800 rounded-lg border border-gray-700">
-          <h3 className="text-sm font-medium text-yellow-400 mb-2">Development Credentials:</h3>
+          <h3 className="text-sm font-medium text-yellow-400 mb-2">
+            Development Credentials:
+          </h3>
           <p className="text-xs text-gray-400">Email: admin@portfolio.com</p>
           <p className="text-xs text-gray-400">Password: admin123</p>
           <p className="text-xs text-gray-300 mt-2">

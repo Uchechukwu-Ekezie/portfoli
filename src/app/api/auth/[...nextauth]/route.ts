@@ -1,12 +1,51 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import type { JWT } from "next-auth/jwt";
+import type { Session } from "next-auth";
 
 interface AdminUser {
   id: string;
   email: string;
   name: string;
   role: string;
+  accessToken?: string;
 }
+
+interface BackendUser {
+  id?: string;
+  _id?: string;
+  email?: string;
+  name?: string;
+  username?: string;
+  role?: string;
+}
+
+interface BackendAuthResponse {
+  success?: boolean;
+  authenticated?: boolean;
+  token?: string;
+  accessToken?: string;
+  user?: BackendUser;
+  data?: {
+    user?: BackendUser;
+    token?: string;
+  };
+  // Some backends return the user fields at top-level
+  id?: string;
+  _id?: string;
+  email?: string;
+  name?: string;
+  username?: string;
+  role?: string;
+  message?: string;
+  error?: string;
+  detail?: string;
+}
+
+// Local helper types to extend NextAuth structures at runtime without global module augmentation
+type JWTWithAccessToken = JWT & { role?: string; accessToken?: string };
+type SessionUserWithRole = (Session["user"] & { role?: string }) | undefined;
+type SessionWithAccessToken = Session & { accessToken?: string };
 
 const handler = NextAuth({
   providers: [
@@ -23,102 +62,91 @@ const handler = NextAuth({
         }
 
         try {
-          // Try multiple possible backend endpoints
-          const possibleEndpoints = [
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/login`,
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`,
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/login`,
-          ];
+          // Ensure base URL is configured
+          const baseUrl =
+            process.env.NEXT_PUBLIC_API_BASE_URL ||
+            // Fallbacks to be resilient if env var is named differently in hosting
+            process.env.API_URL ||
+            process.env.NEXT_PUBLIC_API_URL;
+          if (!baseUrl) {
+            throw new Error("NEXT_PUBLIC_API_BASE_URL is not configured");
+          }
 
-          let authResult = null;
-          let successfulEndpoint = null;
+          // Backend-recommended endpoint
+          const backendUrl = `${baseUrl}/api/auth/login`;
+          console.log("Authenticating via:", backendUrl);
 
-          for (const backendUrl of possibleEndpoints) {
-            console.log("Trying endpoint:", backendUrl);
+          const response = await fetch(backendUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          });
 
-            try {
-              const response = await fetch(backendUrl, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  email: credentials.email,
-                  password: credentials.password,
-                }),
-              });
+          const contentType = response.headers.get("content-type") || "";
+          const payload: BackendAuthResponse | string = contentType.includes(
+            "application/json"
+          )
+            ? await response.json().catch(() => ({} as BackendAuthResponse))
+            : await response.text().catch(() => "");
 
-              console.log(`Response from ${backendUrl}:`, response.status);
-
-              if (response.ok) {
-                const result = await response.json();
-                console.log("Response data:", result);
-
-                // Check different possible response formats
-                if (
-                  result.success ||
-                  result.token ||
-                  result.user ||
-                  result.authenticated
-                ) {
-                  authResult = result;
-                  successfulEndpoint = backendUrl;
-                  break;
-                }
-              } else {
-                const errorText = await response.text();
-                console.log(
-                  `Error from ${backendUrl}:`,
-                  response.status,
-                  errorText
-                );
-              }
-            } catch (endpointError) {
-              console.log(
-                `Failed to connect to ${backendUrl}:`,
-                endpointError instanceof Error
-                  ? endpointError.message
-                  : String(endpointError)
-              );
+          if (!response.ok) {
+            let message = `Login failed with status ${response.status}`;
+            if (typeof payload === "string" && payload) {
+              message = payload;
+            } else if (payload && typeof payload === "object") {
+              const p = payload as BackendAuthResponse;
+              message = p.message || p.error || p.detail || message;
             }
+            // Throw to surface a clear error to the client
+            throw new Error(message);
           }
 
-          if (!authResult) {
-            console.error("All backend endpoints failed");
-            return null;
+          const authResult: BackendAuthResponse =
+            typeof payload === "string" ? ({} as BackendAuthResponse) : payload;
+          console.log("Auth result payload:", authResult);
+
+          // Normalize result
+          const backendUser: BackendUser | null =
+            authResult.user || authResult.data?.user || null;
+          const token: string | undefined =
+            authResult.token ||
+            authResult.accessToken ||
+            authResult.data?.token;
+
+          if (!backendUser && !authResult.email) {
+            throw new Error("Login succeeded but no user object returned");
           }
 
-          console.log("Successful authentication via:", successfulEndpoint);
-          console.log("Auth result:", authResult);
+          const userObj: BackendUser & {
+            email?: string;
+            name?: string;
+            role?: string;
+          } = (backendUser as BackendUser) || {
+            id: authResult.id,
+            _id: authResult._id,
+            email: authResult.email,
+            name: authResult.name,
+            username: authResult.username,
+            role: authResult.role,
+          };
 
-          // Handle different response formats
-          let user = null;
-
-          if (authResult.user) {
-            user = authResult.user;
-          } else if (authResult.data && authResult.data.user) {
-            user = authResult.data.user;
-          } else if (authResult.email) {
-            // Direct user object
-            user = authResult;
-          }
-
-          if (user) {
-            console.log("User found:", user);
-            return {
-              id: user.id || user._id || "1",
-              email: user.email || credentials.email,
-              name: user.name || user.username || "Portfolio Admin",
-              role: user.role || "admin",
-            } as AdminUser;
-          }
-
-          console.log("No user found in response");
-          return null;
+          const adminUser: AdminUser = {
+            id: userObj.id || userObj._id || "1",
+            email: userObj.email || credentials.email,
+            name: userObj.name || userObj.username || "Portfolio Admin",
+            role: userObj.role || "admin",
+            accessToken: token,
+          };
+          return adminUser;
         } catch (error) {
           console.error("Auth error:", error);
-          return null;
+          // Re-throw to let NextAuth surface a readable error on the client
+          throw error;
         }
       },
     }),
@@ -129,14 +157,24 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as AdminUser).role;
+        const u = user as AdminUser;
+        token.role = u.role;
+        if (u.accessToken) {
+          (token as JWTWithAccessToken).accessToken = u.accessToken;
+        }
       }
       return token;
     },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.sub!;
-        session.user.role = token.role as string;
+        const t = token as JWTWithAccessToken;
+        if (t.role) {
+          (session.user as SessionUserWithRole)!.role = t.role;
+        }
+        if (t.accessToken) {
+          (session as SessionWithAccessToken).accessToken = t.accessToken;
+        }
       }
       return session;
     },

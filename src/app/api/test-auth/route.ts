@@ -7,7 +7,10 @@ export async function POST(request: Request) {
     console.log("Test auth called with:", { email, password: "***" });
 
     // First, test if the backend server is responding at all
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const baseUrl =
+      process.env.NEXT_PUBLIC_API_BASE_URL ||
+      process.env.API_URL ||
+      process.env.NEXT_PUBLIC_API_URL;
     console.log("Testing base backend URL:", baseUrl);
 
     if (!baseUrl) {
