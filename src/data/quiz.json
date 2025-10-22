@@ -1,0 +1,285 @@
+{
+  "quizInfo": {
+    "title": "What Type of PBMC Are You?",
+    "description": "Discover which peripheral blood mononuclear cell type matches your personality! This fun quiz connects your traits to different immune cell types.",
+    "totalQuestions": 11,
+    "passingScore": 50,
+    "isPersonalityQuiz": true
+  },
+  "cellTypes": {
+    "CD4+": "CD4+ T cell – The Coach 🗣️\n\nYou're the motivator, always steering the group toward success. In lab meetings you shine by guiding discussion, and outside the lab, you're the one hyping up your friends. You're a team player who thrives when everyone else thrives too.",
+    "CD8+": "CD8+ T cell – The Warrior ⚔️\n\nYou're direct, bold, and decisive. In meetings you cut straight to the point, and in life you don't shy away from challenges. You bring intensity and focus that keeps everyone on their toes.",
+    "γδ T": "γδ T cell – The Wildcard 🎲\n\nQuirky, creative, and a little chaotic — you're the one who brings fresh energy and surprises. Whether it's thrifting, vibing, or brainstorming, you keep things unpredictable in the best way.",
+    "NK": "NK cell – The Lone Wolf 🐺\n\nIndependent and instinct-driven, you like to hang back, observe, and strike when the moment calls for it. You don't need the spotlight, but people know you're quietly dependable.",
+    "B": "B cell – The Archivist 📚\n\nYou're detail-oriented and memory-driven. In lab meetings you're the one taking notes, and outside, you're the one with receipts, playlists, and archives of the group's best moments.",
+    "Monocyte": "Monocyte – The Multitasker 🔄\n\nPractical, flexible, and hands-on. You don't mind doing the grunt work if it keeps things moving, whether in the lab or in group life. You're the unsung hero who makes sure nothing falls apart.",
+    "Dendritic": "Dendritic cell – The Storyteller 📡\n\nYou're the communicator, the social bridge. You thrive on connecting people and making sure information flows smoothly. In presentations, you're the one who frames the big picture.",
+    "Treg": "Regulatory T cell (Treg) – The Peacekeeper ☮️\n\nBalanced, empathetic, and calming, you keep things from spiraling. You're the vibe stabilizer of your group — the one who quietly makes sure everyone feels okay."
+  },
+  "questions": [
+    {
+      "id": 1,
+      "question": "In a lab meeting, when you have something to say…",
+      "options": [
+        "Raise your hand and guide the discussion constructively.",
+        "Interrupt to cut straight to the point.",
+        "Blurt out something unexpected that makes people laugh.",
+        "Mostly observe quietly, waiting for the right time.",
+        "Take detailed notes so nothing gets lost.",
+        "Volunteer to follow up later if no one else will.",
+        "Frame your point as a story so everyone connects.",
+        "Mediate when tensions rise."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 2,
+      "question": "When others are presenting, how do you usually give feedback?",
+      "options": [
+        "Encouraging and supportive.",
+        "Direct and blunt — they'll thank you later.",
+        "Offbeat or funny, sometimes tangential but memorable.",
+        "Short, concise, maybe just a nod.",
+        "Remind them of details from last time.",
+        "Point out gaps and suggest practical fixes.",
+        "Recap their key point for clarity.",
+        "Soften harsh critiques with diplomacy."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 3,
+      "question": "A teammate is clearly struggling but hasn't asked for help. What do you do?",
+      "options": [
+        "Step in with gentle coaching.",
+        "Take over the hard parts so the project moves forward.",
+        "Suggest an offbeat hack they never thought of.",
+        "Keep an eye on them but only step in if asked.",
+        "Send them your notes and resources.",
+        "Roll up your sleeves and work alongside them.",
+        "Call attention so the group can support them.",
+        "Quietly check in to reassure them."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 4,
+      "question": "At an office party, you are…",
+      "options": [
+        "The host, making sure everyone feels welcome.",
+        "The challenger, starting competitive games.",
+        "The chaotic one in a thrifted outfit making TikToks.",
+        "The observer at the edge, sipping your drink.",
+        "The photo-documentarian, capturing memories.",
+        "The logistics person, keeping food and drinks stocked.",
+        "The social butterfly, introducing everyone.",
+        "The one calming drama when it flares."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 5,
+      "question": "In your group, who are you when it comes to the vibe?",
+      "options": [
+        "The motivator, hyping people up.",
+        "The one who sets the pace and energy.",
+        "The chaotic wild energy.",
+        "The calm anchor.",
+        "The playlist curator or memory-keeper.",
+        "The one making sure snacks/water/logistics are covered.",
+        "The MC who makes everyone feel included.",
+        "The diffuser who keeps things chill when people clash."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 6,
+      "question": "What's your ideal weekend activity?",
+      "options": [
+        "Hosting a study group or workshop.",
+        "Training hard at the gym or competing.",
+        "Thrifting with friends for weird treasures.",
+        "Solo hiking or quiet retreat.",
+        "Scrapbooking, journaling, or organizing.",
+        "Volunteering or helping someone move.",
+        "Throwing a dinner party.",
+        "Meditation or yoga."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 7,
+      "question": "How do you act in a group project?",
+      "options": [
+        "Guide everyone and keep the team on track.",
+        "Jump in and do the hardest parts directly.",
+        "Come up with weird but creative solutions.",
+        "Work quietly on your own piece.",
+        "Keep the project notes and references organized.",
+        "Fill in wherever people are slacking.",
+        "Present the group's work to make it shine.",
+        "Smooth over group conflicts."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 8,
+      "question": "Pick a motto that fits you best.",
+      "options": [
+        "Together we win.",
+        "Action speaks louder than words.",
+        "Think outside the box.",
+        "Trust your instincts.",
+        "Knowledge is power.",
+        "Adapt and overcome.",
+        "Communication is key.",
+        "Keep calm and carry on."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 9,
+      "question": "Your favorite kind of movie is…",
+      "options": [
+        "Inspirational sports movie.",
+        "Action thriller.",
+        "Experimental indie.",
+        "Mystery or survival story.",
+        "Historical drama.",
+        "Disaster movie.",
+        "Documentary.",
+        "Heartwarming family film."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 10,
+      "question": "If you were a lab reagent…",
+      "options": [
+        "A versatile buffer that helps everything else work.",
+        "A restriction enzyme, cutting straight to the point.",
+        "A random mutagen — unpredictable results!",
+        "A stable preservative, always guarding.",
+        "A sequencing library, storing info for later.",
+        "A pipette tip, always ready for the next task.",
+        "A fluorescent dye, making things visible.",
+        "A stabilizer, preventing unwanted reactions."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    },
+    {
+      "id": 11,
+      "question": "You're graduating with a PhD — what's next?",
+      "options": [
+        "Mentor and train the next generation.",
+        "Dive into high-stakes industry work.",
+        "Take a nontraditional path (startup, art, politics…).",
+        "Step back, rest, and protect your energy.",
+        "Publish and archive your work for others.",
+        "Do hands-on applied work in the field.",
+        "Become a science communicator or policy advocate.",
+        "Support mental health and balance in academia."
+      ],
+      "cellTypes": [
+        "CD4+",
+        "CD8+",
+        "γδ T",
+        "NK",
+        "B",
+        "Monocyte",
+        "Dendritic",
+        "Treg"
+      ]
+    }
+  ]
+}

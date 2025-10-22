@@ -1,0 +1,40 @@
+{
+  "name": "Oshiomah P. Oyageshio",
+  "title": "Interdisciplinary Scientist",
+  "bio": "I am a member of the Consortium on Asthma among African-ancestry Populations in the Americas (CAAPA), a collaborative effort to study genetic variation and its role in health among populations of African descent across the Americas.",
+  "email": "contact@portfolio.com",
+  "location": "University of California, Berkeley",
+  "skills": [
+    "Bioinformatics",
+    "Data Analysis", 
+    "Machine Learning",
+    "Population Genetics",
+    "R Programming",
+    "Python",
+    "Next.js",
+    "React"
+  ],
+  "education": [
+    {
+      "degree": "PhD in Genetics",
+      "institution": "University of California, Berkeley",
+      "year": "2024",
+      "description": "Specialized in population genetics and bioinformatics"
+    }
+  ],
+  "experience": [
+    {
+      "position": "Research Scientist",
+      "company": "CAAPA Consortium", 
+      "year": "2022-Present",
+      "description": "Lead researcher on genetic variation studies in African-ancestry populations"
+    }
+  ],
+  "social": {
+    "github": "https://github.com/username",
+    "linkedin": "https://linkedin.com/in/username",
+    "twitter": "https://twitter.com/username",
+    "orcid": "https://orcid.org/0000-0000-0000-0000"
+  },
+  "updatedAt": "2024-01-15T00:00:00.000Z"
+}
