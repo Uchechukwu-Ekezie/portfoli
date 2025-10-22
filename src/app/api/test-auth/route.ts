@@ -10,7 +10,9 @@ export async function POST(request: Request) {
     const baseUrl =
       process.env.NEXT_PUBLIC_API_BASE_URL ||
       process.env.API_URL ||
-      process.env.NEXT_PUBLIC_API_URL;
+      process.env.NEXT_PUBLIC_API_URL ||
+      // Last-resort default to avoid confusing "not configured" in prod
+      "https://portfoliobackend-83lp.onrender.com";
     console.log("Testing base backend URL:", baseUrl);
 
     if (!baseUrl) {

@@ -67,7 +67,9 @@ const handler = NextAuth({
             process.env.NEXT_PUBLIC_API_BASE_URL ||
             // Fallbacks to be resilient if env var is named differently in hosting
             process.env.API_URL ||
-            process.env.NEXT_PUBLIC_API_URL;
+            process.env.NEXT_PUBLIC_API_URL ||
+            // Last-resort default to avoid confusing "not configured" in prod
+            "https://portfoliobackend-83lp.onrender.com";
           if (!baseUrl) {
             throw new Error("NEXT_PUBLIC_API_BASE_URL is not configured");
           }
