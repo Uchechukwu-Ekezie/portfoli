@@ -120,6 +120,21 @@ const handler = NextAuth({
             authResult.accessToken ||
             authResult.data?.token;
 
+          // If backend only returns token without user object, create a minimal user
+          if (!backendUser && !authResult.email && token) {
+            console.log(
+              "Backend returned only token, creating minimal user object"
+            );
+            const adminUser: AdminUser = {
+              id: "1",
+              email: credentials.email,
+              name: "Portfolio Admin",
+              role: "admin",
+              accessToken: token,
+            };
+            return adminUser;
+          }
+
           if (!backendUser && !authResult.email) {
             throw new Error("Login succeeded but no user object returned");
           }

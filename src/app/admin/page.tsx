@@ -20,14 +20,14 @@ export default function AdminDashboard() {
     },
     {
       name: "Profile Views",
-      value: "1,234",
+      value: "01",
       icon: User,
       color: "text-green-400",
       bgColor: "bg-green-400/20",
     },
     {
       name: "Last Updated",
-      value: "2 days ago",
+      value: "1 day ago",
       icon: Clock,
       color: "text-yellow-400",
       bgColor: "bg-yellow-400/20",

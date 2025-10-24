@@ -47,6 +47,7 @@ export async function POST(request: Request) {
 
     // Try different possible endpoints
     const possibleEndpoints = [
+      `${baseUrl}/api/authroutes/login`,
       `${baseUrl}/api/auth/login`,
       `${baseUrl}/api/login`,
       `${baseUrl}/auth/login`,
