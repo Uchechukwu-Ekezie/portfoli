@@ -1157,7 +1157,7 @@ export default function Home() {
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-transparent animate-pulse"></div>
                     <p className="relative z-10 text-sm sm:text-base">
                       I am a 6th Year PhD Candidate at UCDavis in the Population
-                      Biology Department supervised by Dr. Brenna Henn.
+                      Biology Department.
                     </p>
 
                     {/* Floating particles in description */}
