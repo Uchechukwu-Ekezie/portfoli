@@ -2,11 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 export default function Navigation() {
   const pathname = usePathname();
-  const { data: session } = useSession();
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -48,16 +46,6 @@ export default function Navigation() {
                 {item.name}
               </Link>
             ))}
-
-            {/* Show admin link if logged in */}
-            {session?.user?.role === "admin" && (
-              <Link
-                href="/admin"
-                className="text-sm font-medium text-yellow-400 hover:text-yellow-300 transition-colors"
-              >
-                Admin
-              </Link>
-            )}
           </div>
         </div>
       </div>

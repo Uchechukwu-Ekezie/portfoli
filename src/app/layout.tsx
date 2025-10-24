@@ -1,18 +1,18 @@
 "use client";
 
-import type React from "react"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import Navigation from "@/components/navigation"
-import AuthProvider from "@/components/providers/AuthProvider"
-import { usePathname } from "next/navigation"
+import type React from "react";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Navigation from "@/components/navigation";
+import AuthProvider from "@/components/providers/AuthProvider";
+import { usePathname } from "next/navigation";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith("/admin");
@@ -26,5 +26,5 @@ export default function RootLayout({
         </AuthProvider>
       </body>
     </html>
-  )
+  );
 }
