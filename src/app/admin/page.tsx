@@ -4,7 +4,7 @@ import React from "react";
 import ProtectedRoute from "@/components/admin/ProtectedRoute";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useSession } from "next-auth/react";
-import { FolderOpen, User, Activity, Clock } from "lucide-react";
+import { FolderOpen } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboard() {
@@ -17,27 +17,6 @@ export default function AdminDashboard() {
       icon: FolderOpen,
       color: "text-blue-400",
       bgColor: "bg-blue-400/20",
-    },
-    {
-      name: "Profile Views",
-      value: "01",
-      icon: User,
-      color: "text-green-400",
-      bgColor: "bg-green-400/20",
-    },
-    {
-      name: "Last Updated",
-      value: "1 day ago",
-      icon: Clock,
-      color: "text-yellow-400",
-      bgColor: "bg-yellow-400/20",
-    },
-    {
-      name: "System Status",
-      value: "Online",
-      icon: Activity,
-      color: "text-green-400",
-      bgColor: "bg-green-400/20",
     },
   ];
 
@@ -72,13 +51,13 @@ export default function AdminDashboard() {
               Welcome back, {session?.user?.name}! 👋
             </h1>
             <p className="text-gray-300">
-              Manage your portfolio content from this dashboard. You can add new projects, 
-              edit your profile, and update existing content.
+              Manage your portfolio content from this dashboard. You can add new
+              projects, edit your profile, and update existing content.
             </p>
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             {stats.map((stat) => (
               <div
                 key={stat.name}
@@ -89,8 +68,12 @@ export default function AdminDashboard() {
                     <stat.icon className={`h-6 w-6 ${stat.color}`} />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-400">{stat.name}</p>
-                    <p className="text-2xl font-bold text-white">{stat.value}</p>
+                    <p className="text-sm font-medium text-gray-400">
+                      {stat.name}
+                    </p>
+                    <p className="text-2xl font-bold text-white">
+                      {stat.value}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -118,27 +101,35 @@ export default function AdminDashboard() {
 
           {/* Recent Activity */}
           <div>
-            <h2 className="text-xl font-bold text-white mb-4">Recent Activity</h2>
+            <h2 className="text-xl font-bold text-white mb-4">
+              Recent Activity
+            </h2>
             <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-green-400 rounded-full mt-2"></div>
                   <div>
-                    <p className="text-white">Project &quot;CAAPA Variant Annotation&quot; was updated</p>
+                    <p className="text-white">
+                      Project &quot;CAAPA Variant Annotation&quot; was updated
+                    </p>
                     <p className="text-sm text-gray-400">2 hours ago</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-blue-400 rounded-full mt-2"></div>
                   <div>
-                    <p className="text-white">New project &quot;TB scRNA-seq&quot; was created</p>
+                    <p className="text-white">
+                      New project &quot;TB scRNA-seq&quot; was created
+                    </p>
                     <p className="text-sm text-gray-400">1 day ago</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
                   <div>
-                    <p className="text-white">Profile information was updated</p>
+                    <p className="text-white">
+                      Profile information was updated
+                    </p>
                     <p className="text-sm text-gray-400">3 days ago</p>
                   </div>
                 </div>

@@ -63,7 +63,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       >
         <div className="flex flex-col h-full">
           {/* Logo/Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-700">
+          <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
             <h1 className="text-xl font-bold text-yellow-400">Admin Panel</h1>
             <button
               onClick={() => setSidebarOpen(false)}
@@ -73,8 +73,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </button>
           </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-2">
+          {/* Navigation - Scrollable */}
+          <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
             {navigation.map((item) => {
               const isActive = pathname === item.href;
               return (
@@ -95,11 +95,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             })}
           </nav>
 
-          {/* User info and logout */}
-          <div className="p-4 border-t border-gray-700">
+          {/* User info and logout - Always visible at bottom */}
+          <div className="p-4 border-t border-gray-700 flex-shrink-0 bg-gray-800">
             <div className="mb-4">
               <p className="text-sm text-gray-400">Signed in as</p>
-              <p className="text-sm font-medium text-white">
+              <p
+                className="text-sm font-medium text-white truncate"
+                title={session?.user?.email || ""}
+              >
                 {session?.user?.email}
               </p>
             </div>
@@ -107,6 +110,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               <Link
                 href="/"
                 className="flex items-center w-full px-4 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white"
+                onClick={() => setSidebarOpen(false)}
               >
                 <Home className="w-5 h-5 mr-3" />
                 View Site
@@ -128,24 +132,30 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         {/* Top bar */}
         <header className="bg-gray-800 border-b border-gray-700">
           <div className="flex items-center justify-between px-4 py-3">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="p-1 text-gray-400 hover:text-white lg:hidden"
-            >
-              <Menu size={20} />
-            </button>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="p-1 text-gray-400 hover:text-white lg:hidden"
+              >
+                <Menu size={24} />
+              </button>
               <h2 className="text-lg font-semibold text-white">
                 Portfolio Administration
               </h2>
             </div>
+            {/* Mobile logout button */}
+            <button
+              onClick={handleSignOut}
+              className="lg:hidden flex items-center px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white"
+              title="Sign Out"
+            >
+              <LogOut className="w-5 h-5" />
+            </button>
           </div>
         </header>
 
         {/* Page content */}
-        <main className="flex-1 p-6 overflow-auto">
-          {children}
-        </main>
+        <main className="flex-1 p-6 overflow-auto">{children}</main>
       </div>
     </div>
   );
