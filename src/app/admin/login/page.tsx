@@ -160,17 +160,7 @@ export default function AdminLogin() {
           </div>
         </form>
 
-        {/* Development Info */}
-        <div className="mt-8 p-4 bg-gray-800 rounded-lg border border-gray-700">
-          <h3 className="text-sm font-medium text-yellow-400 mb-2">
-            Development Credentials:
-          </h3>
-          <p className="text-xs text-gray-400">Email: admin@portfolio.com</p>
-          <p className="text-xs text-gray-400">Password: admin123</p>
-          <p className="text-xs text-gray-300 mt-2">
-            <strong>Note:</strong> Change these credentials in production!
-          </p>
-        </div>
+       
       </div>
     </div>
   );
