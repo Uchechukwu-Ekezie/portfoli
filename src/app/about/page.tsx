@@ -384,7 +384,7 @@ export default function About() {
                 <div className="space-y-4 leading-relaxed text-gray-300">
                   <p>
                     I am a 6th year PhD candidate at UC Davis in the Population
-                    Biology Department, under the supervision of Dr. Brenna
+                    Biology Department.
                     Henn. My research goals are two-fold:
                   </p>
                   <div className="ml-4 space-y-3">
