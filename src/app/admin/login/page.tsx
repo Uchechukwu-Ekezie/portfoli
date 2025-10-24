@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Lock, Mail, Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 
@@ -14,7 +13,6 @@ export default function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,14 +29,12 @@ export default function AdminLogin() {
       if (result?.error) {
         // Show backend/NextAuth error if available for clarity
         setError(result.error);
+      } else if (result?.ok) {
+        // Login successful - redirect immediately
+        // Use router.push with window.location as fallback for immediate redirect
+        window.location.href = "/admin";
       } else {
-        // Check if login was successful and redirect
-        const session = await getSession();
-        if (session?.user?.role === "admin") {
-          router.push("/admin");
-        } else {
-          setError("Access denied. Admin privileges required.");
-        }
+        setError("An unexpected error occurred. Please try again.");
       }
     } catch {
       setError("An error occurred. Please try again.");
