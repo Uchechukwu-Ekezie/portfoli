@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         // Try the backend endpoint
-        const backendUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`;
+        const backendUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/authRoutes/login`;
 
         try {
           console.log("Trying backend authentication:", backendUrl);
