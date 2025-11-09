@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 interface AdminUser {
@@ -8,7 +8,7 @@ interface AdminUser {
   role: string;
 }
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -20,6 +20,16 @@ const handler = NextAuth({
         if (!credentials?.email || !credentials?.password) {
           console.log("Missing credentials");
           return null;
+        }
+
+        // TEMPORARY: Hardcoded admin for testing
+        if (credentials.email === "admin@portfolio.com" && credentials.password === "admin123") {
+          return {
+            id: "1",
+            email: "admin@portfolio.com",
+            name: "Admin",
+            role: "admin",
+          } as AdminUser;
         }
 
         try {
@@ -102,6 +112,13 @@ const handler = NextAuth({
           } else if (authResult.email) {
             // Direct user object
             user = authResult;
+          } else if (authResult.token) {
+            // Backend returns only a token, create user from credentials
+            user = {
+              email: credentials.email,
+              name: credentials.email.split('@')[0],
+              role: "admin"
+            };
           }
 
           if (user) {
@@ -145,6 +162,8 @@ const handler = NextAuth({
     signIn: "/admin/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 // Helper function to check admin authentication
 async function checkAuth() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   return session?.user?.role === "admin";
 }
 
@@ -52,7 +53,21 @@ export async function POST(request: NextRequest) {
     );
 
     if (!response.ok) {
-      throw new Error(`Backend responded with status: ${response.status}`);
+      const errorText = await response.text();
+      console.error(`Backend error (${response.status}):`, errorText);
+      
+      let errorMessage = `Backend error: ${response.status}`;
+      try {
+        const errorJson = JSON.parse(errorText);
+        errorMessage = errorJson.message || errorJson.error || errorMessage;
+      } catch {
+        errorMessage = errorText || errorMessage;
+      }
+      
+      return NextResponse.json(
+        { error: errorMessage },
+        { status: response.status }
+      );
     }
 
     const newProject = await response.json();
@@ -60,7 +75,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error creating project in backend:", error);
     return NextResponse.json(
-      { error: "Failed to create project" },
+      { error: error instanceof Error ? error.message : "Failed to create project" },
       { status: 500 }
     );
   }

@@ -65,6 +65,7 @@ interface Project {
   github: string;
   demo: string;
   status: string;
+  slug?: string;
 }
 
 // Floating Background Particles
@@ -291,20 +292,14 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
     }
   };
 
-  const getProjectLink = (title: string) => {
-    switch (title) {
-      case "TB scRNA-seq Immunogenetic Analysis":
-        return "/tb-scrna-seq";
-      case "CAAPA Pathogenic Variant Annotation":
-        return "/caapa-variant-annotation";
-      default:
-        return "#";
+  const getProjectLink = (slug?: string) => {
+    if (slug) {
+      return `/projects/${slug}`;
     }
+    return "#";
   };
 
-  const isClickable =
-    project.title === "TB scRNA-seq Immunogenetic Analysis" ||
-    project.title === "CAAPA Pathogenic Variant Annotation";
+  const isClickable = !!project.slug;
 
   const CardContent = () => (
     <div className="relative transition-all duration-500 border border-gray-700 rounded-lg group bg-gray-900/50 backdrop-blur-sm hover:bg-gray-800/70 hover:border-yellow-400/30 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/10">
@@ -419,7 +414,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
 
   if (isClickable) {
     return (
-      <Link href={getProjectLink(project.title)} className="block">
+      <Link href={getProjectLink(project.slug)} className="block">
         <CardContent />
       </Link>
     );
@@ -473,6 +468,7 @@ export default function Projects() {
       github: "#",
       demo: "https://oyageshio.wixsite.com/oshi-omics/projects",
       status: "Active",
+      slug: "tb-scrna-seq",
     },
     // {
     //   title: "TB Immune Cell Classification",
@@ -535,6 +531,7 @@ export default function Projects() {
       github: "#",
       demo: "#",
       status: "Active",
+      slug: "caapa-variant-annotation",
     },
   ];
 

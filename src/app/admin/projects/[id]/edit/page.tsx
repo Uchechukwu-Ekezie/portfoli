@@ -55,15 +55,15 @@ export default function EditProject({
           if (response.ok) {
             const project = await response.json();
             setFormData({
-              title: project.title,
-              description: project.description,
-              technologies: project.technologies,
-              status: project.status,
-              slug: project.slug,
-              featured: project.featured,
-              images: project.images,
-              githubUrl: project.githubUrl,
-              liveUrl: project.liveUrl,
+              title: project.title || "",
+              description: project.description || "",
+              technologies: Array.isArray(project.technologies) ? project.technologies : [],
+              status: project.status || "planned",
+              slug: project.slug || "",
+              featured: project.featured || false,
+              images: Array.isArray(project.images) ? project.images : [],
+              githubUrl: project.githubUrl || "",
+              liveUrl: project.liveUrl || "",
             });
           } else {
             alert("Project not found");
@@ -125,9 +125,11 @@ export default function EditProject({
       });
 
       if (response.ok) {
+        alert("Project updated successfully!");
         router.push("/admin/projects");
       } else {
-        alert("Failed to update project");
+        const errorData = await response.json();
+        alert(`Failed to update project: ${errorData.message || errorData.error || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Failed to update project:", error);

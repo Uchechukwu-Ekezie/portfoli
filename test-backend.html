@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Backend Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        button {
+            background: #facc15;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #eab308;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #2a2a2a;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: #4ade80;
+        }
+        .error {
+            color: #f87171;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Backend API Connection Test</h1>
+    <p>Click the button to test if the backend is returning projects:</p>
+    
+    <button onclick="testBackend()">Test Backend Connection</button>
+    
+    <div id="result"></div>
+
+    <script>
+        async function testBackend() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Loading...';
+            
+            try {
+                const response = await fetch('https://portfoliobackend-83lp.onrender.com/api/projectRoutes');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+<span class="success">✅ SUCCESS! Backend is working!</span>
+
+Status: ${response.status}
+Projects Found: ${data.length}
+
+Full Response:
+${JSON.stringify(data, null, 2)}
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+<span class="error">❌ ERROR: Backend returned status ${response.status}</span>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+<span class="error">❌ ERROR: ${error.message}</span>
+
+This usually means:
+- CORS is blocking the request
+- Backend is down
+- Network issue
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

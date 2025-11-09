@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Lock, Mail, Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 
@@ -14,7 +13,6 @@ export default function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,22 +24,24 @@ export default function AdminLogin() {
         email: formData.email,
         password: formData.password,
         redirect: false,
+        callbackUrl: "/admin",
       });
 
       if (result?.error) {
         setError("Invalid credentials. Please try again.");
+        setIsLoading(false);
+      } else if (result?.ok) {
+        // Give NextAuth a moment to set the session cookie
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Force a hard redirect to ensure session is loaded
+        window.location.href = "/admin";
       } else {
-        // Check if login was successful and redirect
-        const session = await getSession();
-        if (session?.user?.role === "admin") {
-          router.push("/admin");
-        } else {
-          setError("Access denied. Admin privileges required.");
-        }
+        setError("Access denied. Admin privileges required.");
+        setIsLoading(false);
       }
     } catch {
       setError("An error occurred. Please try again.");
-    } finally {
       setIsLoading(false);
     }
   };

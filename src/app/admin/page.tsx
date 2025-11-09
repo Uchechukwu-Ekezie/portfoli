@@ -4,42 +4,10 @@ import React from "react";
 import ProtectedRoute from "@/components/admin/ProtectedRoute";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useSession } from "next-auth/react";
-import { FolderOpen, User, Activity, Clock } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboard() {
   const { data: session } = useSession();
-
-  const stats = [
-    {
-      name: "Total Projects",
-      value: "8",
-      icon: FolderOpen,
-      color: "text-blue-400",
-      bgColor: "bg-blue-400/20",
-    },
-    {
-      name: "Profile Views",
-      value: "1,234",
-      icon: User,
-      color: "text-green-400",
-      bgColor: "bg-green-400/20",
-    },
-    {
-      name: "Last Updated",
-      value: "2 days ago",
-      icon: Clock,
-      color: "text-yellow-400",
-      bgColor: "bg-yellow-400/20",
-    },
-    {
-      name: "System Status",
-      value: "Online",
-      icon: Activity,
-      color: "text-green-400",
-      bgColor: "bg-green-400/20",
-    },
-  ];
 
   const quickActions = [
     {
@@ -49,16 +17,16 @@ export default function AdminDashboard() {
       color: "border-blue-400 hover:bg-blue-400/10",
     },
     {
-      name: "Edit Profile",
-      description: "Update your bio and information",
-      href: "/admin/profile",
-      color: "border-green-400 hover:bg-green-400/10",
-    },
-    {
       name: "Manage Projects",
       description: "View and edit existing projects",
       href: "/admin/projects",
       color: "border-yellow-400 hover:bg-yellow-400/10",
+    },
+    {
+      name: "Edit Profile",
+      description: "Update your bio and information",
+      href: "/admin/profile",
+      color: "border-green-400 hover:bg-green-400/10",
     },
   ];
 
@@ -77,30 +45,10 @@ export default function AdminDashboard() {
             </p>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat) => (
-              <div
-                key={stat.name}
-                className="bg-gray-800 border border-gray-700 rounded-lg p-6 hover:border-gray-600 transition-colors"
-              >
-                <div className="flex items-center">
-                  <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                    <stat.icon className={`h-6 w-6 ${stat.color}`} />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-400">{stat.name}</p>
-                    <p className="text-2xl font-bold text-white">{stat.value}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
           {/* Quick Actions */}
           <div>
             <h2 className="text-xl font-bold text-white mb-4">Quick Actions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {quickActions.map((action) => (
                 <Link
                   key={action.name}

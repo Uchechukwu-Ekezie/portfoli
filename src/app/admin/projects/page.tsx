@@ -32,6 +32,22 @@ interface Project {
   updatedAt: string;
 }
 
+interface BackendProject {
+  _id?: string;
+  id?: string;
+  title?: string;
+  description?: string;
+  technologies?: string[];
+  status?: "completed" | "in-progress" | "planned";
+  slug?: string;
+  featured?: boolean;
+  images?: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export default function ProjectsAdmin() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,9 +61,34 @@ export default function ProjectsAdmin() {
   const fetchProjects = async () => {
     try {
       const response = await fetch("/api/projects");
+      
       if (response.ok) {
         const data = await response.json();
-        setProjects(data);
+        
+        // Map _id to id for MongoDB compatibility
+        const projectsArray: BackendProject[] = Array.isArray(data) ? data : [];
+        
+        const mappedProjects: Project[] = projectsArray.map((project: BackendProject) => {
+          const mappedId = project._id || project.id || "";
+          console.log(`Mapping project: ${project.title}, _id: ${project._id}, id: ${project.id}, mapped: ${mappedId}`);
+          
+          return {
+            id: mappedId,
+            // Ensure all required fields have defaults
+            title: project.title || "Untitled Project",
+            description: project.description || "",
+            technologies: Array.isArray(project.technologies) ? project.technologies : [],
+            status: project.status || "planned",
+            slug: project.slug || project.title?.toLowerCase().replace(/\s+/g, "-") || "",
+            featured: project.featured || false,
+            images: Array.isArray(project.images) ? project.images : [],
+            githubUrl: project.githubUrl || "",
+            liveUrl: project.liveUrl || "",
+            createdAt: project.createdAt || new Date().toISOString(),
+            updatedAt: project.updatedAt || new Date().toISOString(),
+          };
+        });
+        setProjects(mappedProjects);
       }
     } catch (error) {
       console.error("Failed to fetch projects:", error);
@@ -68,6 +109,7 @@ export default function ProjectsAdmin() {
 
       if (response.ok) {
         setProjects(projects.filter((p) => p.id !== id));
+        alert("Project deleted successfully");
       } else {
         alert("Failed to delete project");
       }
@@ -256,7 +298,7 @@ export default function ProjectsAdmin() {
 
                     <div className="flex items-center space-x-2 ml-4">
                       <Link
-                        href={`/${project.slug}`}
+                        href={`/projects/${project.slug}`}
                         className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-colors"
                         title="View Project"
                       >
