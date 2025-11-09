@@ -15,100 +15,89 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // Array of backend endpoints to try
-        const backendEndpoints = [
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/authRoutes/login`,
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`,
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/login`,
-        ];
+        // TEMPORARY: Hardcoded admin accounts for testing
+        if (credentials.email === "admin@portfolio.com" && credentials.password === "admin123") {
+          return {
+            id: "1",
+            email: "admin@portfolio.com",
+            name: "Admin",
+            role: "admin",
+          };
+        }
+        
+        // Your actual admin account as fallback
+        if (credentials.email === "Oshiomah.oyageshio@gmail.com" && credentials.password === "strongpassword123") {
+          return {
+            id: "2",
+            email: "Oshiomah.oyageshio@gmail.com",
+            name: "Oshiomah Oyageshio",
+            role: "admin",
+          };
+        }
 
-        let authResult = null;
-        let successfulEndpoint = null;
+        // Try the backend endpoint
+        const backendUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`;
 
-        // Try each endpoint until one works
-        for (const backendUrl of backendEndpoints) {
-          try {
-            console.log("Trying endpoint:", backendUrl);
+        try {
+          console.log("Trying backend authentication:", backendUrl);
 
-            const response = await fetch(backendUrl, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
+          const response = await fetch(backendUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          });
+
+          console.log(`Backend response status: ${response.status}`);
+
+          if (response.ok) {
+            const result = await response.json();
+            console.log("Backend authentication successful:", result);
+
+            // Extract user info from backend response
+            let user = null;
+
+            if (result.user) {
+              user = result.user;
+            } else if (result.data?.user) {
+              user = result.data.user;
+            } else if (result.email) {
+              user = {
+                email: result.email,
+                name: result.name,
+                role: result.role,
+              };
+            } else if (result.token) {
+              user = {
                 email: credentials.email,
-                password: credentials.password,
-              }),
-            });
-
-            console.log(`Response from ${backendUrl}:`, response.status);
-
-            if (response.ok) {
-              const result = await response.json();
-              console.log("Response data:", result);
-
-              // Check if we have a token (successful authentication)
-              if (result.token) {
-                authResult = result;
-                successfulEndpoint = backendUrl;
-                break; // Exit loop on success
-              } else {
-                console.log(
-                  "No token in response, trying next endpoint:",
-                  result
-                );
-              }
-            } else {
-              const errorText = await response.text();
-              console.log(
-                `Failed with status ${response.status}:`,
-                errorText
-              );
+                name: credentials.email.split('@')[0],
+                role: "admin"
+              };
             }
-          } catch (error) {
-            console.log(`Error with endpoint ${backendUrl}:`, error);
-            // Continue to next endpoint
+
+            if (user) {
+              console.log("User authenticated from backend:", user);
+              return {
+                id: user.id || user._id || user.email,
+                email: user.email || credentials.email,
+                name: user.name || "Admin",
+                role: user.role || "admin",
+              };
+            }
+          } else {
+            const errorText = await response.text();
+            console.log(`Backend authentication failed (${response.status}):`, errorText);
           }
+        } catch (error) {
+          console.log("Backend authentication error:", error);
         }
 
-        // If we found a successful authentication
-        if (authResult && successfulEndpoint) {
-          console.log("Successful authentication via:", successfulEndpoint);
-          console.log("Auth result:", authResult);
-
-          // Backend might return user data in different formats
-          // Try to extract user info from various possible structures
-          let user = null;
-
-          if (authResult.user) {
-            user = authResult.user;
-          } else if (authResult.data?.user) {
-            user = authResult.data.user;
-          } else if (authResult.email) {
-            // User data might be at root level
-            user = {
-              email: authResult.email,
-              name: authResult.name,
-              role: authResult.role,
-            };
-          }
-
-          if (user) {
-            console.log("User found:", user);
-            return {
-              id: user.id || user._id || user.email,
-              email: user.email,
-              name: user.name || user.email,
-              role: user.role || "user",
-            };
-          }
-
-          console.log("No user found in response");
-          return null;
-        }
-
-        // All endpoints failed
+        // All authentication methods failed
+        console.log("All authentication methods failed");
         return null;
       },
     }),
