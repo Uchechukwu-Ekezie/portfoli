@@ -104,12 +104,12 @@ Once these projects are added to the database by the backend:
 - **Delete functionality** - Delete button will work for all database projects
 - **Create new projects** - Continue working as expected
 
-### ❌ What will NOT work yet (requires future updates):
-- **View button (eye icon)** - Individual project pages are still hardcoded HTML pages:
-  - `/caapa-variant-annotation` (currently hardcoded)
-  - `/tb-scrna-seq` (currently hardcoded)
-  
-  These pages need to be converted to dynamic pages that fetch from the database using the slug.
+### ✅ Dynamic Project Pages Now Working:
+- **View button (eye icon)** - Now works for all database projects!
+  - Projects are displayed dynamically using `/projects/[slug]` route
+  - Fetches project data from database
+  - Shows images, technologies, status, and all project details
+  - Old hardcoded pages still exist but are no longer used
 
 ## Verification Steps
 
