@@ -293,6 +293,14 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
   };
 
   const getProjectLink = (slug?: string) => {
+    // Use hardcoded routes for these projects since they have custom layouts with descriptions
+    if (slug === "tb-scrna-seq") {
+      return "/tb-scrna-seq";
+    }
+    if (slug === "caapa-variant-annotation") {
+      return "/caapa-variant-annotation";
+    }
+    // For other projects, use dynamic route
     if (slug) {
       return `/projects/${slug}`;
     }
