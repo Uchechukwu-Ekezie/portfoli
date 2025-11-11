@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
+// Force dynamic rendering - don't try to statically generate this API route
+export const dynamic = 'force-dynamic';
+
 // Helper function to check admin authentication
 async function checkAuth() {
   const session = await getServerSession();

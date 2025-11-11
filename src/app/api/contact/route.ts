@@ -1,6 +1,9 @@
 // app/api/contact/route.ts
 import nodemailer from "nodemailer";
 
+// Force dynamic rendering - don't try to statically generate this API route
+export const dynamic = 'force-dynamic';
+
 interface ContactFormData {
   from_name: string;
   from_email: string;
