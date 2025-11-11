@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import projectsData from "@/data/projects.json";
 
 // Force dynamic rendering - don't try to statically generate this API route
 export const dynamic = 'force-dynamic';
@@ -23,13 +24,18 @@ export async function GET() {
     }
 
     const projects = await response.json();
+    
+    // If backend returns empty array or no data, fall back to local projects.json
+    if (!projects || projects.length === 0) {
+      console.log("Backend returned no projects, falling back to local data");
+      return NextResponse.json(projectsData.projects);
+    }
+    
     return NextResponse.json(projects);
   } catch (error) {
-    console.error("Error fetching projects from backend:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch projects" },
-      { status: 500 }
-    );
+    console.error("Error fetching projects from backend, using local fallback:", error);
+    // Return local fallback data instead of error
+    return NextResponse.json(projectsData.projects);
   }
 }
 
