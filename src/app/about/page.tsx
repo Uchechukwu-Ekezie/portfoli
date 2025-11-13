@@ -378,7 +378,7 @@ export default function About() {
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-transparent"></div>
                 <h2 className="flex items-center gap-3 mb-6 text-3xl font-bold text-yellow-400">
                   <Users className="animate-pulse" size={32} />
-                  My Journey
+                  My Journeyyyy
                   {/* <Activity className="animate-bounce" size={24} /> */}
                 </h2>
                 <div className="space-y-4 leading-relaxed text-gray-300">
