@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { ArrowLeft, Award, Dna, Microscope, FlaskConical } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 interface BioAnimatedSectionProps {
@@ -315,6 +315,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ setSelectedImage }) => {
 };
 
 export default function TBScRNAPage() {
+  const router = useRouter();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isClient, setIsClient] = useState(false);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -363,13 +364,13 @@ export default function TBScRNAPage() {
       <div className="relative z-10 px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Back Button */}
         <BioAnimatedSection className="mb-8">
-          <Link
-            href="/projects"
+          <button
+            onClick={() => router.back()}
             className="inline-flex items-center gap-2 px-4 py-2 text-yellow-400 transition-all duration-300 border border-yellow-400/30 rounded-full hover:text-black hover:bg-yellow-400 hover:border-yellow-400 group"
           >
             <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-            <span>Back to Projects</span>
-          </Link>
+            <span>Back</span>
+          </button>
         </BioAnimatedSection>
 
         {/* Header */}

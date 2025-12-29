@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { ArrowLeft, Microscope, Code, Database } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface BioAnimatedSectionProps {
     children: React.ReactNode;
@@ -125,6 +125,7 @@ const DNAStrand: React.FC = () => {
 };
 
 export default function CAAPAVariantPage() {
+    const router = useRouter();
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isClient, setIsClient] = useState(false);
 
@@ -158,13 +159,13 @@ export default function CAAPAVariantPage() {
             <div className="relative z-10 px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 {/* Back Button */}
                 <BioAnimatedSection className="mb-8">
-                    <Link
-                        href="/projects"
+                    <button
+                        onClick={() => router.back()}
                         className="inline-flex items-center gap-2 px-4 py-2 text-yellow-400 transition-all duration-300 border border-yellow-400/30 rounded-full hover:text-black hover:bg-yellow-400 hover:border-yellow-400 group"
                     >
                         <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-                        <span>Back to Projects</span>
-                    </Link>
+                        <span>Back</span>
+                    </button>
                 </BioAnimatedSection>
 
                 {/* Header */}

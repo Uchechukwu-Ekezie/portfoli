@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -39,6 +39,7 @@ interface BackendProject {
 
 export default function ProjectDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const slug = params.slug as string;
   
   const [project, setProject] = useState<Project | null>(null);
@@ -132,13 +133,13 @@ export default function ProjectDetailPage() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Back Button */}
         <div className="mb-8">
-          <Link
-            href="/projects"
+          <button
+            onClick={() => router.back()}
             className="inline-flex items-center gap-2 px-4 py-2 text-yellow-400 border border-yellow-400/30 rounded-full hover:text-black hover:bg-yellow-400 hover:border-yellow-400 transition-all group"
           >
             <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-            <span>Back to Projects</span>
-          </Link>
+            <span>Back</span>
+          </button>
         </div>
 
         {/* Project Header */}
@@ -212,32 +213,6 @@ export default function ProjectDetailPage() {
                 </div>
               ))}
             </div>
-          </div>
-        )}
-
-        {/* Links */}
-        {(project.githubUrl || project.liveUrl) && (
-          <div className="flex gap-4 justify-center">
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 bg-gray-800 text-white rounded-full border border-gray-700 hover:bg-gray-700 hover:border-yellow-400/30 transition-all"
-              >
-                View on GitHub
-              </a>
-            )}
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 bg-yellow-400 text-black rounded-full hover:bg-yellow-500 transition-all"
-              >
-                View Live Project
-              </a>
-            )}
           </div>
         )}
 

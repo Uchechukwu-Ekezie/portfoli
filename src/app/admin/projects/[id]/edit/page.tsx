@@ -164,13 +164,13 @@ export default function EditProject({
               <h1 className="text-2xl font-bold text-white">Edit Project</h1>
               <p className="text-gray-400">Update project information</p>
             </div>
-            <Link
-              href="/admin/projects"
+            <button
+              onClick={() => router.back()}
               className="inline-flex items-center px-4 py-2 text-gray-400 hover:text-white border border-gray-600 rounded-lg hover:border-gray-500 transition-colors"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Projects
-            </Link>
+              Back
+            </button>
           </div>
 
           {/* Form */}

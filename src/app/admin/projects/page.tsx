@@ -261,7 +261,7 @@ export default function ProjectsAdmin() {
                         ))}
                       </div>
 
-                      <div className="flex items-center text-sm text-gray-400 space-x-4 mb-4">
+                      <div className="flex items-center text-sm text-gray-400 space-x-4">
                         <div className="flex items-center">
                           <Calendar className="w-4 h-4 mr-1" />
                           Created: {new Date(project.createdAt).toLocaleDateString()}
@@ -270,29 +270,6 @@ export default function ProjectsAdmin() {
                           <Calendar className="w-4 h-4 mr-1" />
                           Updated: {new Date(project.updatedAt).toLocaleDateString()}
                         </div>
-                      </div>
-
-                      <div className="flex items-center space-x-2">
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-400 hover:text-white"
-                          >
-                            <Github className="w-4 h-4" />
-                          </a>
-                        )}
-                        {project.liveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-400 hover:text-white"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        )}
                       </div>
                     </div>
 

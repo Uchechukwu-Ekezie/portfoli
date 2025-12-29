@@ -118,7 +118,7 @@ export default function NewProject() {
               className="inline-flex items-center px-4 py-2 text-gray-400 hover:text-white border border-gray-600 rounded-lg hover:border-gray-500 transition-colors"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Projects
+              Back
             </Link>
           </div>
 
