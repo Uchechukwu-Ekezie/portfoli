@@ -5,10 +5,13 @@ import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/admin/ProtectedRoute";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Link from "next/link";
+import { projectsAPI } from "@/lib/api";
 import { ArrowLeft, Save, Plus, X, Loader2 } from "lucide-react";
 
 interface Project {
   id: string;
+  _id?: string;
+  customId?: string;
   title: string;
   description: string;
   technologies: string[];
@@ -31,7 +34,8 @@ export default function EditProject({
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [projectId, setProjectId] = useState<string>("");
-  const [formData, setFormData] = useState<Omit<Project, 'id' | 'createdAt' | 'updatedAt'>>({
+  const [customProjectId, setCustomProjectId] = useState<string>(""); // Store custom id for backend
+  const [formData, setFormData] = useState<Omit<Project, 'id' | 'createdAt' | 'updatedAt' | '_id' | 'customId'>>({
     title: "",
     description: "",
     technologies: [],
@@ -51,9 +55,20 @@ export default function EditProject({
       
       const fetchProjectData = async () => {
         try {
-          const response = await fetch(`/api/projects/${resolvedParams.id}`);
-          if (response.ok) {
-            const project = await response.json();
+          console.log(`🔍 Fetching project with ID: ${resolvedParams.id}`);
+          const result = await projectsAPI.getById(resolvedParams.id);
+          console.log(`📡 Result:`, result);
+          
+          if (result.success) {
+            const project = result.data;
+            console.log(`✅ Project loaded:`, project);
+            
+            // Store the custom id field for backend operations
+            if (project.id) {
+              setCustomProjectId(project.id);
+              console.log(`📝 Custom ID for backend: ${project.id}`);
+            }
+            
             setFormData({
               title: project.title || "",
               description: project.description || "",
@@ -66,6 +81,7 @@ export default function EditProject({
               liveUrl: project.liveUrl || "",
             });
           } else {
+            console.error(`❌ Failed to fetch project:`, result.error);
             alert("Project not found");
             router.push("/admin/projects");
           }
@@ -116,20 +132,23 @@ export default function EditProject({
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/projects/${projectId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      // Use custom id if available, otherwise use the display id
+      const updateId = customProjectId || projectId;
+      
+      if (!updateId) {
+        alert("Cannot update this project. Missing project ID.");
+        setLoading(false);
+        return;
+      }
+      
+      console.log('🔄 Updating project with backend ID:', updateId);
+      const result = await projectsAPI.update(updateId, formData);
 
-      if (response.ok) {
+      if (result.success) {
         alert("Project updated successfully!");
         router.push("/admin/projects");
       } else {
-        const errorData = await response.json();
-        alert(`Failed to update project: ${errorData.message || errorData.error || "Unknown error"}`);
+        alert(`Failed to update project: ${result.error || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Failed to update project:", error);

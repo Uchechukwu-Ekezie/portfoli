@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/admin/ProtectedRoute";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Link from "next/link";
+import { projectsAPI } from "@/lib/api";
 import { ArrowLeft, Save, X } from "lucide-react";
 
 export default function NewProject() {
@@ -68,32 +69,25 @@ export default function NewProject() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/projects", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: formData.title,
-          shortDescription: formData.shortDescription,
-          briefDescription: formData.briefDescription,
-          description: formData.description,
-          technologies: formData.technologies,
-          status: formData.status,
-          slug: formData.slug,
-          featured: formData.featured,
-          githubUrl: formData.githubUrl,
-          liveUrl: formData.liveUrl,
-          images: [], // Start with empty images array
-        }),
+      const result = await projectsAPI.create({
+        title: formData.title,
+        shortDescription: formData.shortDescription,
+        briefDescription: formData.briefDescription,
+        description: formData.description,
+        technologies: formData.technologies,
+        status: formData.status,
+        slug: formData.slug,
+        featured: formData.featured,
+        githubUrl: formData.githubUrl,
+        liveUrl: formData.liveUrl,
+        images: [], // Start with empty images array
       });
 
-      if (response.ok) {
+      if (result.success) {
         alert("Project created successfully!");
         router.push("/admin/projects");
       } else {
-        const errorData = await response.json();
-        alert(`Failed to create project: ${errorData.message || errorData.error || "Unknown error"}`);
+        alert(`Failed to create project: ${result.error || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Failed to create project:", error);

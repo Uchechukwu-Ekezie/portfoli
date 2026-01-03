@@ -5,25 +5,10 @@ import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { projectsAPI } from "@/lib/api";
 
 interface Project {
   id: string;
-  title: string;
-  description: string;
-  technologies: string[];
-  status: "completed" | "in-progress" | "planned";
-  slug: string;
-  featured: boolean;
-  images: string[];
-  githubUrl: string;
-  liveUrl: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface BackendProject {
-  _id?: string;
-  id?: string;
   title: string;
   description: string;
   technologies: string[];
@@ -49,21 +34,16 @@ export default function ProjectDetailPage() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        // Fetch all projects and find the one with matching slug
-        const response = await fetch("/api/projects");
+        // Fetch project by slug from backend
+        const result = await projectsAPI.getBySlug(slug);
         
-        if (!response.ok) {
-          throw new Error("Failed to fetch projects");
-        }
-        
-        const projects: BackendProject[] = await response.json();
-        const foundProject = projects.find((p: BackendProject) => p.slug === slug);
-        
-        if (!foundProject) {
-          setError("Project not found");
+        if (!result.success) {
+          setError(result.error || "Project not found");
           setLoading(false);
           return;
         }
+        
+        const foundProject = result.data;
         
         // Map _id to id for consistency
         setProject({

@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import { signIn } from "next-auth/react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Lock, Mail, Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function AdminLogin() {
+  const router = useRouter();
+  const { signIn, isAuthenticated, isAdmin, isLoading: authLoading } = useAuth();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,33 +18,32 @@ export default function AdminLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && isAdmin) {
+      router.push("/admin");
+    }
+  }, [authLoading, isAuthenticated, isAdmin, router]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
     try {
-      const result = await signIn("credentials", {
-        email: formData.email,
-        password: formData.password,
-        redirect: false,
-        callbackUrl: "/admin",
-      });
+      const result = await signIn(formData.email, formData.password);
 
-      if (result?.error) {
-        setError("Invalid credentials. Please try again.");
+      if (result.success) {
+        // Redirect on success
         setIsLoading(false);
-      } else if (result?.ok) {
-        // Give NextAuth a moment to set the session cookie
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        // Force a hard redirect to ensure session is loaded
-        window.location.href = "/admin";
+        router.push("/admin");
+        router.refresh(); // Force refresh to update auth state
       } else {
-        setError("Access denied. Admin privileges required.");
+        setError(result.error || "Invalid credentials. Please try again.");
         setIsLoading(false);
       }
-    } catch {
+    } catch (err) {
+      console.error("Login error:", err);
       setError("An error occurred. Please try again.");
       setIsLoading(false);
     }

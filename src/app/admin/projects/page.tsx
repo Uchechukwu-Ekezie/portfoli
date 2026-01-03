@@ -4,13 +4,12 @@ import React, { useState, useEffect } from "react";
 import ProtectedRoute from "@/components/admin/ProtectedRoute";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Link from "next/link";
+import { projectsAPI } from "@/lib/api";
 import {
   Plus,
   Edit,
   Trash2,
   Eye,
-  ExternalLink,
-  Github,
   Calendar,
   Tag,
   Search,
@@ -19,6 +18,8 @@ import {
 
 interface Project {
   id: string;
+  _id?: string; // Store MongoDB _id as well
+  customId?: string; // Store custom id field from backend
   title: string;
   description: string;
   technologies: string[];
@@ -60,20 +61,22 @@ export default function ProjectsAdmin() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch("/api/projects");
+      const result = await projectsAPI.getAll();
       
-      if (response.ok) {
-        const data = await response.json();
+      if (result.success) {
+        const data = result.data;
         
         // Map _id to id for MongoDB compatibility
         const projectsArray: BackendProject[] = Array.isArray(data) ? data : [];
         
         const mappedProjects: Project[] = projectsArray.map((project: BackendProject) => {
-          const mappedId = project._id || project.id || "";
-          console.log(`Mapping project: ${project.title}, _id: ${project._id}, id: ${project.id}, mapped: ${mappedId}`);
+          const mappedId = project.id || project._id || "";
+          console.log(`Mapping project: ${project.title}, id: ${project.id}, _id: ${project._id}, mapped: ${mappedId}`);
           
           return {
             id: mappedId,
+            _id: project._id, // Store the MongoDB _id
+            customId: project.id, // Store the custom id field
             // Ensure all required fields have defaults
             title: project.title || "Untitled Project",
             description: project.description || "",
@@ -102,20 +105,42 @@ export default function ProjectsAdmin() {
       return;
     }
 
-    try {
-      const response = await fetch(`/api/projects/${id}`, {
-        method: "DELETE",
-      });
+    const project = projects.find(p => p.id === id);
+    
+    if (!project) {
+      alert("Project not found");
+      return;
+    }
+    
+    // Backend expects the custom id field, not _id
+    const deleteId = project.customId;
+    
+    console.log('🗑️ Attempting to delete project with display ID:', id);
+    console.log('📝 Custom ID:', project.customId);
+    console.log('📝 MongoDB _id:', project._id);
+    console.log('🎯 Using backend ID:', deleteId);
 
-      if (response.ok) {
+    // Check if project has a custom id
+    if (!deleteId) {
+      alert(`Cannot delete this project. It doesn't have a custom ID field. Please add an 'id' field to this project in your database.`);
+      console.error('❌ Project missing custom id field:', project);
+      return;
+    }
+
+    try {
+      const result = await projectsAPI.delete(deleteId);
+
+      console.log('📋 Delete result:', result);
+
+      if (result.success) {
         setProjects(projects.filter((p) => p.id !== id));
         alert("Project deleted successfully");
       } else {
-        alert("Failed to delete project");
+        alert(result.error || "Failed to delete project");
       }
     } catch (error) {
       console.error("Failed to delete project:", error);
-      alert("Failed to delete project");
+      alert("Failed to delete project: " + (error instanceof Error ? error.message : "Unknown error"));
     }
   };
 

@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Navigation() {
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { isAdmin } = useAuth();
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -50,7 +50,7 @@ export default function Navigation() {
             ))}
 
             {/* Show admin link if logged in */}
-            {session?.user?.role === "admin" && (
+            {isAdmin && (
               <Link
                 href="/admin"
                 className="text-sm font-medium text-yellow-400 hover:text-yellow-300 transition-colors"

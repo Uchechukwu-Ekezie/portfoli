@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { projectsAPI } from "@/lib/api";
 import {
   // Dna,
   // Atom,
@@ -434,6 +435,8 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
 export default function Projects() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isClient, setIsClient] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsClient(true);
@@ -445,7 +448,43 @@ export default function Projects() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const projects: Project[] = [
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const result = await projectsAPI.getAll();
+        
+        if (result.success && result.data) {
+          const projectsArray = Array.isArray(result.data) ? result.data : [];
+          const mappedProjects: Project[] = projectsArray.map((project: any) => ({
+            title: project.title || "Untitled Project",
+            description: project.description || "",
+            technologies: Array.isArray(project.technologies) ? project.technologies : [],
+            github: project.githubUrl || "#",
+            demo: project.liveUrl || "#",
+            status: project.status === "completed" ? "Published" : project.status === "in-progress" ? "Active" : "Planned",
+            slug: project.slug || project.title?.toLowerCase().replace(/\s+/g, "-") || "",
+          }));
+          setProjects(mappedProjects);
+        }
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <p className="text-gray-400">Loading projects...</p>
+      </div>
+    );
+  }
+
+  const hardcodedProjects: Project[] = [
     {
       title: "TB Epidemiological Risk Assessment",
       description:
@@ -543,6 +582,9 @@ export default function Projects() {
     },
   ];
 
+  // Combine backend projects with hardcoded ones (if backend has no data, use hardcoded)
+  const allProjects = projects.length > 0 ? projects : hardcodedProjects;
+
   return (
     <div className="relative min-h-screen pt-24 overflow-hidden text-white bg-black">
       {/* Background Effects */}
@@ -610,7 +652,7 @@ export default function Projects() {
 
         {/* Projects Grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, index) => (
+          {allProjects.map((project, index) => (
             <BioAnimatedSection key={index} delay={200 + index * 100}>
               <ProjectCard project={project} index={index} />
             </BioAnimatedSection>

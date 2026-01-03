@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   LayoutDashboard,
   FolderOpen,
@@ -21,7 +21,7 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { user, signOut } = useAuth();
 
   const navigation = [
     {
@@ -41,8 +41,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     },
   ];
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: "/" });
+  const handleSignOut = async () => {
+    await signOut();
   };
 
   return (
@@ -100,7 +100,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <div className="mb-4">
               <p className="text-sm text-gray-400">Signed in as</p>
               <p className="text-sm font-medium text-white">
-                {session?.user?.email}
+                {user?.email}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Role: {user?.role}
               </p>
             </div>
             <div className="space-y-2">
