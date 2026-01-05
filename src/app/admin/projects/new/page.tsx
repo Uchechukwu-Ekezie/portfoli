@@ -64,24 +64,57 @@ export default function NewProject() {
     });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'images' | 'videos' | 'documents') => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setFormData({
+        ...formData,
+        [type]: [...formData[type], ...filesArray],
+      });
+    }
+  };
+
+  const removeFile = (type: 'images' | 'videos' | 'documents', index: number) => {
+    setFormData({
+      ...formData,
+      [type]: formData[type].filter((_, i) => i !== index),
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const result = await projectsAPI.create({
-        title: formData.title,
-        shortDescription: formData.shortDescription,
-        briefDescription: formData.briefDescription,
-        description: formData.description,
-        technologies: formData.technologies,
-        status: formData.status,
-        slug: formData.slug,
-        featured: formData.featured,
-        githubUrl: formData.githubUrl,
-        liveUrl: formData.liveUrl,
-        images: [], // Start with empty images array
+      // Create FormData for file uploads
+      const form = new FormData();
+      
+      // Add text fields
+      form.append('title', formData.title);
+      form.append('shortDescription', formData.shortDescription);
+      form.append('briefDescription', formData.briefDescription);
+      form.append('description', formData.description);
+      form.append('status', formData.status);
+      form.append('slug', formData.slug);
+      form.append('featured', String(formData.featured));
+      form.append('githubUrl', formData.githubUrl);
+      form.append('liveUrl', formData.liveUrl);
+      
+      // Add technologies as JSON string
+      form.append('technologies', JSON.stringify(formData.technologies));
+      
+      // Add files
+      formData.images.forEach((file) => {
+        form.append('images', file);
       });
+      formData.videos.forEach((file) => {
+        form.append('videos', file);
+      });
+      formData.documents.forEach((file) => {
+        form.append('documents', file);
+      });
+
+      const result = await projectsAPI.create(form);
 
       if (result.success) {
         alert("Project created successfully!");
@@ -351,6 +384,7 @@ export default function NewProject() {
                       multiple
                       className="hidden"
                       id="images"
+                      onChange={(e) => handleFileChange(e, 'images')}
                     />
                     <label htmlFor="images" className="cursor-pointer">
                       <div className="text-gray-400 mb-2">
@@ -361,6 +395,27 @@ export default function NewProject() {
                       </div>
                     </label>
                   </div>
+                  {formData.images.length > 0 && (
+                    <div className="mt-4 grid grid-cols-3 gap-3">
+                      {formData.images.map((file, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                            className="w-full h-32 object-cover rounded-lg"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeFile('images', index)}
+                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                          <p className="text-xs text-gray-400 mt-1 truncate">{file.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Videos */}
@@ -375,6 +430,7 @@ export default function NewProject() {
                       multiple
                       className="hidden"
                       id="videos"
+                      onChange={(e) => handleFileChange(e, 'videos')}
                     />
                     <label htmlFor="videos" className="cursor-pointer">
                       <div className="text-gray-400 mb-2">
@@ -385,6 +441,22 @@ export default function NewProject() {
                       </div>
                     </label>
                   </div>
+                  {formData.videos.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      {formData.videos.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
+                          <span className="text-gray-300 text-sm truncate flex-1">{file.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeFile('videos', index)}
+                            className="ml-2 text-red-400 hover:text-red-300"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Documents */}
@@ -399,6 +471,7 @@ export default function NewProject() {
                       multiple
                       className="hidden"
                       id="documents"
+                      onChange={(e) => handleFileChange(e, 'documents')}
                     />
                     <label htmlFor="documents" className="cursor-pointer">
                       <div className="text-gray-400 mb-2">
@@ -409,6 +482,22 @@ export default function NewProject() {
                       </div>
                     </label>
                   </div>
+                  {formData.documents.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      {formData.documents.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
+                          <span className="text-gray-300 text-sm truncate flex-1">{file.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeFile('documents', index)}
+                            className="ml-2 text-red-400 hover:text-red-300"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <p className="text-xs text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 rounded p-3">

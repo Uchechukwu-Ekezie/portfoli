@@ -158,7 +158,7 @@ export const projectsAPI = {
 
   getById: async (id: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/projects/${id}`);
+      const response = await fetch(`${API_BASE_URL}/api/projects/id/${id}`);
       const data = await response.json();
       return { success: true, data };
     } catch (error) {
@@ -187,16 +187,21 @@ export const projectsAPI = {
     }
   },
 
-  create: async (projectData: ProjectData) => {
+  create: async (projectData: ProjectData | FormData) => {
     try {
       const token = getAuthToken();
+      
+      // Check if projectData is FormData
+      const isFormData = projectData instanceof FormData;
+      
       const response = await fetch(`${API_BASE_URL}/api/projects`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          // Don't set Content-Type for FormData - browser will set it with boundary
+          ...(!isFormData && { 'Content-Type': 'application/json' }),
           ...(token && { 'Authorization': `Bearer ${token}` }),
         },
-        body: JSON.stringify(projectData),
+        body: isFormData ? projectData : JSON.stringify(projectData),
       });
 
       const data = await response.json();
