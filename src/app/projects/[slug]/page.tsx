@@ -20,6 +20,12 @@ interface Project {
   liveUrl: string;
   createdAt: string;
   updatedAt: string;
+  // New rich content fields
+  overview?: string;
+  methods?: string;
+  impact?: string;
+  imageGalleryTitle?: string;
+  imageGallerySubtitle?: string;
 }
 
 export default function ProjectDetailPage() {
@@ -59,6 +65,12 @@ export default function ProjectDetailPage() {
           liveUrl: foundProject.liveUrl || "",
           createdAt: foundProject.createdAt,
           updatedAt: foundProject.updatedAt,
+          // Map new rich content fields
+          overview: foundProject.overview,
+          methods: foundProject.methods,
+          impact: foundProject.impact,
+          imageGalleryTitle: foundProject.imageGalleryTitle,
+          imageGallerySubtitle: foundProject.imageGallerySubtitle,
         });
         setLoading(false);
       } catch (err) {
@@ -150,6 +162,30 @@ export default function ProjectDetailPage() {
           </div>
         </div>
 
+        {/* Project Overview */}
+        {project.overview && (
+          <div className="mb-16">
+            <div className="bg-gradient-to-br from-gray-900/80 via-gray-800/50 to-gray-900/80 border border-yellow-400/30 backdrop-blur-sm rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-6">Project Overview</h2>
+              <div className="text-gray-300 text-lg leading-relaxed whitespace-pre-line">
+                {project.overview}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Technologies & Methods */}
+        {project.methods && (
+          <div className="mb-16">
+            <div className="bg-gradient-to-br from-gray-900/80 via-gray-800/50 to-gray-900/80 border border-yellow-400/30 backdrop-blur-sm rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-6">Technologies & Methods</h2>
+              <div className="text-gray-300 text-lg leading-relaxed whitespace-pre-line">
+                {project.methods}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Technologies */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-yellow-400 mb-4 text-center">Technologies Used</h2>
@@ -168,7 +204,14 @@ export default function ProjectDetailPage() {
         {/* Images Gallery */}
         {project.images && project.images.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">Project Gallery</h2>
+            <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">
+              {project.imageGalleryTitle || "Project Gallery"}
+            </h2>
+            {project.imageGallerySubtitle && (
+              <p className="text-center text-gray-400 mb-6">
+                {project.imageGallerySubtitle}
+              </p>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {project.images.map((image, index) => (
                 <div
@@ -193,6 +236,44 @@ export default function ProjectDetailPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Research Impact */}
+        {project.impact && (
+          <div className="mb-12">
+            <div className="bg-gradient-to-br from-gray-900/80 via-gray-800/50 to-gray-900/80 border border-yellow-400/30 backdrop-blur-sm rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-6">Research Impact & Future Directions</h2>
+              <div className="text-gray-300 text-lg leading-relaxed whitespace-pre-line">
+                {project.impact}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Project Links */}
+        {(project.githubUrl || project.liveUrl) && (
+          <div className="mb-12 flex justify-center gap-4">
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 hover:border-yellow-400/30 hover:bg-gray-700 transition-colors"
+              >
+                View on GitHub
+              </a>
+            )}
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-yellow-400 text-black rounded-lg hover:bg-yellow-300 transition-colors"
+              >
+                View Live Project
+              </a>
+            )}
           </div>
         )}
 

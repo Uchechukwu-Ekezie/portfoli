@@ -6,11 +6,13 @@ import ProtectedRoute from "@/components/admin/ProtectedRoute";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Link from "next/link";
 import { projectsAPI } from "@/lib/api";
-import { ArrowLeft, Save, X } from "lucide-react";
+import { uploadMultipleToCloudinary } from "@/lib/cloudinary";
+import { ArrowLeft, Save, X, Upload, Loader2 } from "lucide-react";
 
 export default function NewProject() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<string>("");
   const [formData, setFormData] = useState({
     title: "",
     shortDescription: "",
@@ -25,6 +27,12 @@ export default function NewProject() {
     images: [] as File[],
     videos: [] as File[],
     documents: [] as File[],
+    // Additional rich content fields
+    overview: "", // Project Overview section content
+    methods: "", // Technologies & Methods section content
+    impact: "", // Research Impact section content
+    imageGalleryTitle: "", // Main gallery section title
+    imageGallerySubtitle: "", // Gallery subtitle/description
   });
   const [currentTech, setCurrentTech] = useState("");
 
@@ -84,39 +92,50 @@ export default function NewProject() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setUploadProgress("");
 
     try {
-      // Create FormData for file uploads
-      const form = new FormData();
-      
-      // Add text fields
-      form.append('title', formData.title);
-      form.append('shortDescription', formData.shortDescription);
-      form.append('briefDescription', formData.briefDescription);
-      form.append('description', formData.description);
-      form.append('status', formData.status);
-      form.append('slug', formData.slug);
-      form.append('featured', String(formData.featured));
-      form.append('githubUrl', formData.githubUrl);
-      form.append('liveUrl', formData.liveUrl);
-      
-      // Add technologies as JSON string
-      form.append('technologies', JSON.stringify(formData.technologies));
-      
-      // Add files
-      formData.images.forEach((file) => {
-        form.append('images', file);
-      });
-      formData.videos.forEach((file) => {
-        form.append('videos', file);
-      });
-      formData.documents.forEach((file) => {
-        form.append('documents', file);
-      });
+      let imageUrls: string[] = [];
 
-      const result = await projectsAPI.create(form);
+      // Upload images to Cloudinary first
+      if (formData.images.length > 0) {
+        setUploadProgress(`Uploading ${formData.images.length} image(s) to Cloudinary...`);
+        try {
+          imageUrls = await uploadMultipleToCloudinary(formData.images);
+          setUploadProgress(`✓ Images uploaded successfully`);
+        } catch (uploadError) {
+          console.error('Cloudinary upload failed:', uploadError);
+          alert('Failed to upload images to Cloudinary. Please check your Cloudinary configuration in .env.local');
+          setLoading(false);
+          setUploadProgress("");
+          return;
+        }
+      }
+
+      // Now send data to backend with Cloudinary URLs
+      setUploadProgress("Creating project...");
+      const result = await projectsAPI.create({
+        title: formData.title,
+        shortDescription: formData.shortDescription,
+        briefDescription: formData.briefDescription,
+        description: formData.description,
+        technologies: formData.technologies,
+        status: formData.status,
+        slug: formData.slug,
+        featured: formData.featured,
+        githubUrl: formData.githubUrl,
+        liveUrl: formData.liveUrl,
+        images: imageUrls,
+        // Additional rich content fields
+        overview: formData.overview,
+        methods: formData.methods,
+        impact: formData.impact,
+        imageGalleryTitle: formData.imageGalleryTitle,
+        imageGallerySubtitle: formData.imageGallerySubtitle,
+      });
 
       if (result.success) {
+        setUploadProgress("✓ Project created successfully!");
         alert("Project created successfully!");
         router.push("/admin/projects");
       } else {
@@ -127,6 +146,7 @@ export default function NewProject() {
       alert("Failed to create project");
     } finally {
       setLoading(false);
+      setUploadProgress("");
     }
   };
 
@@ -364,6 +384,105 @@ export default function NewProject() {
               </div>
             </div>
 
+            {/* Rich Content Sections - NEW */}
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+              <h2 className="text-lg font-semibold text-white mb-2">Additional Content Sections</h2>
+              <p className="text-sm text-gray-400 mb-4">
+                These sections will appear on your project&apos;s dedicated page
+              </p>
+              
+              <div className="space-y-6">
+                {/* Project Overview */}
+                <div>
+                  <label htmlFor="overview" className="block text-sm font-medium text-gray-300 mb-2">
+                    Project Overview (Optional)
+                  </label>
+                  <textarea
+                    id="overview"
+                    name="overview"
+                    rows={4}
+                    value={formData.overview}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Detailed overview of your project, including objectives, approach, and significance..."
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Appears in the &quot;Project Overview&quot; section of your project page
+                  </p>
+                </div>
+
+                {/* Technologies & Methods */}
+                <div>
+                  <label htmlFor="methods" className="block text-sm font-medium text-gray-300 mb-2">
+                    Technologies & Methods (Optional)
+                  </label>
+                  <textarea
+                    id="methods"
+                    name="methods"
+                    rows={4}
+                    value={formData.methods}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Describe the technical approach, tools, and methodologies used in this project..."
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Appears in the &quot;Technologies & Methods&quot; section
+                  </p>
+                </div>
+
+                {/* Research Impact */}
+                <div>
+                  <label htmlFor="impact" className="block text-sm font-medium text-gray-300 mb-2">
+                    Research Impact & Future Directions (Optional)
+                  </label>
+                  <textarea
+                    id="impact"
+                    name="impact"
+                    rows={4}
+                    value={formData.impact}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Discuss the potential impact of your research and future directions..."
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Appears in the &quot;Research Impact & Future Directions&quot; section
+                  </p>
+                </div>
+
+                {/* Image Gallery Customization */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="imageGalleryTitle" className="block text-sm font-medium text-gray-300 mb-2">
+                      Image Gallery Title (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="imageGalleryTitle"
+                      name="imageGalleryTitle"
+                      value={formData.imageGalleryTitle}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="e.g., Research Visualizations"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="imageGallerySubtitle" className="block text-sm font-medium text-gray-300 mb-2">
+                      Image Gallery Subtitle (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="imageGallerySubtitle"
+                      name="imageGallerySubtitle"
+                      value={formData.imageGallerySubtitle}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="e.g., RNA marker gene expression analysis"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Project Files & Media */}
             <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
               <h2 className="text-lg font-semibold text-white mb-2">Project Files & Media</h2>
@@ -501,10 +620,20 @@ export default function NewProject() {
                 </div>
 
                 <p className="text-xs text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 rounded p-3">
-                  <strong>Note:</strong> Files will be stored on the backend server. Make sure your backend developer has configured file upload handling.
+                  <strong>Note:</strong> Images will be uploaded to Cloudinary. Videos and documents are currently for display only.
                 </p>
               </div>
             </div>
+
+            {/* Upload Progress */}
+            {uploadProgress && (
+              <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+                <div className="flex items-center gap-3">
+                  <Loader2 className="w-5 h-5 text-blue-400 animate-spin" />
+                  <p className="text-blue-400">{uploadProgress}</p>
+                </div>
+              </div>
+            )}
 
             {/* Submit Button */}
             <div className="flex justify-end space-x-4">
@@ -519,8 +648,17 @@ export default function NewProject() {
                 disabled={loading}
                 className="inline-flex items-center px-6 py-2 bg-yellow-400 text-black rounded-lg hover:bg-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                <Save className="w-4 h-4 mr-2" />
-                {loading ? "Creating..." : "Create Project"}
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4 mr-2" />
+                    Create Project
+                  </>
+                )}
               </button>
             </div>
           </form>

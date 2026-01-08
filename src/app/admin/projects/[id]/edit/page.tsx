@@ -23,6 +23,12 @@ interface Project {
   liveUrl: string;
   createdAt: string;
   updatedAt: string;
+  // New rich content fields
+  overview?: string;
+  methods?: string;
+  impact?: string;
+  imageGalleryTitle?: string;
+  imageGallerySubtitle?: string;
 }
 
 export default function EditProject({ 
@@ -45,6 +51,12 @@ export default function EditProject({
     images: [],
     githubUrl: "",
     liveUrl: "",
+    // New rich content fields
+    overview: "",
+    methods: "",
+    impact: "",
+    imageGalleryTitle: "",
+    imageGallerySubtitle: "",
   });
   const [currentTech, setCurrentTech] = useState("");
 
@@ -79,6 +91,12 @@ export default function EditProject({
               images: Array.isArray(project.images) ? project.images : [],
               githubUrl: project.githubUrl || "",
               liveUrl: project.liveUrl || "",
+              // Map new rich content fields
+              overview: project.overview || "",
+              methods: project.methods || "",
+              impact: project.impact || "",
+              imageGalleryTitle: project.imageGalleryTitle || "",
+              imageGallerySubtitle: project.imageGallerySubtitle || "",
             });
           } else {
             console.error(`❌ Failed to fetch project:`, result.error);
@@ -363,6 +381,105 @@ export default function EditProject({
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                     placeholder="https://your-project.com"
                   />
+                </div>
+              </div>
+            </div>
+
+            {/* Rich Content Sections - NEW */}
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+              <h2 className="text-lg font-semibold text-white mb-2">Additional Content Sections</h2>
+              <p className="text-sm text-gray-400 mb-4">
+                These sections will appear on your project&apos;s dedicated page
+              </p>
+              
+              <div className="space-y-6">
+                {/* Project Overview */}
+                <div>
+                  <label htmlFor="overview" className="block text-sm font-medium text-gray-300 mb-2">
+                    Project Overview (Optional)
+                  </label>
+                  <textarea
+                    id="overview"
+                    name="overview"
+                    rows={4}
+                    value={formData.overview}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Detailed overview of your project, including objectives, approach, and significance..."
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Appears in the &quot;Project Overview&quot; section of your project page
+                  </p>
+                </div>
+
+                {/* Technologies & Methods */}
+                <div>
+                  <label htmlFor="methods" className="block text-sm font-medium text-gray-300 mb-2">
+                    Technologies & Methods (Optional)
+                  </label>
+                  <textarea
+                    id="methods"
+                    name="methods"
+                    rows={4}
+                    value={formData.methods}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Describe the technical approach, tools, and methodologies used in this project..."
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Appears in the &quot;Technologies & Methods&quot; section
+                  </p>
+                </div>
+
+                {/* Research Impact */}
+                <div>
+                  <label htmlFor="impact" className="block text-sm font-medium text-gray-300 mb-2">
+                    Research Impact & Future Directions (Optional)
+                  </label>
+                  <textarea
+                    id="impact"
+                    name="impact"
+                    rows={4}
+                    value={formData.impact}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Discuss the potential impact of your research and future directions..."
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Appears in the &quot;Research Impact & Future Directions&quot; section
+                  </p>
+                </div>
+
+                {/* Image Gallery Customization */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="imageGalleryTitle" className="block text-sm font-medium text-gray-300 mb-2">
+                      Image Gallery Title (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="imageGalleryTitle"
+                      name="imageGalleryTitle"
+                      value={formData.imageGalleryTitle}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="e.g., Research Visualizations"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="imageGallerySubtitle" className="block text-sm font-medium text-gray-300 mb-2">
+                      Image Gallery Subtitle (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="imageGallerySubtitle"
+                      name="imageGallerySubtitle"
+                      value={formData.imageGallerySubtitle}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="e.g., RNA marker gene expression analysis"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

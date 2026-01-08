@@ -27,6 +27,12 @@ interface ProjectData {
   githubUrl?: string;
   liveUrl?: string;
   images?: string[];
+  // New rich content fields
+  overview?: string;
+  methods?: string;
+  impact?: string;
+  imageGalleryTitle?: string;
+  imageGallerySubtitle?: string;
 }
 
 interface ProfileData {
