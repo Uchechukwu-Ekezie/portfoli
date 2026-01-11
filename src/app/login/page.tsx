@@ -34,10 +34,13 @@ export default function AdminLogin() {
       const result = await signIn(formData.email, formData.password);
 
       if (result.success) {
-        // Redirect on success
-        setIsLoading(false);
-        router.push("/admin");
-        router.refresh(); // Force refresh to update auth state
+        console.log('✅ Login successful, redirecting...');
+        
+        // Small delay to ensure cookie is set and propagated to server
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Use window.location for full page reload to ensure middleware picks up cookie
+        window.location.href = '/admin';
       } else {
         setError(result.error || "Invalid credentials. Please try again.");
         setIsLoading(false);

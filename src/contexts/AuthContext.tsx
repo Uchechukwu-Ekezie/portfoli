@@ -59,13 +59,24 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
             // Token expired, clear it
             console.log('⏰ Token expired');
             document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-            localStorage.removeItem('userEmail');
+            try {
+              localStorage.removeItem('userEmail');
+            } catch {
+              // localStorage unavailable (private/incognito mode)
+              console.warn('⚠️ localStorage unavailable during cleanup');
+            }
             setUser(null);
           } else {
             // Token valid, set user
             const userId = tokenPayload.user?.id || tokenPayload.id || tokenPayload.userId;
-            // Get email from localStorage since token doesn't contain it
-            const userEmail = localStorage.getItem('userEmail') || 'admin@portfolio.com';
+            // Get email from localStorage (with fallback for private mode)
+            let userEmail = 'admin@portfolio.com';
+            try {
+              userEmail = localStorage.getItem('userEmail') || 'admin@portfolio.com';
+            } catch {
+              // localStorage unavailable (private/incognito mode)
+              console.warn('⚠️ localStorage unavailable, using default email');
+            }
             
             const userData = {
               id: userId || '',
@@ -81,7 +92,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
           // Invalid token
           console.error('❌ Error decoding token:', error);
           document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-          localStorage.removeItem('userEmail');
+          try {
+            localStorage.removeItem('userEmail');
+          } catch {
+            // localStorage unavailable (private/incognito mode)
+            console.warn('⚠️ localStorage unavailable during cleanup');
+          }
           setUser(null);
         }
       } else {
@@ -103,10 +119,21 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     
     if (result.success && result.data?.token) {
       console.log('💾 Storing token in cookie...');
+      
+      // Determine if we're on HTTPS (production) or HTTP (localhost)
+      const isSecure = typeof window !== 'undefined' && window.location.protocol === 'https:';
+      const secureFlag = isSecure ? '; Secure' : '';
+      
       // Store token in cookie for server-side middleware
-      document.cookie = `authToken=${result.data.token}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Lax`;
-      // Store email in localStorage since token doesn't contain it
-      localStorage.setItem('userEmail', email);
+      document.cookie = `authToken=${result.data.token}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Lax${secureFlag}`;
+      
+      // Store email in localStorage (with error handling for private/incognito mode)
+      try {
+        localStorage.setItem('userEmail', email);
+      } catch {
+        // localStorage unavailable (private/incognito mode)
+        console.warn('⚠️ localStorage unavailable (private mode?), using session only');
+      }
       
       console.log('🍪 Cookie after storing:', document.cookie);
       
@@ -142,7 +169,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     if (typeof window !== 'undefined') {
       // Remove cookie and localStorage
       document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      localStorage.removeItem('userEmail');
+      try {
+        localStorage.removeItem('userEmail');
+      } catch {
+        // localStorage unavailable (private/incognito mode)
+        console.warn('⚠️ localStorage unavailable during sign out');
+      }
     }
     setUser(null);
   };
@@ -165,7 +197,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         if (tokenPayload.exp && tokenPayload.exp * 1000 < Date.now()) {
           handleSignOut();
         }
-      } catch (error) {
+      } catch {
+        // Invalid token
         handleSignOut();
       }
     }
