@@ -6,7 +6,8 @@ import ProtectedRoute from "@/components/admin/ProtectedRoute";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Link from "next/link";
 import { projectsAPI } from "@/lib/api";
-import { ArrowLeft, Save, Plus, X, Loader2 } from "lucide-react";
+import { uploadMultipleToCloudinary } from "@/lib/cloudinary";
+import { ArrowLeft, Save, Plus, X, Loader2, Upload, Trash2 } from "lucide-react";
 
 interface Project {
   id: string;
@@ -59,6 +60,8 @@ export default function EditProject({
     imageGallerySubtitle: "",
   });
   const [currentTech, setCurrentTech] = useState("");
+  const [newImages, setNewImages] = useState<File[]>([]); // New images to upload
+  const [uploadProgress, setUploadProgress] = useState<string>("");
 
   useEffect(() => {
     const initializeComponent = async () => {
@@ -145,9 +148,28 @@ export default function EditProject({
     });
   };
 
+  const handleNewImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setNewImages([...newImages, ...filesArray]);
+    }
+  };
+
+  const removeNewImage = (index: number) => {
+    setNewImages(newImages.filter((_, i) => i !== index));
+  };
+
+  const removeExistingImage = (imageUrl: string) => {
+    setFormData({
+      ...formData,
+      images: formData.images.filter(img => img !== imageUrl),
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setUploadProgress("");
 
     try {
       // Use custom id if available, otherwise use the display id
@@ -158,11 +180,36 @@ export default function EditProject({
         setLoading(false);
         return;
       }
+
+      let uploadedImageUrls: string[] = [];
+
+      // Upload new images to Cloudinary if any
+      if (newImages.length > 0) {
+        setUploadProgress(`Uploading ${newImages.length} new image(s) to Cloudinary...`);
+        try {
+          uploadedImageUrls = await uploadMultipleToCloudinary(newImages);
+          setUploadProgress(`✓ Images uploaded successfully`);
+        } catch (uploadError) {
+          console.error('Cloudinary upload failed:', uploadError);
+          alert('Failed to upload new images to Cloudinary. Please try again.');
+          setLoading(false);
+          setUploadProgress("");
+          return;
+        }
+      }
+
+      // Combine existing images with newly uploaded ones
+      const allImages = [...formData.images, ...uploadedImageUrls];
       
       console.log('🔄 Updating project with backend ID:', updateId);
-      const result = await projectsAPI.update(updateId, formData);
+      setUploadProgress("Updating project...");
+      const result = await projectsAPI.update(updateId, {
+        ...formData,
+        images: allImages,
+      });
 
       if (result.success) {
+        setUploadProgress("✓ Project updated successfully!");
         alert("Project updated successfully!");
         router.push("/admin/projects");
       } else {
@@ -173,6 +220,7 @@ export default function EditProject({
       alert("Failed to update project");
     } finally {
       setLoading(false);
+      setUploadProgress("");
     }
   };
 
@@ -483,6 +531,104 @@ export default function EditProject({
                 </div>
               </div>
             </div>
+
+            {/* Image Management Section */}
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+              <h2 className="text-lg font-semibold text-white mb-2">Project Images</h2>
+              <p className="text-sm text-gray-400 mb-4">
+                Manage your project images - remove existing ones or upload new images
+              </p>
+
+              {/* Existing Images */}
+              {formData.images && formData.images.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-sm font-medium text-gray-300 mb-3">Current Images</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {formData.images.map((imageUrl, index) => (
+                      <div key={index} className="relative group">
+                        <img
+                          src={imageUrl}
+                          alt={`Project image ${index + 1}`}
+                          className="w-full h-32 object-cover rounded-lg border border-gray-600"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeExistingImage(imageUrl)}
+                          className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                          title="Remove image"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Upload New Images */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Upload New Images (PNG, JPG, WEBP)
+                </label>
+                <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-yellow-400 transition-colors">
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    multiple
+                    className="hidden"
+                    id="newImages"
+                    onChange={handleNewImageChange}
+                  />
+                  <label htmlFor="newImages" className="cursor-pointer">
+                    <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                    <div className="text-gray-400 mb-2">
+                      Click to upload new images or drag and drop
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      These will be uploaded to Cloudinary when you save
+                    </div>
+                  </label>
+                </div>
+
+                {/* Preview New Images */}
+                {newImages.length > 0 && (
+                  <div className="mt-4">
+                    <h3 className="text-sm font-medium text-gray-300 mb-3">
+                      New Images to Upload ({newImages.length})
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {newImages.map((file, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                            className="w-full h-32 object-cover rounded-lg border border-yellow-400/30"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeNewImage(index)}
+                            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                          <p className="text-xs text-gray-400 mt-1 truncate">{file.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Upload Progress */}
+            {uploadProgress && (
+              <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+                <div className="flex items-center gap-3">
+                  <Loader2 className="w-5 h-5 text-blue-400 animate-spin" />
+                  <p className="text-blue-400">{uploadProgress}</p>
+                </div>
+              </div>
+            )}
 
             {/* Submit Button */}
             <div className="flex justify-end space-x-4">
