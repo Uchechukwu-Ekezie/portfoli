@@ -1,12 +1,9 @@
 // Cloudinary upload utility for frontend uploads
 
 export const uploadToCloudinary = async (file: File): Promise<string> => {
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
-
-  if (!cloudName || !uploadPreset) {
-    throw new Error('Cloudinary configuration missing. Please set NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME and NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET in .env.local');
-  }
+  // Hardcoded values - TODO: Move to environment variables for better security
+  const cloudName = "dj5upwjij";
+  const uploadPreset = "anyia-preset";
 
   const formData = new FormData();
   formData.append('file', file);
